@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" fill="none">
+  <!-- Background circle -->
+  <circle cx="100" cy="100" r="98" fill="#001E50" stroke="#001E50" stroke-width="2"/>
+  <!-- Outer ring -->
+  <circle cx="100" cy="100" r="85" fill="none" stroke="#ffffff" stroke-width="5"/>
+  <!-- VW letterform -->
+  <!-- Left V stroke -->
+  <path d="M55 52 L78 115 L100 68 L122 115 L145 52" stroke="#ffffff" stroke-width="11" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  <!-- Bottom V -->
+  <path d="M78 115 L100 148 L122 115" stroke="#ffffff" stroke-width="11" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+</svg>
