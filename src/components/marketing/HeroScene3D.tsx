@@ -1,92 +1,29 @@
 'use client'
-import { Suspense, useRef, useMemo } from 'react'
-import { Canvas, useFrame, useThree } from '@react-three/fiber'
-import { Float, useTexture, Stars, OrbitControls } from '@react-three/drei'
+import { useRef, useMemo } from 'react'
+import { Canvas, useFrame } from '@react-three/fiber'
+import { Stars } from '@react-three/drei'
 import * as THREE from 'three'
+import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion'
 
-// ── Car card flotante con textura real ────────────────────────
+// ── Partículas doradas (solo fondo) ──────────────────────────
 
-function CarCard() {
-  const groupRef = useRef<THREE.Group>(null)
-  const { mouse, viewport } = useThree()
-
-  const texture = useTexture('/images/fotos/amarok/amarokfrente.jpeg')
-  texture.colorSpace = THREE.SRGBColorSpace
-
-  useFrame(() => {
-    if (!groupRef.current) return
-    groupRef.current.rotation.y = THREE.MathUtils.lerp(
-      groupRef.current.rotation.y,
-      mouse.x * 0.22,
-      0.045
-    )
-    groupRef.current.rotation.x = THREE.MathUtils.lerp(
-      groupRef.current.rotation.x,
-      -mouse.y * 0.12,
-      0.045
-    )
-  })
-
-  const w = Math.min(viewport.width * 0.82, 4.8)
-  const h = w * 0.6
-
-  return (
-    <group ref={groupRef}>
-      <Float speed={1.3} rotationIntensity={0.12} floatIntensity={0.28}>
-
-        {/* Card principal — imagen del auto */}
-        <mesh castShadow position={[0, 0, 0]}>
-          <planeGeometry args={[w, h, 1, 1]} />
-          <meshStandardMaterial
-            map={texture}
-            roughness={0.25}
-            metalness={0.15}
-            toneMapped={false}
-          />
-        </mesh>
-
-        {/* Borde/marco dorado sutil */}
-        <mesh position={[0, 0, -0.02]}>
-          <planeGeometry args={[w + 0.06, h + 0.06, 1, 1]} />
-          <meshBasicMaterial color="#D9A23A" opacity={0.18} transparent />
-        </mesh>
-
-        {/* Reflejo inferior tenue */}
-        <mesh position={[0, -(h * 0.6), -0.08]} rotation={[Math.PI, 0, 0]}>
-          <planeGeometry args={[w, h * 0.4, 1, 1]} />
-          <meshStandardMaterial
-            map={texture}
-            roughness={0.9}
-            metalness={0}
-            opacity={0.12}
-            transparent
-          />
-        </mesh>
-
-      </Float>
-    </group>
-  )
-}
-
-// ── Partículas flotantes ──────────────────────────────────────
-
-function Particles({ count = 60 }: { count?: number }) {
+function Particles({ count = 55 }: { count?: number }) {
   const ref = useRef<THREE.Points>(null)
 
   const positions = useMemo(() => {
     const arr = new Float32Array(count * 3)
     for (let i = 0; i < count; i++) {
-      arr[i * 3]     = (Math.random() - 0.5) * 8
-      arr[i * 3 + 1] = (Math.random() - 0.5) * 6
-      arr[i * 3 + 2] = (Math.random() - 0.5) * 4 - 1
+      arr[i * 3]     = (Math.random() - 0.5) * 12
+      arr[i * 3 + 1] = (Math.random() - 0.5) * 8
+      arr[i * 3 + 2] = (Math.random() - 0.5) * 5 - 2
     }
     return arr
   }, [count])
 
   useFrame((state) => {
     if (!ref.current) return
-    ref.current.rotation.y = state.clock.elapsedTime * 0.02
-    ref.current.rotation.x = state.clock.elapsedTime * 0.01
+    ref.current.rotation.y = state.clock.elapsedTime * 0.018
+    ref.current.rotation.x = state.clock.elapsedTime * 0.009
   })
 
   return (
@@ -94,55 +31,144 @@ function Particles({ count = 60 }: { count?: number }) {
       <bufferGeometry>
         <bufferAttribute attach="attributes-position" args={[positions, 3]} />
       </bufferGeometry>
-      <pointsMaterial size={0.02} color="#D9A23A" sizeAttenuation transparent opacity={0.6} />
+      <pointsMaterial size={0.025} color="#D9A23A" sizeAttenuation transparent opacity={0.55} />
     </points>
   )
 }
 
-// ── Escena completa ───────────────────────────────────────────
-
 function Scene() {
   return (
     <>
-      {/* Iluminación tipo showroom */}
-      <ambientLight intensity={0.4} />
-      <pointLight position={[-4, 3, 4]} intensity={3.5} color="#D9A23A" distance={12} />
-      <pointLight position={[4, -2, 3]} intensity={2.5} color="#3B82F6" distance={10} />
-      <spotLight
-        position={[0, 6, 5]}
-        intensity={2}
-        angle={0.4}
-        penumbra={0.6}
-        color="#F8F5EF"
-      />
-
-      {/* Estrellas de fondo */}
-      <Stars radius={40} depth={30} count={300} factor={1.5} saturation={0} fade speed={0.4} />
-
-      {/* Partículas doradas */}
-      <Particles count={50} />
-
-      {/* Car card 3D */}
-      <Suspense fallback={null}>
-        <CarCard />
-      </Suspense>
+      <ambientLight intensity={0.15} />
+      <Stars radius={45} depth={35} count={280} factor={1.4} saturation={0} fade speed={0.35} />
+      <Particles count={55} />
     </>
   )
 }
 
-// ── Export con Canvas ─────────────────────────────────────────
+// ── Componente principal: fondo R3F + imagen nativa ──────────
 
 export default function HeroScene3D() {
+  const mx = useMotionValue(0)
+  const my = useMotionValue(0)
+  const sx = useSpring(mx, { stiffness: 55, damping: 18 })
+  const sy = useSpring(my, { stiffness: 55, damping: 18 })
+  const rotX = useTransform(sy, [-0.5, 0.5], ['7deg', '-7deg'])
+  const rotY = useTransform(sx, [-0.5, 0.5], ['-9deg', '9deg'])
+
+  function handleMouseMove(e: React.MouseEvent<HTMLDivElement>) {
+    const rect = e.currentTarget.getBoundingClientRect()
+    mx.set((e.clientX - rect.left) / rect.width - 0.5)
+    my.set((e.clientY - rect.top) / rect.height - 0.5)
+  }
+  function handleMouseLeave() {
+    mx.set(0)
+    my.set(0)
+  }
+
   return (
-    <div style={{ width: '100%', height: '100%', minHeight: 380 }}>
+    <div
+      style={{ position: 'relative', width: '100%', height: '100%', minHeight: 420 }}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+    >
+      {/* Fondo R3F — estrellas y partículas */}
       <Canvas
-        camera={{ position: [0, 0, 4.5], fov: 42 }}
+        camera={{ position: [0, 0, 5], fov: 40 }}
         dpr={[1, 1.5]}
-        gl={{ antialias: true, powerPreference: 'high-performance', alpha: true }}
-        style={{ background: 'transparent' }}
+        gl={{ antialias: true, alpha: true, powerPreference: 'high-performance' }}
+        style={{ position: 'absolute', inset: 0, pointerEvents: 'none' }}
       >
         <Scene />
       </Canvas>
+
+      {/* Imagen del auto — calidad nativa + tilt Framer Motion */}
+      <div style={{
+        position: 'absolute',
+        inset: 0,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        pointerEvents: 'none',
+      }}>
+        {/* Glow ambiental dorado detrás del auto */}
+        <div style={{
+          position: 'absolute',
+          width: '75%',
+          height: '50%',
+          background: 'radial-gradient(ellipse at center, rgba(217,162,58,0.20) 0%, rgba(217,162,58,0.06) 45%, transparent 70%)',
+          bottom: '10%',
+          left: '12.5%',
+          filter: 'blur(28px)',
+          pointerEvents: 'none',
+        }} />
+
+        {/* Card del auto con tilt */}
+        <motion.div
+          style={{
+            rotateX: rotX,
+            rotateY: rotY,
+            transformStyle: 'preserve-3d',
+            transformPerspective: 1100,
+            width: '86%',
+            maxWidth: 510,
+            position: 'relative',
+            borderRadius: 16,
+            overflow: 'hidden',
+            boxShadow: '0 28px 80px rgba(5,10,22,0.65), 0 0 0 1px rgba(217,162,58,0.22)',
+          }}
+        >
+          <img
+            src="/images/fotos/amarok/amarokfrente.jpeg"
+            alt="Volkswagen Amarok 0km"
+            style={{
+              width: '100%',
+              height: 'auto',
+              display: 'block',
+              imageRendering: 'auto',
+            }}
+            loading="eager"
+          />
+          {/* Gradiente inferior */}
+          <div style={{
+            position: 'absolute',
+            bottom: 0, left: 0, right: 0,
+            height: '45%',
+            background: 'linear-gradient(to top, rgba(7,17,31,0.75) 0%, transparent 100%)',
+            pointerEvents: 'none',
+          }} />
+          {/* Marco dorado sutil */}
+          <div style={{
+            position: 'absolute',
+            inset: 0,
+            borderRadius: 16,
+            boxShadow: 'inset 0 0 0 1px rgba(217,162,58,0.18)',
+            pointerEvents: 'none',
+          }} />
+        </motion.div>
+
+        {/* Reflejo inferior */}
+        <div style={{
+          position: 'absolute',
+          bottom: 0,
+          width: '80%',
+          maxWidth: 460,
+          overflow: 'hidden',
+          opacity: 0.09,
+          transform: 'scaleY(-1)',
+          maskImage: 'linear-gradient(to bottom, black 0%, transparent 100%)',
+          WebkitMaskImage: 'linear-gradient(to bottom, black 0%, transparent 100%)',
+          borderRadius: '0 0 16px 16px',
+          pointerEvents: 'none',
+        }}>
+          <img
+            src="/images/fotos/amarok/amarokfrente.jpeg"
+            alt=""
+            aria-hidden="true"
+            style={{ width: '100%', height: 'auto', display: 'block' }}
+          />
+        </div>
+      </div>
     </div>
   )
 }
