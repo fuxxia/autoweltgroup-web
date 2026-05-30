@@ -180,7 +180,7 @@ export default function CotizadorWizard() {
     const leadData: LeadData = {
       nombre:         nombre.trim(),
       telefono:       telefono.trim(),
-      email:          `${telefono.trim().replace(/\D/g,'')}@autowelt.lead`,
+      email:          '',
       localidad:      localidad.trim(),
       tipoCompra:     '0km',
       modelo:         vehiculo,

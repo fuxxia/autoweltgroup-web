@@ -205,10 +205,74 @@ body {
   transform: translateY(-1px);
 }
 
-/* Legacy aliases — no-op stubs para compatibilidad con código existente */
-.btn-amber { display: inline-flex; align-items: center; gap: 0.5rem; font-weight: 700; text-decoration: none; white-space: nowrap; line-height: 1; cursor: pointer; font-family: inherit; border: none; }
-.btn-amber-lg { }
-.btn-outline-white { display: inline-flex; align-items: center; gap: 0.5rem; font-weight: 600; text-decoration: none; white-space: nowrap; line-height: 1; cursor: pointer; font-family: inherit; }
+/* Legacy compatibility — mantiene componentes anteriores funcionando */
+.btn-amber {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  padding: 0.875rem 1.875rem;
+  background: var(--gold); color: var(--bg);
+  font-weight: 700; font-size: 0.9375rem; letter-spacing: -0.01em;
+  border-radius: var(--r-sm); border: none; cursor: pointer;
+  text-decoration: none; white-space: nowrap; line-height: 1; font-family: inherit;
+  transition: background var(--tr-fast), box-shadow var(--tr-fast), transform var(--tr-fast);
+}
+.btn-amber:hover { background: var(--gold-bright); transform: translateY(-1px); box-shadow: var(--shadow-gold); }
+.btn-amber.keep-dark:hover { color: var(--bg); }
+.btn-amber:active { transform: scale(0.97); }
+.btn-amber-lg { padding: 1.0625rem 2.25rem; font-size: 1rem; }
+
+.btn-navy {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  padding: 0.875rem 1.875rem;
+  background: var(--bg); color: var(--text);
+  font-weight: 700; font-size: 0.9375rem;
+  border-radius: var(--r-sm); border: none; cursor: pointer;
+  text-decoration: none; white-space: nowrap; line-height: 1; font-family: inherit;
+  transition: background var(--tr-fast), transform var(--tr-fast);
+}
+.btn-navy:hover { background: var(--bg-3); transform: translateY(-1px); }
+.btn-navy:active { transform: scale(0.97); }
+
+.btn-ghost {
+  display: inline-flex; align-items: center; gap: 0.375rem;
+  padding: 0.875rem 1.875rem;
+  background: transparent; color: var(--gold);
+  font-weight: 600; font-size: 0.9375rem;
+  border-radius: var(--r-sm); border: 1.5px solid var(--gold-border); cursor: pointer;
+  text-decoration: none; white-space: nowrap; line-height: 1; font-family: inherit;
+  transition: border-color var(--tr-fast), background var(--tr-fast), transform var(--tr-fast);
+}
+.btn-ghost:hover { border-color: var(--gold); background: var(--gold-subtle); transform: translateY(-1px); }
+.btn-ghost:active { transform: scale(0.97); }
+
+.btn-outline-white {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  padding: 0.875rem 1.875rem;
+  background: transparent; color: var(--text);
+  font-weight: 600; font-size: 0.9375rem;
+  border-radius: var(--r-sm); border: 1.5px solid var(--line-mid); cursor: pointer;
+  text-decoration: none; white-space: nowrap; line-height: 1; font-family: inherit;
+  transition: border-color var(--tr-fast), background var(--tr-fast), transform var(--tr-fast);
+}
+.btn-outline-white:hover { border-color: var(--glass-border-strong); background: var(--glass); transform: translateY(-1px); }
+
+/* Stars */
+.stars { display: flex; gap: 2px; color: var(--gold); }
+
+/* Section labels — legacy aliases */
+.section-eyebrow { display: block; font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.75rem; }
+.section-divider { width: 36px; height: 2px; background: linear-gradient(90deg, var(--gold), var(--gold-bright)); border-radius: var(--r-pill); margin: 0.875rem 0 0; }
+.section-divider-center { margin: 0.875rem auto 0; }
+
+/* Testimonial card light (for light bg sections) */
+.testimonial-card {
+  background: #fff;
+  border: 1px solid rgba(15,23,42,.10);
+  border-radius: var(--r-md);
+  padding: 1.75rem;
+  box-shadow: 0 4px 20px rgba(15,23,42,.06);
+  transition: box-shadow var(--tr), transform var(--tr);
+  display: flex; flex-direction: column; gap: 1rem;
+}
 
 /* ── GLASS CARDS ─────────────────────────────────────── */
 .glass-card {

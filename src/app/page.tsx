@@ -1,44 +1,43 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import { ADJUDICADOS } from '@/data/adjudicados'
 import { VW_MODELS } from '@/data/volkswagen'
-import AdjudicadoCard from '@/components/AdjudicadoCard'
 import CounterStats from '@/components/CounterStats'
 import TestimoniosSection from '@/components/TestimoniosSection'
 import CotizadorWizard from '@/components/cotizador/CotizadorWizard'
-import { HeroVisual, StickyMobileCTA } from '@/components/marketing/ClientDynamics'
+import AnimatedSection from '@/components/marketing/AnimatedSection'
+import VehicleCard from '@/components/vehicles/VehicleCard'
+import { HeroScene3D, StickyMobileCTA } from '@/components/marketing/ClientDynamics'
 import { WHATSAPP_NUMBER } from '@/lib/utils'
 
 export const metadata: Metadata = {
-  title: 'AutoWelt Group — Volkswagen 0km y Planes Adjudicados',
-  description: 'Accedé a mejor stock, mejores condiciones y financiación real. Amarok, Polo, Taos, Nivus, Tera 0km. Atendemos Buenos Aires y todo el interior del país.',
+  title: 'AutoWelt Group — Volkswagen 0km desde Buenos Aires',
+  description: 'Mejor stock, mejores condiciones y financiación real. Amarok, Polo, Taos, Nivus, Tera 0km. Cuotas fijas, entrega inmediata, tomamos tu usado. Atendemos todo el interior del país.',
 }
 
 const STATS = [
   { num: '+500', label: 'Autos entregados' },
   { num: '15',   label: 'Años de experiencia' },
   { num: '+320', label: 'Concesionarios adheridos' },
-  { num: '40%',  label: 'Ahorro en adjudicados' },
+  { num: '0%',   label: 'Tasa en planes elegidos' },
 ]
 
 const PILARES = [
-  { icon: '⭐', title: '+15 años en el mercado automotor', desc: 'Trayectoria comprobada en gestión de operaciones 0km y planes adjudicados en Argentina.' },
-  { icon: '🚗', title: '+500 entregas realizadas',         desc: 'Compradores de Buenos Aires y de todo el interior que retiraron su vehículo sin sorpresas.' },
-  { icon: '🏢', title: 'Red de concesionarias oficiales',  desc: 'Coordinamos con concesionarios VW oficiales. Garantía de fábrica, precio oficial y documentación.' },
-  { icon: '🤝', title: 'Atención personalizada real',      desc: 'Cada comprador tiene un asesor asignado. Sin bots. Sin respuestas automáticas genéricas.' },
-  { icon: '🗺️', title: 'Operamos en todo el país',         desc: 'Interior, CABA y GBA. Muchos compradores viajan y retiran en Buenos Aires. Coordinamos todo.' },
-  { icon: '📋', title: 'Operación clara desde el inicio',  desc: 'Precio, disponibilidad, financiación y plazos confirmados antes de que avances. Sin letra chica.' },
+  { icon: '⭐', t: '+15 años en el rubro',           d: 'Trayectoria comprobada en gestión de 0km y financiación automotriz en Argentina.' },
+  { icon: '🚗', t: '+500 entregas realizadas',        d: 'Compradores de Buenos Aires y todo el interior que retiraron sin sorpresas.' },
+  { icon: '🏢', t: 'Red de concesionarias oficiales', d: 'Coordinamos con concesionarios VW oficiales. Garantía de fábrica, precio confirmado.' },
+  { icon: '🤝', t: 'Atención sin bots',              d: 'Cada comprador tiene un asesor asignado. Respuesta real, sin automatizaciones genéricas.' },
+  { icon: '🗺️', t: 'Operamos en todo el país',        d: 'Interior, CABA y GBA. Coordinamos el retiro antes de que viajes.' },
+  { icon: '📋', t: 'Operación clara desde el inicio', d: 'Precio, disponibilidad y plazos confirmados antes de avanzar. Sin letra chica.' },
 ]
 
-const INTERIOR_ITEMS = [
-  { n: '01', t: 'Más stock disponible', d: 'CABA concentra la mayor oferta de 0km del país. Más modelos, versiones y colores.' },
-  { n: '02', t: 'Mejores condiciones',  d: 'Accedés a planes y bonificaciones que muchos concesionarios del interior no ofrecen.' },
-  { n: '03', t: 'Retiro coordinado',    d: 'Organizamos la entrega para que uses el mínimo tiempo posible en Buenos Aires.' },
-  { n: '04', t: 'Validación previa',    d: 'Confirmamos precio, disponibilidad y documentación antes de que subas al micro o avión.' },
+const INTERIOR = [
+  { n: '01', t: 'Más disponibilidad',    d: 'CABA concentra la mayor oferta de 0km del país. Más modelos, versiones y colores.' },
+  { n: '02', t: 'Mejores condiciones',   d: 'Accedés a planes y bonificaciones que muchos concesionarios del interior no ofrecen.' },
+  { n: '03', t: 'Retiro coordinado',     d: 'Organizamos la entrega para que uses el mínimo tiempo posible en Buenos Aires.' },
+  { n: '04', t: 'Operación validada',    d: 'Confirmamos precio, disponibilidad y documentación antes de que subas al micro o avión.' },
 ]
 
-const WA = (text: string) =>
-  `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`
+const WA = (t: string) => `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(t)}`
 
 function WaIcon() {
   return (
@@ -55,69 +54,45 @@ export default function HomePage() {
       {/* ═══ HERO ═══════════════════════════════════════════════════════════ */}
       <section style={{ background: 'var(--bg)', minHeight: '100svh', position: 'relative', overflow: 'hidden', display: 'flex', alignItems: 'center' }}>
 
-        {/* Background grid */}
+        {/* Grid texture */}
         <div style={{
           position: 'absolute', inset: 0, pointerEvents: 'none',
-          backgroundImage: `
-            linear-gradient(rgba(217,162,58,.015) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(217,162,58,.015) 1px, transparent 1px)
-          `,
-          backgroundSize: '64px 64px',
+          backgroundImage: `linear-gradient(rgba(217,162,58,.014) 1px, transparent 1px), linear-gradient(90deg, rgba(217,162,58,.014) 1px, transparent 1px)`,
+          backgroundSize: '68px 68px',
         }} />
+        {/* Glows */}
+        <div style={{ position: 'absolute', bottom: '-8%', left: '-4%', width: 700, height: 500, pointerEvents: 'none', background: 'radial-gradient(ellipse, rgba(19,40,71,.5) 0%, transparent 68%)' }} />
+        <div style={{ position: 'absolute', top: '-6%', right: '-4%', width: 550, height: 420, pointerEvents: 'none', background: 'radial-gradient(ellipse, rgba(217,162,58,.07) 0%, transparent 65%)' }} />
 
-        {/* Ambient glows */}
-        <div style={{ position: 'absolute', bottom: '-10%', left: '-5%', width: 700, height: 500, pointerEvents: 'none',
-          background: 'radial-gradient(ellipse, rgba(19,40,71,.45) 0%, transparent 70%)' }} />
-        <div style={{ position: 'absolute', top: '-10%', right: '-5%', width: 600, height: 400, pointerEvents: 'none',
-          background: 'radial-gradient(ellipse, rgba(217,162,58,.06) 0%, transparent 65%)' }} />
-
-        <div className="max-w-6xl mx-auto px-6 w-full py-28" style={{ position: 'relative' }}>
+        <div className="max-w-6xl mx-auto px-6 w-full" style={{ position: 'relative', paddingTop: '7rem', paddingBottom: '5rem' }}>
           <div className="grid lg:grid-cols-2 gap-12 xl:gap-20 items-center">
 
             {/* Copy */}
             <div>
-              {/* Live pill */}
-              <div style={{
-                display: 'inline-flex', alignItems: 'center', gap: '0.5rem',
-                padding: '0.4375rem 1rem', marginBottom: '1.75rem',
-                background: 'rgba(217,162,58,.07)', border: '1px solid rgba(217,162,58,.18)',
-                borderRadius: 'var(--r-pill)',
-              }}>
+              {/* Live badge */}
+              <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', padding: '0.4375rem 1rem', marginBottom: '1.75rem', background: 'rgba(217,162,58,.07)', border: '1px solid rgba(217,162,58,.2)', borderRadius: 'var(--r-pill)' }}>
                 <span className="live-dot" />
-                <span style={{ fontSize: '0.75rem', fontWeight: 700, letterSpacing: '.12em', textTransform: 'uppercase', color: 'var(--gold)' }}>
+                <span style={{ fontSize: '0.75rem', fontWeight: 700, letterSpacing: '.13em', textTransform: 'uppercase', color: 'var(--gold)' }}>
                   Stock disponible · Entrega inmediata
                 </span>
               </div>
 
               {/* Headline */}
-              <h1 style={{
-                fontSize: 'clamp(2.25rem, 5.5vw, 4rem)',
-                fontWeight: 800,
-                lineHeight: 1.04,
-                letterSpacing: '-0.035em',
-                color: 'var(--text)',
-                marginBottom: '1rem',
-                fontFamily: 'var(--font-jakarta), var(--font-inter), sans-serif',
-              }}>
+              <h1 style={{ fontSize: 'clamp(2.375rem, 5.8vw, 4.25rem)', fontWeight: 800, lineHeight: 1.04, letterSpacing: '-0.038em', color: 'var(--text)', marginBottom: '1rem', fontFamily: 'var(--font-jakarta), var(--font-inter), sans-serif' }}>
                 Tu 0km desde<br />
                 Buenos Aires.<br />
                 <span style={{ color: 'var(--gold)' }}>Mejor oferta.</span>
               </h1>
 
-              {/* Subheadline */}
-              <p style={{ fontSize: '1.0625rem', color: 'var(--text-muted)', lineHeight: 1.7, maxWidth: 480, marginBottom: '1.75rem' }}>
-                Accedé a mejores condiciones, entrega inmediata y financiación clara.
+              {/* Sub */}
+              <p style={{ fontSize: '1.0625rem', color: 'var(--text-muted)', lineHeight: 1.72, maxWidth: 470, marginBottom: '1.5rem' }}>
+                Accedé a mejor stock, mejores condiciones y financiación clara.
                 Coordinamos todo antes de que viajes.
               </p>
 
               {/* Bono badge */}
-              <div style={{
-                display: 'inline-flex', alignItems: 'center', gap: '0.625rem',
-                padding: '0.625rem 1.125rem', marginBottom: '2rem',
-                background: 'rgba(217,162,58,.08)', border: '1px solid rgba(217,162,58,.2)',
-                borderRadius: 10,
-              }}>
-                <svg viewBox="0 0 24 24" fill="none" stroke="var(--gold)" strokeWidth="2" width="15" height="15">
+              <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.625rem', padding: '0.625rem 1.125rem', marginBottom: '2rem', background: 'rgba(217,162,58,.07)', border: '1px solid rgba(217,162,58,.2)', borderRadius: 10 }}>
+                <svg viewBox="0 0 24 24" fill="none" stroke="var(--gold)" strokeWidth="2" width="14" height="14">
                   <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
                 </svg>
                 <span style={{ fontSize: '0.875rem', fontWeight: 700, color: 'var(--gold-bright)' }}>
@@ -129,34 +104,29 @@ export default function HomePage() {
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem', marginBottom: '2.5rem' }}>
                 <a href="#cotizador" className="btn btn-gold btn-gold-lg">
                   Cotizar ahora
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" width="14" height="14">
-                    <path d="M5 12h14M12 5l7 7-7 7"/>
-                  </svg>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" width="14" height="14"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
                 </a>
-                <a href={WA('Hola, quiero consultar sobre un 0km desde Buenos Aires')}
-                  target="_blank" rel="noopener noreferrer"
-                  className="btn btn-ghost-light btn-gold-lg">
+                <a href={WA('Hola, quiero consultar sobre un 0km desde Buenos Aires')} target="_blank" rel="noopener noreferrer" className="btn btn-ghost-light btn-gold-lg">
                   <WaIcon />
                   Consultar por WhatsApp
                 </a>
               </div>
 
-              {/* Badges row */}
+              {/* Badges */}
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
                 {['Cuotas fijas', 'Tomamos tu usado', 'Todo el país', 'Sin bots'].map(b => (
                   <span key={b} className="trust-badge">{b}</span>
                 ))}
               </div>
 
-              {/* Stats */}
               <div style={{ marginTop: '2.5rem' }}>
                 <CounterStats stats={STATS} />
               </div>
             </div>
 
-            {/* Visual */}
-            <div className="hidden lg:block" style={{ position: 'relative' }}>
-              <HeroVisual />
+            {/* 3D Hero */}
+            <div className="hidden lg:block" style={{ position: 'relative', height: 420 }}>
+              <HeroScene3D />
             </div>
           </div>
         </div>
@@ -165,18 +135,11 @@ export default function HomePage() {
       {/* ═══ TRUST STRIP ════════════════════════════════════════════════════ */}
       <div style={{ background: 'var(--bg-2)', borderTop: '1px solid var(--line)', borderBottom: '1px solid var(--line)' }}>
         <div className="max-w-6xl mx-auto px-6">
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 0, alignItems: 'center', justifyContent: 'center', padding: '0.75rem 0' }}>
-            {[
-              { icon: '✓', t: 'Precio sin sorpresas' },
-              { icon: '✓', t: 'Entrega coordinada' },
-              { icon: '✓', t: 'Asesor real con nombre' },
-              { icon: '✓', t: 'Cuotas fijas en pesos' },
-              { icon: '✓', t: 'Tomamos tu usado' },
-              { icon: '✓', t: 'Operamos en todo el país' },
-            ].map((item, i, arr) => (
-              <div key={item.t} style={{ display: 'flex', alignItems: 'center', gap: '0.375rem', padding: '0.5rem 1rem', borderRight: i < arr.length - 1 ? '1px solid var(--line)' : 'none', whiteSpace: 'nowrap' }}>
-                <span style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--gold)' }}>{item.icon}</span>
-                <span style={{ fontSize: '0.8125rem', fontWeight: 600, color: 'var(--text-muted)' }}>{item.t}</span>
+          <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'center', padding: '0.75rem 0' }}>
+            {['Precio sin sorpresas', 'Entrega coordinada', 'Asesor real', 'Cuotas fijas', 'Tomamos tu usado', 'Todo el país'].map((t, i, arr) => (
+              <div key={t} style={{ display: 'flex', alignItems: 'center', gap: '0.375rem', padding: '0.5rem 1.125rem', borderRight: i < arr.length - 1 ? '1px solid var(--line)' : 'none', whiteSpace: 'nowrap' }}>
+                <span style={{ fontWeight: 700, color: 'var(--gold)', fontSize: '0.8125rem' }}>✓</span>
+                <span style={{ fontSize: '0.8125rem', fontWeight: 600, color: 'var(--text-muted)' }}>{t}</span>
               </div>
             ))}
           </div>
@@ -188,53 +151,48 @@ export default function HomePage() {
         <div className="max-w-6xl mx-auto px-6">
           <div className="grid lg:grid-cols-2 gap-14 items-start">
 
-            {/* Copy */}
-            <div className="lg:sticky" style={{ top: '5.5rem' }}>
-              <span className="eyebrow">Cotizador gratuito</span>
-              <h2 className="section-title section-title-light" style={{ marginBottom: '0.625rem' }}>
-                Cotizá tu 0km con atención real
-              </h2>
-              <div className="divider" style={{ marginBottom: '1.5rem' }} />
+            {/* Copy lateral */}
+            <AnimatedSection>
+              <div className="lg:sticky" style={{ top: '5.5rem' }}>
+                <span className="eyebrow">Cotizador gratuito</span>
+                <h2 className="section-title section-title-light" style={{ marginBottom: '0.625rem' }}>
+                  Cotizá con atención real
+                </h2>
+                <div className="divider" style={{ marginBottom: '1.5rem' }} />
+                <p className="section-desc" style={{ marginBottom: '2rem' }}>
+                  Elegís el modelo, el anticipo y te mostramos opciones de financiación reales.
+                  Un asesor te contacta con la propuesta exacta. Sin bots.
+                </p>
 
-              <p className="section-desc" style={{ marginBottom: '2rem' }}>
-                Elegís el modelo, el anticipo y te mostramos opciones de financiación reales.
-                Un asesor te contacta con la propuesta exacta. Sin bots.
-              </p>
-
-              {/* Garantías */}
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.875rem', marginBottom: '2rem' }}>
-                {[
-                  'Propuesta en el día, sin esperas',
-                  'Sin compromiso de compra',
-                  'Atendemos todo el interior del país',
-                  'Tus datos se usan solo para contactarte',
-                ].map(item => (
-                  <div key={item} style={{ display: 'flex', alignItems: 'center', gap: '0.625rem' }}>
-                    <div style={{ width: 20, height: 20, borderRadius: '50%', background: 'rgba(217,162,58,.12)', border: '1px solid rgba(217,162,58,.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                      <svg viewBox="0 0 24 24" fill="none" stroke="var(--gold)" strokeWidth="2.5" width="11" height="11">
-                        <path d="M20 6L9 17l-5-5"/>
-                      </svg>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.875rem', marginBottom: '2rem' }}>
+                  {['Propuesta en el día, sin esperas', 'Sin compromiso de compra', 'Atendemos todo el interior del país', 'Tus datos solo para contactarte'].map(item => (
+                    <div key={item} style={{ display: 'flex', alignItems: 'center', gap: '0.625rem' }}>
+                      <div style={{ width: 20, height: 20, borderRadius: '50%', background: 'rgba(217,162,58,.12)', border: '1px solid rgba(217,162,58,.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="var(--gold)" strokeWidth="2.5" width="11" height="11"><path d="M20 6L9 17l-5-5"/></svg>
+                      </div>
+                      <span style={{ fontSize: '0.9375rem', color: 'var(--text-muted)' }}>{item}</span>
                     </div>
-                    <span style={{ fontSize: '0.9375rem', color: 'var(--text-muted)' }}>{item}</span>
-                  </div>
-                ))}
-              </div>
+                  ))}
+                </div>
 
-              {/* Bonificación destacada */}
-              <div className="glass-card glass-card-gold" style={{ padding: '1.25rem' }}>
-                <p style={{ fontSize: '0.625rem', fontWeight: 700, letterSpacing: '.14em', textTransform: 'uppercase', color: 'var(--gold)', marginBottom: '0.375rem' }}>
-                  Amarok · Bonificación vigente
-                </p>
-                <p style={{ fontSize: '1.625rem', fontWeight: 800, color: 'var(--text)', letterSpacing: '-0.03em', lineHeight: 1, marginBottom: '0.25rem', fontVariantNumeric: 'tabular-nums' }}>
-                  hasta $10.100.000
-                </p>
-                <p style={{ fontSize: '0.8125rem', color: 'var(--text-muted)', lineHeight: 1.5 }}>
-                  Sobre precio de lista. Sujeto a disponibilidad y validación comercial.
-                </p>
+                {/* Bono destacado */}
+                <div className="glass-card glass-card-gold" style={{ padding: '1.375rem' }}>
+                  <p style={{ fontSize: '0.625rem', fontWeight: 700, letterSpacing: '.14em', textTransform: 'uppercase', color: 'var(--gold)', marginBottom: '0.5rem' }}>
+                    Amarok · Bonificación vigente
+                  </p>
+                  <p style={{ fontSize: '1.75rem', fontWeight: 800, color: 'var(--text)', letterSpacing: '-0.035em', lineHeight: 1, marginBottom: '0.375rem', fontVariantNumeric: 'tabular-nums' }}>
+                    hasta $10.100.000
+                  </p>
+                  <p style={{ fontSize: '0.8125rem', color: 'var(--text-muted)', lineHeight: 1.55 }}>
+                    Sobre precio de lista. Sujeto a disponibilidad y validación comercial.
+                  </p>
+                </div>
               </div>
-            </div>
+            </AnimatedSection>
 
-            <CotizadorWizard />
+            <AnimatedSection delay={0.12}>
+              <CotizadorWizard />
+            </AnimatedSection>
           </div>
         </div>
       </section>
@@ -242,31 +200,26 @@ export default function HomePage() {
       {/* ═══ CONFIANZA INSTITUCIONAL ═════════════════════════════════════════ */}
       <section style={{ background: 'var(--bg)', borderBottom: '1px solid var(--line)', padding: '5rem 0' }}>
         <div className="max-w-6xl mx-auto px-6">
-
-          {/* Header */}
-          <div style={{ marginBottom: '3.5rem', maxWidth: 580 }}>
+          <AnimatedSection style={{ marginBottom: '3.5rem', maxWidth: 580 }}>
             <span className="eyebrow">AutoWelt Group</span>
             <h2 className="section-title section-title-light" style={{ marginBottom: '0.625rem' }}>
-              Coordinamos operaciones 0km con respaldo real
+              Coordinamos 0km con respaldo real
             </h2>
             <div className="divider" style={{ marginBottom: '1.25rem' }} />
             <p className="section-desc">
               AutoWelt Group coordina operaciones 0km con concesionarias oficiales, financiación vigente y acompañamiento hasta la entrega.
             </p>
-          </div>
+          </AnimatedSection>
 
-          {/* Pilares grid */}
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {PILARES.map((p) => (
-              <div key={p.title} className="glass-card" style={{ padding: '1.5rem' }}>
-                <div style={{ fontSize: '1.5rem', marginBottom: '0.875rem' }}>{p.icon}</div>
-                <h3 style={{ fontSize: '0.9375rem', fontWeight: 700, color: 'var(--text)', lineHeight: 1.35, marginBottom: '0.5rem', letterSpacing: '-0.015em' }}>
-                  {p.title}
-                </h3>
-                <p style={{ fontSize: '0.875rem', color: 'var(--text-muted)', lineHeight: 1.65 }}>
-                  {p.desc}
-                </p>
-              </div>
+            {PILARES.map((p, i) => (
+              <AnimatedSection key={p.t} delay={i * 0.06}>
+                <div className="glass-card" style={{ padding: '1.5rem', height: '100%' }}>
+                  <div style={{ fontSize: '1.5rem', marginBottom: '0.875rem' }}>{p.icon}</div>
+                  <h3 style={{ fontSize: '0.9375rem', fontWeight: 700, color: 'var(--text)', lineHeight: 1.35, marginBottom: '0.5rem', letterSpacing: '-0.015em' }}>{p.t}</h3>
+                  <p style={{ fontSize: '0.875rem', color: 'var(--text-muted)', lineHeight: 1.65 }}>{p.d}</p>
+                </div>
+              </AnimatedSection>
             ))}
           </div>
         </div>
@@ -277,26 +230,18 @@ export default function HomePage() {
         <div className="max-w-6xl mx-auto px-6">
           <div className="grid lg:grid-cols-2 gap-14 items-start">
 
-            {/* Texto */}
-            <div>
+            <AnimatedSection>
               <span className="eyebrow">Para compradores del interior</span>
               <h2 className="section-title section-title-light" style={{ marginBottom: '0.75rem' }}>
-                Compradores de todo el país eligen operar desde Buenos Aires
+                Comprar en Buenos Aires puede cambiar la operación
               </h2>
               <div className="divider" style={{ marginBottom: '1.5rem' }} />
               <p className="section-desc" style={{ marginBottom: '1.75rem' }}>
-                Si en tu ciudad no conseguís stock, precio o financiación conveniente,
-                validamos opciones reales antes de que viajes.
+                Más stock, mejores condiciones y retiro coordinado antes de que viajes.
               </p>
-              <div className="glass-card-gold" style={{
-                background: 'rgba(217,162,58,.06)',
-                border: '1px solid rgba(217,162,58,.18)',
-                borderRadius: 14,
-                padding: '1.25rem 1.375rem',
-                marginBottom: '2rem',
-              }}>
-                <p style={{ fontSize: '1rem', fontWeight: 700, color: 'var(--gold-bright)', lineHeight: 1.5, letterSpacing: '-0.01em' }}>
-                  &ldquo;No viajás a probar suerte. Viajás con la operación previamente validada.&rdquo;
+              <div style={{ background: 'rgba(217,162,58,.06)', border: '1px solid rgba(217,162,58,.18)', borderRadius: 14, padding: '1.25rem 1.375rem', marginBottom: '2rem' }}>
+                <p style={{ fontSize: '1rem', fontWeight: 700, color: 'var(--gold-bright)', lineHeight: 1.55, letterSpacing: '-0.01em' }}>
+                  &ldquo;No viajás a probar suerte. Viajás con una operación previamente revisada.&rdquo;
                 </p>
               </div>
               <a
@@ -307,22 +252,21 @@ export default function HomePage() {
                 <WaIcon />
                 Consultar sin compromiso
               </a>
-            </div>
+            </AnimatedSection>
 
-            {/* Items */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-              {INTERIOR_ITEMS.map(item => (
-                <div key={item.n} className="glass-card" style={{ padding: '1.375rem', display: 'flex', gap: '1rem', alignItems: 'flex-start' }}>
-                  <span style={{ fontSize: '1.25rem', fontWeight: 900, color: 'rgba(217,162,58,.3)', lineHeight: 1, letterSpacing: '-0.04em', minWidth: '2rem', fontFamily: 'var(--font-jakarta), sans-serif', fontVariantNumeric: 'tabular-nums' }}>
-                    {item.n}
-                  </span>
-                  <div>
-                    <h3 style={{ fontSize: '0.9375rem', fontWeight: 700, color: 'var(--text)', marginBottom: '0.375rem', letterSpacing: '-0.015em' }}>
-                      {item.t}
-                    </h3>
-                    <p style={{ fontSize: '0.875rem', color: 'var(--text-muted)', lineHeight: 1.6 }}>{item.d}</p>
+              {INTERIOR.map((item, i) => (
+                <AnimatedSection key={item.n} delay={i * 0.08}>
+                  <div className="glass-card" style={{ padding: '1.375rem', display: 'flex', gap: '1rem', alignItems: 'flex-start' }}>
+                    <span style={{ fontSize: '1.375rem', fontWeight: 900, color: 'rgba(217,162,58,.28)', lineHeight: 1, letterSpacing: '-0.04em', minWidth: '2.25rem', fontFamily: 'var(--font-jakarta), sans-serif', fontVariantNumeric: 'tabular-nums' }}>
+                      {item.n}
+                    </span>
+                    <div>
+                      <h3 style={{ fontSize: '0.9375rem', fontWeight: 700, color: 'var(--text)', marginBottom: '0.375rem', letterSpacing: '-0.015em' }}>{item.t}</h3>
+                      <p style={{ fontSize: '0.875rem', color: 'var(--text-muted)', lineHeight: 1.65 }}>{item.d}</p>
+                    </div>
                   </div>
-                </div>
+                </AnimatedSection>
               ))}
             </div>
 
@@ -334,7 +278,7 @@ export default function HomePage() {
       <section id="modelos" style={{ background: 'var(--bg)', borderBottom: '1px solid var(--line)', padding: '5rem 0' }}>
         <div className="max-w-6xl mx-auto px-6">
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0', marginBottom: '3rem' }}>
+          <AnimatedSection style={{ marginBottom: '3rem' }}>
             <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', flexWrap: 'wrap', gap: '1rem' }}>
               <div>
                 <span className="eyebrow">Volkswagen · Línea completa</span>
@@ -346,111 +290,13 @@ export default function HomePage() {
                 <span style={{ fontSize: '0.8125rem', fontWeight: 600, color: 'var(--text-muted)' }}>Concesionario oficial</span>
               </div>
             </div>
-          </div>
+          </AnimatedSection>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            {VW_MODELS.slice(0, 5).map((model) => {
-              const hasImg = model.imagenes.length > 0
-              const waText = encodeURIComponent(`Hola, quiero cotizar un Volkswagen ${model.nombre} 0km`)
-              return (
-                <div key={model.id} className="car-card">
-                  {/* Media */}
-                  <div style={{ position: 'relative', overflow: 'hidden', height: 220, background: 'var(--bg-3)' }}>
-                    {hasImg ? (
-                      <img src={model.imagenes[0]} alt={`VW ${model.nombre}`}
-                        style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform .5s ease', display: 'block' }}
-                        loading="lazy"
-                      />
-                    ) : model.video ? (
-                      <video src={model.video} autoPlay muted loop playsInline style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                    ) : (
-                      <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                        <span style={{ fontWeight: 900, fontSize: '2rem', color: 'var(--gold)' }}>VW</span>
-                      </div>
-                    )}
-                    {/* Gradient overlay */}
-                    <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(7,17,31,.88) 0%, transparent 55%)', pointerEvents: 'none' }} />
-
-                    {/* Badges top */}
-                    <div style={{ position: 'absolute', top: 12, left: 12, right: 12, display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-                      <span className="tag tag-slate" style={{ fontSize: '0.5625rem', backdropFilter: 'blur(8px)', background: 'rgba(7,17,31,.75)' }}>
-                        {model.tipo}
-                      </span>
-                      <div style={{ display: 'flex', gap: '0.375rem' }}>
-                        {model.badge && <span className="tag tag-gold" style={{ fontSize: '0.5625rem' }}>{model.badge}</span>}
-                        {model.nuevo && <span className="tag tag-green" style={{ fontSize: '0.5625rem' }}>Nuevo</span>}
-                      </div>
-                    </div>
-
-                    {/* Model name bottom */}
-                    <div style={{ position: 'absolute', bottom: 14, left: 16 }}>
-                      <p style={{ fontSize: '1.375rem', fontWeight: 800, color: '#fff', lineHeight: 1, letterSpacing: '-0.03em', fontFamily: 'var(--font-jakarta), sans-serif' }}>
-                        {model.nombre}
-                      </p>
-                    </div>
-                  </div>
-
-                  {/* Body */}
-                  <div className="car-card-body">
-                    <p style={{ fontSize: '0.875rem', color: 'var(--text-muted)', lineHeight: 1.6, marginBottom: '1rem' }}>{model.tagline}</p>
-
-                    <div style={{ marginBottom: '1rem' }}>
-                      <p style={{ fontSize: '0.6875rem', fontWeight: 600, color: 'var(--text-faint)', marginBottom: '0.375rem' }}>
-                        {model.versiones.length} {model.versiones.length === 1 ? 'versión' : 'versiones'}
-                      </p>
-                      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.375rem' }}>
-                        {model.versiones.slice(0, 3).map(v => (
-                          <span key={v.nombre} className="tag tag-slate">{v.nombre}</span>
-                        ))}
-                        {model.versiones.length > 3 && (
-                          <span className="tag tag-slate">+{model.versiones.length - 3}</span>
-                        )}
-                      </div>
-                    </div>
-
-                    <div style={{ marginTop: 'auto', paddingTop: '1rem', borderTop: '1px solid var(--line)', display: 'flex', gap: '0.5rem' }}>
-                      <Link href={`/modelos/${model.slug}`} className="btn btn-ghost-light flex-1 justify-center" style={{ fontSize: '0.8125rem', padding: '0.625rem' }}>
-                        Ver modelo
-                      </Link>
-                      <a href={`https://wa.me/${WHATSAPP_NUMBER}?text=${waText}`}
-                        target="_blank" rel="noopener noreferrer"
-                        className="btn btn-gold flex-1 justify-center"
-                        style={{ fontSize: '0.8125rem', padding: '0.625rem' }}>
-                        Cotizar
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" width="12" height="12">
-                          <path d="M5 12h14M12 5l7 7-7 7"/>
-                        </svg>
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              )
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* ═══ ADJUDICADOS ═════════════════════════════════════════════════════ */}
-      <section id="adjudicados" style={{ background: 'var(--bg-2)', borderBottom: '1px solid var(--line)', padding: '5rem 0' }}>
-        <div className="max-w-6xl mx-auto px-6">
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0', marginBottom: '2.5rem' }}>
-            <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', flexWrap: 'wrap', gap: '1rem' }}>
-              <div>
-                <span className="eyebrow">Disponibles ahora</span>
-                <h2 className="section-title section-title-light" style={{ marginBottom: '0.375rem' }}>Planes adjudicados</h2>
-                <div className="divider" />
-              </div>
-              <Link href="/catalogo" className="btn btn-ghost-light" style={{ fontSize: '0.875rem' }}>
-                Ver todos
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" width="13" height="13">
-                  <path d="M5 12h14M12 5l7 7-7 7"/>
-                </svg>
-              </Link>
-            </div>
-          </div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            {ADJUDICADOS.slice(0, 3).map(a => (
-              <AdjudicadoCard key={a.id} adjudicado={a} />
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5" style={{ perspective: '1200px' }}>
+            {VW_MODELS.slice(0, 5).map((model, i) => (
+              <AnimatedSection key={model.id} delay={i * 0.07}>
+                <VehicleCard model={model} />
+              </AnimatedSection>
             ))}
           </div>
         </div>
@@ -462,36 +308,34 @@ export default function HomePage() {
       {/* ═══ CTA FINAL ═══════════════════════════════════════════════════════ */}
       <section style={{ background: 'linear-gradient(135deg, var(--bg) 0%, var(--bg-3) 100%)', borderTop: '1px solid var(--line)', padding: '5rem 0' }}>
         <div className="max-w-6xl mx-auto px-6">
-          <div className="grid md:grid-cols-2 gap-10 items-center">
-            <div>
-              <span className="eyebrow">Próximo paso</span>
-              <h2 className="section-title section-title-light" style={{ marginBottom: '0.75rem' }}>
-                ¿Ya sabés lo que buscás?<br />
-                <span style={{ color: 'var(--gold)' }}>Empezamos ahora.</span>
-              </h2>
-              <p className="section-desc">
-                Un asesor te responde en el día. Sin bots, sin formularios de 10 páginas.
-                Si sos del interior, coordinamos todo antes de que viajes.
-              </p>
+          <AnimatedSection>
+            <div className="grid md:grid-cols-2 gap-10 items-center">
+              <div>
+                <span className="eyebrow">Próximo paso</span>
+                <h2 className="section-title section-title-light" style={{ marginBottom: '0.75rem' }}>
+                  ¿Ya sabés lo que buscás?<br />
+                  <span style={{ color: 'var(--gold)' }}>Empezamos ahora.</span>
+                </h2>
+                <p className="section-desc">
+                  Un asesor te responde en el día. Sin bots, sin formularios de 10 páginas.
+                  Si sos del interior, coordinamos todo antes de que viajes.
+                </p>
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+                <a href={WA('Hola, quiero cotizar un Volkswagen 0km')} target="_blank" rel="noopener noreferrer" className="btn btn-gold btn-gold-lg w-full justify-center">
+                  <WaIcon />
+                  Cotizar por WhatsApp
+                </a>
+                <a href="#cotizador" className="btn btn-ghost-light w-full justify-center">
+                  Cotizar sin WhatsApp
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" width="13" height="13"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </a>
+                <p style={{ fontSize: '0.75rem', color: 'var(--text-faint)', textAlign: 'center' }}>
+                  Valores orientativos. Financiación sujeta a validación y disponibilidad de stock.
+                </p>
+              </div>
             </div>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', alignItems: 'flex-start' }}>
-              <a href={WA('Hola, quiero cotizar un Volkswagen 0km')}
-                target="_blank" rel="noopener noreferrer"
-                className="btn btn-gold btn-gold-lg w-full justify-center">
-                <WaIcon />
-                Cotizar por WhatsApp
-              </a>
-              <a href="#cotizador" className="btn btn-ghost-light w-full justify-center" style={{ fontSize: '0.9375rem' }}>
-                Cotizar sin WhatsApp
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" width="13" height="13">
-                  <path d="M5 12h14M12 5l7 7-7 7"/>
-                </svg>
-              </a>
-              <p style={{ fontSize: '0.75rem', color: 'var(--text-faint)', textAlign: 'center', width: '100%' }}>
-                Valores orientativos. Financiación sujeta a validación y disponibilidad de stock.
-              </p>
-            </div>
-          </div>
+          </AnimatedSection>
         </div>
       </section>
 

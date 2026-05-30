@@ -52,14 +52,14 @@ const CarIcon = () => (
 
 export default function TestimoniosSection() {
   return (
-    <section style={{ background: '#F8FAFC', borderTop: '1px solid #E2E8F0', borderBottom: '1px solid #E2E8F0' }}>
+    <section style={{ background: '#F8F5EF', borderTop: '1px solid rgba(15,23,42,.10)', borderBottom: '1px solid rgba(15,23,42,.10)' }}>
       <div className="max-w-6xl mx-auto px-6 py-16">
 
         {/* Header */}
         <div className="text-center mb-12">
-          <span className="section-eyebrow">Clientes reales</span>
-          <h2 className="section-title">Lo que dicen quienes viajaron</h2>
-          <div className="section-divider section-divider-center" />
+          <span className="eyebrow">Clientes reales</span>
+          <h2 className="section-title section-title-dark">Lo que dicen quienes viajaron</h2>
+          <div className="divider divider-center" />
           <p className="text-sm mt-4 mx-auto" style={{ color: '#64748B', maxWidth: '520px', lineHeight: '1.7' }}>
             Compradores del interior que eligieron operar desde Buenos Aires y volvieron manejando su 0km.
           </p>

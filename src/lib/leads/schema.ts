@@ -12,9 +12,7 @@ export const LeadSchema = z.object({
     .max(25)
     .regex(/^[0-9\s\-\+\(\)]+$/, 'Solo números, espacios y guiones.'),
 
-  email: z
-    .string()
-    .email('Email inválido.'),
+  email: z.string().email('Email inválido.').optional().or(z.literal('')),
 
   localidad: z
     .string()
