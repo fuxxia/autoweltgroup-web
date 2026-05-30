@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
+import { Inter, Playfair_Display } from 'next/font/google'
 import Script from 'next/script'
 import './globals.css'
 import Header from '@/components/Header'
@@ -8,7 +8,8 @@ import WhatsAppButton from '@/components/WhatsAppButton'
 import Preloader from '@/components/Preloader'
 
 
-const inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
+const inter = Inter({ subsets: ['latin'], variable: '--font-inter', display: 'swap' })
+const playfair = Playfair_Display({ subsets: ['latin'], variable: '--font-playfair', display: 'swap', weight: ['700', '800', '900'] })
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://autoweltgroup.com.ar'),
@@ -35,7 +36,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="es" className={inter.variable}>
+    <html lang="es" className={`${inter.variable} ${playfair.variable}`}>
       <body className="min-h-screen flex flex-col" style={{ fontFamily: 'var(--font-inter), sans-serif', overflowX: 'hidden' }} suppressHydrationWarning>
         <Preloader />
         <Header />
