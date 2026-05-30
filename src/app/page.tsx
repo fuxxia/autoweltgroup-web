@@ -3,15 +3,17 @@ import Link from 'next/link'
 import { ADJUDICADOS } from '@/data/adjudicados'
 import { VW_MODELS } from '@/data/volkswagen'
 import AdjudicadoCard from '@/components/AdjudicadoCard'
-import SimuladorForm from '@/components/SimuladorForm'
 import HeroCarSlider from '@/components/HeroCarSlider'
 import CounterStats from '@/components/CounterStats'
 import TestimoniosSection from '@/components/TestimoniosSection'
+import CotizadorWizard from '@/components/cotizador/CotizadorWizard'
+import TrustStrip from '@/components/marketing/TrustStrip'
+import StickyMobileCTA from '@/components/marketing/StickyMobileCTA'
 import { WHATSAPP_NUMBER } from '@/lib/utils'
 
 export const metadata: Metadata = {
-  title: 'Autos Welt — Volkswagen 0km en Argentina',
-  description: 'Concesionaria oficial Volkswagen. Polo, Nivus, Taos, Amarok, Tera. También planes adjudicados. Cotizá ahora.',
+  title: 'AutoWelt Group — Volkswagen 0km y Planes Adjudicados',
+  description: 'Concesionaria Volkswagen. Amarok, Polo, Taos, Nivus, Tera 0km. Planes adjudicados hasta 40% off. Atendemos Buenos Aires y todo el interior. Financiación oficial, cuotas fijas.',
 }
 
 const STATS = [
@@ -22,24 +24,36 @@ const STATS = [
 ]
 
 const PROCESO = [
-  { step: '01', title: 'Consultás sin compromiso', desc: 'Nos describís lo que buscás. Te mostramos opciones reales con precio, disponibilidad y condiciones claras. Sin presión.' },
-  { step: '02', title: 'Revisamos la operación', desc: 'Confirmamos stock, financiación y documentación antes de que muevas un pie. La operación sale sola.' },
-  { step: '03', title: 'Retirás y volvés manejando', desc: 'Coordinamos la entrega en Buenos Aires. Muchos compradores del interior viajan y vuelven el mismo día con su 0km.' },
+  {
+    step: '01',
+    title: 'Consultás sin compromiso',
+    desc: 'Nos describís lo que buscás. Te mostramos opciones reales con precio, disponibilidad y condiciones claras. Sin presión, sin letra chica.',
+  },
+  {
+    step: '02',
+    title: 'Revisamos la operación',
+    desc: 'Confirmamos stock, financiación y documentación antes de que muevas un pie. La operación sale sola. Coordinamos todo.',
+  },
+  {
+    step: '03',
+    title: 'Retirás y volvés manejando',
+    desc: 'Coordinamos la entrega en Buenos Aires. Muchos compradores del interior viajan y vuelven el mismo día con su 0km.',
+  },
 ]
 
 const VENTAJAS = [
   {
     icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" width="22" height="22">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" width="20" height="20">
         <path d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/>
       </svg>
     ),
     title: 'Sin promesas vacías',
-    desc: 'Cada condición que te damos está validada antes de confirmarte. Precio, stock, financiación y plazos: sin letra chica.',
+    desc: 'Cada condición que te damos está validada. Precio, stock, financiación y plazos: sin letra chica.',
   },
   {
     icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" width="22" height="22">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" width="20" height="20">
         <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
       </svg>
     ),
@@ -48,8 +62,9 @@ const VENTAJAS = [
   },
   {
     icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" width="22" height="22">
-        <line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" width="20" height="20">
+        <line x1="12" y1="1" x2="12" y2="23"/>
+        <path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/>
       </svg>
     ),
     title: 'Cuotas fijas en pesos',
@@ -57,54 +72,21 @@ const VENTAJAS = [
   },
   {
     icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" width="22" height="22">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" width="20" height="20">
         <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/>
         <path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/>
       </svg>
     ),
-    title: 'Asesoramiento de persona real',
-    desc: 'Pablo Alessio, 15 años operando en el rubro. Te atiende una persona con experiencia, no un bot ni un call center.',
+    title: 'Atención de persona real',
+    desc: 'Pablo Alessio, 15 años en el rubro. Te atiende directamente, con experiencia y sin bots.',
   },
 ]
 
-const BUENOS_AIRES_VENTAJAS = [
-  {
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="#F59E0B" strokeWidth="2" width="20" height="20">
-        <path d="M20 7H4a2 2 0 00-2 2v6a2 2 0 002 2h16a2 2 0 002-2V9a2 2 0 00-2-2z"/><line x1="12" y1="12" x2="12" y2="12"/>
-        <circle cx="12" cy="12" r="1"/>
-      </svg>
-    ),
-    title: 'Mayor stock disponible',
-    desc: 'CABA concentra la mayor oferta de 0km del país. Más opciones, más versiones, más posibilidades.',
-  },
-  {
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="#F59E0B" strokeWidth="2" width="20" height="20">
-        <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
-      </svg>
-    ),
-    title: 'Mejores condiciones de financiación',
-    desc: 'Acceso a planes con tasa preferencial que muchos concesionarios del interior no ofrecen.',
-  },
-  {
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="#F59E0B" strokeWidth="2" width="20" height="20">
-        <circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/>
-      </svg>
-    ),
-    title: 'Entrega en horas, no semanas',
-    desc: 'Sin listas de espera. Coordinamos la entrega antes de que viajes, para que el tiempo en CABA sea mínimo.',
-  },
-  {
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="#F59E0B" strokeWidth="2" width="20" height="20">
-        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-      </svg>
-    ),
-    title: 'Operación revisada antes de viajar',
-    desc: 'Confirmamos todo antes de que subas al micro o al avión. No viajás a probar suerte. Viajás con la compra hecha.',
-  },
+const BUENOS_AIRES_ITEMS = [
+  { emoji: '📦', title: 'Mayor stock disponible', desc: 'CABA concentra la mayor oferta de 0km del país. Más modelos, más versiones, más posibilidades.' },
+  { emoji: '💳', title: 'Mejor financiación', desc: 'Acceso a planes con tasa preferencial que muchos concesionarios del interior no ofrecen.' },
+  { emoji: '⚡', title: 'Entrega en horas', desc: 'Sin listas de espera. Coordinamos la entrega antes de que viajes, para que el tiempo en CABA sea mínimo.' },
+  { emoji: '🛡️', title: 'Operación revisada antes de viajar', desc: 'Confirmamos todo antes de que subas al micro o avión. No viajás a probar suerte.' },
 ]
 
 const WaIcon = () => (
@@ -120,62 +102,56 @@ export default function HomePage() {
       {/* ═══ HERO ═══════════════════════════════════════════════════════════ */}
       <section
         className="relative overflow-hidden"
-        style={{ background: '#0A1020', minHeight: '92vh' }}
+        style={{ background: 'var(--bg)', minHeight: '92vh' }}
       >
-        {/* Grid texture */}
+        {/* Grid texture sutil */}
         <div className="absolute inset-0 pointer-events-none" style={{
           backgroundImage: `
-            linear-gradient(rgba(245,158,11,.02) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(245,158,11,.02) 1px, transparent 1px)
+            linear-gradient(rgba(212,162,68,.018) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(212,162,68,.018) 1px, transparent 1px)
           `,
           backgroundSize: '60px 60px',
         }} />
+        {/* Glows */}
+        <div className="absolute bottom-0 left-0 pointer-events-none" style={{
+          width: '800px', height: '500px',
+          background: 'radial-gradient(ellipse at bottom left, rgba(19,40,71,.35) 0%, transparent 65%)',
+        }} />
+        <div className="absolute top-0 right-0 pointer-events-none" style={{
+          width: '600px', height: '400px',
+          background: 'radial-gradient(ellipse at top right, rgba(212,162,68,.04) 0%, transparent 70%)',
+        }} />
 
-        {/* Glow bottom-left */}
-        <div className="absolute bottom-0 left-0 pointer-events-none"
-          style={{
-            width: '800px', height: '500px',
-            background: 'radial-gradient(ellipse at bottom left, rgba(27,58,107,.22) 0%, transparent 65%)'
-          }} />
-        {/* Glow top-right subtle */}
-        <div className="absolute top-0 right-0 pointer-events-none"
-          style={{
-            width: '600px', height: '400px',
-            background: 'radial-gradient(ellipse at top right, rgba(245,158,11,.04) 0%, transparent 70%)'
-          }} />
-
-        <div
-          className="relative max-w-6xl mx-auto px-6 w-full flex items-center"
-          style={{ minHeight: '92vh' }}
-        >
+        <div className="relative max-w-6xl mx-auto px-6 w-full flex items-center" style={{ minHeight: '92vh' }}>
           <div className="grid lg:grid-cols-2 gap-10 xl:gap-16 items-center w-full py-24">
 
-            {/* ── Texto ── */}
+            {/* ── Copy ── */}
             <div>
-              {/* Badge live */}
+              {/* Live badge */}
               <div className="inline-flex items-center gap-2 px-3 py-1.5 mb-7 rounded-full"
-                style={{ background: 'rgba(245,158,11,.08)', border: '1px solid rgba(245,158,11,.2)' }}>
+                style={{ background: 'rgba(212,162,68,.08)', border: '1px solid rgba(212,162,68,.2)' }}>
                 <span className="dot-live" />
-                <span className="text-xs font-bold tracking-widest uppercase" style={{ color: '#F59E0B' }}>
+                <span className="text-xs font-bold tracking-widest uppercase" style={{ color: 'var(--accent)' }}>
                   Stock disponible · Entrega inmediata
                 </span>
               </div>
 
               {/* Headline */}
               <h1
-                className="font-black text-white leading-none mb-4"
-                style={{ fontSize: 'clamp(2.5rem, 5.5vw, 3.875rem)', letterSpacing: '-.035em', lineHeight: '1.02' }}
+                className="display-title text-white mb-4"
+                style={{ fontSize: 'clamp(2.25rem, 5.5vw, 3.75rem)', lineHeight: 1.04 }}
               >
-                Tu próximo auto<br />
-                <span style={{ color: '#F59E0B' }}>0km</span>, operado<br />
-                desde Buenos Aires.
+                Tu 0km desde<br />
+                Buenos Aires.<br />
+                <span style={{ color: 'var(--accent)' }}>Sin vueltas.</span>
               </h1>
 
-              {/* Subtítulo orientado al interior */}
-              <p className="mb-7 leading-relaxed" style={{ color: '#8B9DB5', fontSize: '1rem', maxWidth: '460px', lineHeight: '1.75' }}>
-                Compradores del interior del país acceden a&nbsp;
-                <strong style={{ color: '#CBD5E1' }}>mejor stock, mejores precios y financiación</strong>&nbsp;
-                que no encuentran en su ciudad. Coordinamos todo antes de que viajes.
+              {/* Subtítulo */}
+              <p className="mb-7 leading-relaxed" style={{ color: '#8896A5', fontSize: '1rem', maxWidth: '460px', lineHeight: 1.75 }}>
+                Compradores del interior acceden a{' '}
+                <strong style={{ color: '#CBD5E1' }}>mejor stock, mejores precios y financiación</strong>{' '}
+                que no encuentran en su ciudad.{' '}
+                <strong style={{ color: '#CBD5E1' }}>Coordinamos todo antes de que viajes.</strong>
               </p>
 
               {/* Checklist */}
@@ -187,7 +163,7 @@ export default function HomePage() {
                   'Retirás en Buenos Aires y volvés manejando',
                 ].map((item) => (
                   <div key={item} className="flex items-center gap-2.5 text-sm" style={{ color: '#94A3B8' }}>
-                    <svg viewBox="0 0 24 24" fill="none" stroke="#F59E0B" strokeWidth="2.5" width="14" height="14" style={{ flexShrink: 0 }}>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent)" strokeWidth="2.5" width="14" height="14" style={{ flexShrink: 0 }}>
                       <path d="M20 6L9 17l-5-5"/>
                     </svg>
                     {item}
@@ -201,42 +177,33 @@ export default function HomePage() {
                   href={`https://wa.me/${WHATSAPP_NUMBER}?text=Hola%2C%20quiero%20cotizar%20un%20Volkswagen%200km%20desde%20Buenos%20Aires`}
                   target="_blank" rel="noopener noreferrer"
                   className="btn-amber btn-amber-lg"
-                  style={{ fontSize: '0.9375rem' }}
                 >
                   <WaIcon />
                   Consultar por WhatsApp
                 </a>
-                <Link href="/#modelos" className="btn-outline-white btn-amber-lg" style={{ fontSize: '0.9375rem' }}>
-                  Ver modelos disponibles
-                </Link>
+                <a href="#cotizador" className="btn-outline-white btn-amber-lg">
+                  Cotizar sin WhatsApp
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" width="13" height="13">
+                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                  </svg>
+                </a>
               </div>
 
               {/* Authority strip */}
-              <div className="flex flex-wrap items-center gap-4">
-                <div className="flex items-center gap-2">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="#F59E0B" strokeWidth="2" width="16" height="16">
-                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-                  </svg>
-                  <span className="text-xs font-semibold" style={{ color: '#64748B' }}>15 años en el mercado</span>
-                </div>
-                <span className="trust-divider" />
-                <div className="flex items-center gap-2">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="#F59E0B" strokeWidth="2" width="16" height="16">
-                    <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/>
-                    <path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/>
-                  </svg>
-                  <span className="text-xs font-semibold" style={{ color: '#64748B' }}>+500 operaciones concretadas</span>
-                </div>
-                <span className="trust-divider" />
-                <div className="flex items-center gap-2">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="#F59E0B" strokeWidth="2" width="16" height="16">
-                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-                  </svg>
-                  <span className="text-xs font-semibold" style={{ color: '#64748B' }}>Asesor con nombre y apellido</span>
-                </div>
+              <div className="flex flex-wrap items-center gap-5">
+                {[
+                  { icon: '⭐', text: '15 años en el mercado' },
+                  { icon: '🚗', text: '+500 entregas realizadas' },
+                  { icon: '📍', text: 'Todo el interior del país' },
+                ].map((item, i, arr) => (
+                  <div key={item.text} className="flex items-center gap-2">
+                    <span className="text-sm">{item.icon}</span>
+                    <span className="text-xs font-semibold" style={{ color: '#64748B' }}>{item.text}</span>
+                    {i < arr.length - 1 && <span className="trust-divider ml-5 hidden sm:block" />}
+                  </div>
+                ))}
               </div>
 
-              {/* Stats */}
               <div className="mt-10">
                 <CounterStats stats={STATS} />
               </div>
@@ -250,50 +217,35 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ═══ INTERIOR ADVANTAGE BANNER ══════════════════════════════════════ */}
-      <section style={{ background: '#0F172A', borderBottom: '1px solid rgba(255,255,255,.06)' }}>
-        <div className="max-w-6xl mx-auto px-6 py-5">
-          <div className="flex flex-wrap items-center justify-between gap-4">
-            <p className="text-sm font-medium" style={{ color: '#94A3B8' }}>
-              <strong style={{ color: '#F59E0B' }}>¿Estás en el interior del país?</strong>{' '}
-              En Buenos Aires encontrás mejor stock, mejores precios y financiación que no llega a tu ciudad.
-            </p>
-            <a
-              href={`https://wa.me/${WHATSAPP_NUMBER}?text=Hola%2C%20soy%20del%20interior%20del%20pa%C3%ADs%20y%20quiero%20cotizar%20un%200km`}
-              target="_blank" rel="noopener noreferrer"
-              className="text-xs font-bold shrink-0"
-              style={{ color: '#F59E0B', textDecoration: 'underline', textUnderlineOffset: '3px' }}
-            >
-              Consultá sin compromiso →
-            </a>
-          </div>
-        </div>
-      </section>
+      {/* ═══ TRUST STRIP ════════════════════════════════════════════════════ */}
+      <TrustStrip />
 
-      {/* ═══ SIMULADOR ═══════════════════════════════════════════════════════ */}
-      <section id="simulador" style={{ background: '#fff', borderBottom: '1px solid #E2E8F0' }}>
+      {/* ═══ COTIZADOR WIZARD ════════════════════════════════════════════════ */}
+      <section id="cotizador" style={{ background: 'var(--surface-soft)', borderBottom: '1px solid var(--line-mid)' }}>
         <div className="max-w-6xl mx-auto px-6 py-16">
           <div className="grid lg:grid-cols-2 gap-12 items-start">
 
+            {/* Copy lateral */}
             <div className="lg:sticky lg:top-24">
-              <span className="section-eyebrow">Simulador gratuito</span>
-              <h2 className="section-title mb-2">Calculá tu cuota<br />en segundos</h2>
+              <span className="section-eyebrow">Cotizador gratuito</span>
+              <h2 className="section-title mb-2">Cotizá tu 0km con atención real</h2>
               <div className="section-divider mb-5" />
-              <p className="text-sm leading-relaxed mb-6" style={{ color: '#64748B', maxWidth: '380px' }}>
-                Elegís el modelo, ingresás tus datos y te mostramos
-                la cuota estimada del plan adjudicado. Sin compromiso, sin formularios interminables.
+              <p className="text-sm leading-relaxed mb-6" style={{ color: 'var(--text-muted-light)', maxWidth: '400px' }}>
+                Elegís el modelo, nos contás un poco y te mandamos una propuesta real.
+                Sin bots, sin formularios interminables. Un asesor te responde en el día.
               </p>
 
-              <div className="space-y-3">
+              <div className="space-y-3 mb-8">
                 {[
-                  'Resultado inmediato, sin esperas',
+                  'Resultado en el día, sin esperas',
                   'Sin compromiso de compra',
-                  'Asesor disponible para consultas',
+                  'Tus datos solo para coordinar la propuesta',
+                  'Continuidad por WhatsApp si preferís',
                 ].map((item) => (
-                  <div key={item} className="flex items-center gap-2.5 text-sm" style={{ color: '#475569' }}>
+                  <div key={item} className="flex items-center gap-2.5 text-sm" style={{ color: 'var(--text-muted-light)' }}>
                     <div className="w-5 h-5 rounded-full flex items-center justify-center shrink-0"
-                      style={{ background: 'rgba(245,158,11,.12)' }}>
-                      <svg viewBox="0 0 24 24" fill="none" stroke="#D97706" strokeWidth="2.5" width="11" height="11">
+                      style={{ background: 'var(--accent-subtle)' }}>
+                      <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent-active)" strokeWidth="2.5" width="11" height="11">
                         <path d="M20 6L9 17l-5-5"/>
                       </svg>
                     </div>
@@ -301,55 +253,64 @@ export default function HomePage() {
                   </div>
                 ))}
               </div>
+
+              {/* Pablo authority */}
+              <div className="flex items-center gap-3 p-4 rounded-xl"
+                style={{ background: '#fff', border: '1px solid var(--line-mid)', boxShadow: 'var(--shadow-xs)' }}>
+                <div className="w-12 h-12 rounded-full flex items-center justify-center shrink-0 font-black text-base"
+                  style={{ background: 'linear-gradient(135deg, var(--bg), var(--surface-elevated))', color: 'var(--accent)' }}>
+                  PA
+                </div>
+                <div>
+                  <p className="font-bold text-sm mb-0.5" style={{ color: 'var(--text)' }}>Pablo Alessio</p>
+                  <p className="text-xs" style={{ color: 'var(--text-muted-light)' }}>
+                    15 años en el rubro · 500+ autos entregados · Atiende personalmente
+                  </p>
+                </div>
+              </div>
             </div>
 
-            <SimuladorForm />
+            {/* Wizard */}
+            <CotizadorWizard />
           </div>
         </div>
       </section>
 
-      {/* ═══ POR QUÉ BUENOS AIRES ════════════════════════════════════════════ */}
-      <section style={{ background: '#0F172A', borderBottom: '1px solid rgba(255,255,255,.06)' }}>
+      {/* ═══ PARA EL INTERIOR DEL PAÍS ══════════════════════════════════════ */}
+      <section style={{ background: 'var(--bg)', borderBottom: '1px solid var(--line-inv)' }}>
         <div className="max-w-6xl mx-auto px-6 py-16">
 
-          {/* Header */}
           <div className="mb-12 max-w-2xl">
             <span className="section-eyebrow">Para compradores del interior</span>
             <h2 className="section-title-white mb-2">
-              ¿Por qué compradores de todo el país<br className="hidden md:block" /> eligen operar desde Buenos Aires?
+              ¿Por qué compradores de todo el país eligen operar desde Buenos Aires?
             </h2>
             <div className="section-divider mb-5" />
-            <p className="text-sm leading-relaxed" style={{ color: '#64748B', maxWidth: '500px' }}>
-              No viajás a probar suerte. Nos encargamos de que la operación esté confirmada antes de que pises CABA.
+            <p className="text-sm leading-relaxed" style={{ color: 'var(--text-muted)', maxWidth: '500px' }}>
+              No viajás a probar suerte. Confirmamos todo antes de que llegues a CABA.
             </p>
           </div>
 
-          {/* Grid ventajas CABA */}
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
-            {BUENOS_AIRES_VENTAJAS.map((v) => (
-              <div key={v.title} className="p-5 rounded-xl" style={{
-                background: 'rgba(255,255,255,.04)',
-                border: '1px solid rgba(255,255,255,.07)',
-              }}>
-                <div className="w-9 h-9 rounded-lg flex items-center justify-center mb-4"
-                  style={{ background: 'rgba(245,158,11,.1)', border: '1px solid rgba(245,158,11,.15)' }}>
-                  {v.icon}
-                </div>
+            {BUENOS_AIRES_ITEMS.map((v) => (
+              <div key={v.title} className="p-5 rounded-xl"
+                style={{ background: 'rgba(255,255,255,.04)', border: '1px solid var(--line-inv-mid)' }}>
+                <div className="text-2xl mb-3">{v.emoji}</div>
                 <h3 className="font-bold text-sm mb-2" style={{ color: '#F1F5F9' }}>{v.title}</h3>
-                <p className="text-xs leading-relaxed" style={{ color: '#64748B' }}>{v.desc}</p>
+                <p className="text-xs leading-relaxed" style={{ color: 'var(--text-muted)' }}>{v.desc}</p>
               </div>
             ))}
           </div>
 
           {/* CTA interior */}
-          <div className="flex flex-col sm:flex-row gap-3 items-start sm:items-center justify-between p-6 rounded-xl"
-            style={{ background: 'rgba(245,158,11,.06)', border: '1px solid rgba(245,158,11,.15)' }}>
+          <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between p-5 rounded-xl"
+            style={{ background: 'var(--accent-subtle)', border: '1px solid var(--accent-border)' }}>
             <div>
-              <p className="font-bold text-sm mb-1" style={{ color: '#F1F5F9' }}>
+              <p className="font-bold text-sm mb-0.5" style={{ color: '#F1F5F9' }}>
                 Operamos en todo el país. Coordinamos cada detalle.
               </p>
-              <p className="text-xs" style={{ color: '#64748B' }}>
-                Córdoba · Mendoza · Rosario · Tucumán · Neuquén · Mar del Plata · y todo el interior.
+              <p className="text-xs" style={{ color: 'var(--text-muted)' }}>
+                Córdoba · Mendoza · Rosario · Tucumán · Neuquén · Mar del Plata · y más.
               </p>
             </div>
             <a
@@ -359,74 +320,63 @@ export default function HomePage() {
               style={{ fontSize: '0.875rem' }}
             >
               <WaIcon />
-              Quiero cotizar
+              Consultar
             </a>
           </div>
         </div>
       </section>
 
       {/* ═══ MODELOS VW ══════════════════════════════════════════════════════ */}
-      <section id="modelos" style={{ background: '#F8FAFC', borderBottom: '1px solid #E2E8F0' }}>
+      <section id="modelos" style={{ background: 'var(--surface-soft)', borderBottom: '1px solid var(--line-mid)' }}>
         <div className="max-w-6xl mx-auto px-6 py-16">
 
-          {/* Header */}
           <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-4 mb-10">
             <div>
               <span className="section-eyebrow">Volkswagen · Línea completa</span>
               <h2 className="section-title mb-1">Modelos disponibles en 0km</h2>
               <div className="section-divider" />
-              <p className="text-sm mt-3" style={{ color: '#64748B' }}>Precio oficial · Entrega desde concesionaria · Garantía de fábrica</p>
+              <p className="text-sm mt-3" style={{ color: 'var(--text-muted-light)' }}>
+                Precio oficial · Entrega desde concesionaria · Garantía de fábrica
+              </p>
             </div>
-            <div className="flex items-center gap-2 shrink-0 px-4 py-2.5 rounded-xl" style={{ background: '#fff', border: '1px solid #E2E8F0', boxShadow: '0 2px 8px rgba(15,23,42,.05)' }}>
-              <img src="/images/autos/Volkswagen_logo_2019.svg.png" alt="Volkswagen" style={{ width: '28px', height: '28px', objectFit: 'contain' }} />
-              <span className="text-sm font-semibold" style={{ color: '#0F172A' }}>Concesionario oficial</span>
+            <div className="flex items-center gap-2 shrink-0 px-4 py-2.5 rounded-xl bg-white"
+              style={{ border: '1px solid var(--line-mid)', boxShadow: 'var(--shadow-xs)' }}>
+              <img src="/images/autos/Volkswagen_logo_2019.svg.png" alt="Volkswagen"
+                style={{ width: '26px', height: '26px', objectFit: 'contain' }} />
+              <span className="text-sm font-semibold" style={{ color: 'var(--text)' }}>Concesionario oficial</span>
             </div>
           </div>
 
-          {/* Grid modelos */}
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {VW_MODELS.slice(0, 5).map((model) => {
               const hasImg = model.imagenes.length > 0
               const waText = encodeURIComponent(`Hola, quiero cotizar un Volkswagen ${model.nombre} 0km`)
               return (
                 <div key={model.id} className="car-card">
-
-                  {/* Media */}
-                  <div className="relative overflow-hidden" style={{ height: '210px', background: '#0F172A' }}>
+                  <div className="relative overflow-hidden" style={{ height: '210px', background: 'var(--bg)' }}>
                     {hasImg ? (
-                      <img
-                        src={model.imagenes[0]}
-                        alt={`VW ${model.nombre}`}
+                      <img src={model.imagenes[0]} alt={`VW ${model.nombre}`}
                         className="w-full h-full object-cover"
                         style={{ transition: 'transform .5s ease' }}
                         loading="lazy"
                       />
                     ) : model.video ? (
-                      <video
-                        src={model.video}
-                        autoPlay
-                        muted
-                        loop
-                        playsInline
-                        className="w-full h-full object-cover"
-                      />
+                      <video src={model.video} autoPlay muted loop playsInline className="w-full h-full object-cover" />
                     ) : (
                       <div className="w-full h-full flex items-center justify-center">
-                        <span className="font-black text-2xl" style={{ color: '#F59E0B' }}>VW</span>
+                        <span className="font-black text-2xl" style={{ color: 'var(--accent)' }}>VW</span>
                       </div>
                     )}
-
-                    {/* Gradient overlay */}
                     <div className="absolute inset-0" style={{
-                      background: 'linear-gradient(to top, rgba(10,16,32,.75) 0%, transparent 55%)'
+                      background: 'linear-gradient(to top, rgba(7,26,46,.8) 0%, transparent 55%)'
                     }} />
                     <div className="absolute top-3 left-3 right-3 flex justify-between items-start">
-                      <span className="tag" style={{ background: 'rgba(0,20,60,.85)', color: '#fff', border: '1px solid rgba(255,255,255,.12)', backdropFilter: 'blur(8px)', fontSize: '0.625rem' }}>
+                      <span className="tag" style={{ background: 'rgba(0,15,40,.88)', color: '#fff', border: '1px solid rgba(255,255,255,.12)', backdropFilter: 'blur(8px)', fontSize: '0.625rem' }}>
                         {model.tipo}
                       </span>
                       <div className="flex gap-1.5">
                         {model.badge && (
-                          <span className="tag" style={{ background: 'rgba(245,158,11,.92)', color: '#0F172A', border: 'none', fontSize: '0.625rem' }}>
+                          <span className="tag" style={{ background: 'rgba(212,162,68,.92)', color: 'var(--text)', border: 'none', fontSize: '0.625rem' }}>
                             {model.badge}
                           </span>
                         )}
@@ -437,19 +387,14 @@ export default function HomePage() {
                         )}
                       </div>
                     </div>
-
                     <div className="absolute bottom-3 left-4">
                       <p className="font-black text-white text-xl leading-none" style={{ letterSpacing: '-.025em' }}>
                         {model.nombre}
                       </p>
                     </div>
                   </div>
-
-                  {/* Body */}
                   <div className="car-card-body">
-                    <p className="text-xs leading-relaxed mb-4" style={{ color: '#64748B' }}>{model.tagline}</p>
-
-                    {/* Versiones */}
+                    <p className="text-xs leading-relaxed mb-4" style={{ color: 'var(--text-muted-light)' }}>{model.tagline}</p>
                     <div className="mb-4">
                       <p className="text-xs font-semibold mb-2" style={{ color: '#94A3B8' }}>
                         {model.versiones.length} {model.versiones.length === 1 ? 'versión' : 'versiones'}
@@ -463,22 +408,15 @@ export default function HomePage() {
                         )}
                       </div>
                     </div>
-
-                    {/* CTAs */}
-                    <div className="mt-auto pt-3 flex gap-2" style={{ borderTop: '1px solid #F1F5F9' }}>
-                      <Link
-                        href={`/modelos/${model.slug}`}
-                        className="btn-navy"
-                        style={{ flex: 1, justifyContent: 'center', fontSize: '.8rem', padding: '0.625rem 0.75rem' }}
-                      >
+                    <div className="mt-auto pt-3 flex gap-2" style={{ borderTop: '1px solid var(--line-mid)' }}>
+                      <Link href={`/modelos/${model.slug}`} className="btn-navy"
+                        style={{ flex: 1, justifyContent: 'center', fontSize: '.8rem', padding: '0.625rem 0.75rem' }}>
                         Ver modelo
                       </Link>
-                      <a
-                        href={`https://wa.me/${WHATSAPP_NUMBER}?text=${waText}`}
+                      <a href={`https://wa.me/${WHATSAPP_NUMBER}?text=${waText}`}
                         target="_blank" rel="noopener noreferrer"
                         className="btn-amber"
-                        style={{ flex: 1, justifyContent: 'center', fontSize: '.8rem', padding: '0.625rem 0.75rem' }}
-                      >
+                        style={{ flex: 1, justifyContent: 'center', fontSize: '.8rem', padding: '0.625rem 0.75rem' }}>
                         Cotizar
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" width="12" height="12">
                           <path d="M5 12h14M12 5l7 7-7 7"/>
@@ -494,14 +432,14 @@ export default function HomePage() {
       </section>
 
       {/* ═══ ADJUDICADOS ═════════════════════════════════════════════════════ */}
-      <section id="adjudicados" style={{ background: '#0F172A' }}>
+      <section id="adjudicados" style={{ background: 'var(--bg)' }}>
         <div className="max-w-6xl mx-auto px-6 py-16">
           <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-4 mb-8">
             <div>
               <span className="section-eyebrow">Disponibles ahora</span>
               <h2 className="section-title-white mb-1">Planes adjudicados</h2>
-              <div className="section-divider mb-2" />
-              <p className="text-sm" style={{ color: '#64748B' }}>
+              <div className="section-divider mb-3" />
+              <p className="text-sm" style={{ color: 'var(--text-muted)' }}>
                 Tomás el plan, pagás la cesión y retirás el auto. Sin sorteos, sin esperas.
               </p>
             </div>
@@ -512,7 +450,6 @@ export default function HomePage() {
               </svg>
             </Link>
           </div>
-
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {ADJUDICADOS.slice(0, 3).map((a) => (
               <AdjudicadoCard key={a.id} adjudicado={a} />
@@ -529,31 +466,33 @@ export default function HomePage() {
             <h2 className="section-title mb-2">Lo que nos diferencia</h2>
             <div className="section-divider section-divider-center" />
           </div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-8">
             {VENTAJAS.map((v) => (
               <div key={v.title} className="card-premium p-6">
                 <div className="w-11 h-11 rounded-xl flex items-center justify-center mb-4 shrink-0"
-                  style={{ background: 'rgba(245,158,11,.08)', border: '1px solid rgba(245,158,11,.15)', color: '#D97706' }}>
+                  style={{ background: 'var(--accent-subtle)', border: '1px solid var(--accent-border)', color: 'var(--accent-active)' }}>
                   {v.icon}
                 </div>
-                <h3 className="font-bold text-sm mb-2" style={{ color: '#0F172A', lineHeight: '1.4' }}>{v.title}</h3>
-                <p className="text-xs leading-relaxed" style={{ color: '#64748B' }}>{v.desc}</p>
+                <h3 className="font-bold text-sm mb-2" style={{ color: 'var(--text)', lineHeight: 1.4 }}>{v.title}</h3>
+                <p className="text-xs leading-relaxed" style={{ color: 'var(--text-muted-light)' }}>{v.desc}</p>
               </div>
             ))}
           </div>
 
-          {/* Pablo Alessio authority block */}
-          <div className="mt-8 p-6 rounded-xl flex flex-col sm:flex-row items-start sm:items-center gap-5"
-            style={{ background: '#F8FAFC', border: '1px solid #E2E8F0' }}>
-            <div className="w-14 h-14 rounded-full flex items-center justify-center shrink-0 font-black text-xl"
-              style={{ background: 'linear-gradient(135deg, #0F172A, #1B3A6B)', color: '#F59E0B' }}>
+          {/* Pablo authority block */}
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-5 p-5 rounded-xl"
+            style={{ background: 'var(--surface-soft)', border: '1px solid var(--line-mid)' }}>
+            <div className="w-14 h-14 rounded-full flex items-center justify-center shrink-0 font-black text-base"
+              style={{ background: 'linear-gradient(135deg, var(--bg), var(--surface-elevated))', color: 'var(--accent)' }}>
               PA
             </div>
             <div>
-              <p className="font-bold text-sm mb-0.5" style={{ color: '#0F172A' }}>Pablo Alessio — Asesor comercial</p>
-              <p className="text-xs leading-relaxed" style={{ color: '#64748B', maxWidth: '560px' }}>
-                15 años trabajando en el rubro automotriz. Trayectoria en concesionarias, gestión de leads y cierre comercial.
-                Te atiendo personalmente, con información real y sin promesas vacías.
+              <p className="font-bold text-sm mb-0.5" style={{ color: 'var(--text)' }}>
+                Pablo Alessio — Asesor comercial
+              </p>
+              <p className="text-xs leading-relaxed" style={{ color: 'var(--text-muted-light)', maxWidth: '560px' }}>
+                15 años operando en el rubro automotriz. Trayectoria en concesionarias, gestión de leads y cierre comercial.
+                Te atiende personalmente, con información real y sin promesas vacías.
               </p>
             </div>
           </div>
@@ -564,25 +503,25 @@ export default function HomePage() {
       <TestimoniosSection />
 
       {/* ═══ PROCESO ═════════════════════════════════════════════════════════ */}
-      <section className="py-16" style={{ background: '#fff', borderTop: '1px solid #E2E8F0' }}>
+      <section className="py-16 bg-white" style={{ borderTop: '1px solid var(--line-mid)' }}>
         <div className="max-w-6xl mx-auto px-6">
           <div className="text-center mb-10">
             <span className="section-eyebrow">Proceso</span>
             <h2 className="section-title mb-2">Tres pasos para tener tu auto</h2>
             <div className="section-divider section-divider-center" />
           </div>
-
           <div className="grid md:grid-cols-3 gap-5">
             {PROCESO.map((p) => (
-              <div key={p.step} className="p-8 rounded-xl" style={{ background: '#F8FAFC', border: '1px solid #E2E8F0' }}>
+              <div key={p.step} className="p-8 rounded-xl" style={{ background: 'var(--surface-soft)', border: '1px solid var(--line-mid)' }}>
                 <span className="mono font-black text-5xl block mb-5"
-                  style={{ color: '#F59E0B', letterSpacing: '-.04em', lineHeight: 1 }}>{p.step}</span>
-                <h3 className="font-bold mb-2.5" style={{ color: '#0F172A', fontSize: '0.9375rem' }}>{p.title}</h3>
-                <p className="text-sm leading-relaxed" style={{ color: '#64748B' }}>{p.desc}</p>
+                  style={{ color: 'var(--accent)', letterSpacing: '-.04em', lineHeight: 1 }}>
+                  {p.step}
+                </span>
+                <h3 className="font-bold mb-2.5" style={{ color: 'var(--text)', fontSize: '0.9375rem' }}>{p.title}</h3>
+                <p className="text-sm leading-relaxed" style={{ color: 'var(--text-muted-light)' }}>{p.desc}</p>
               </div>
             ))}
           </div>
-
           <div className="text-center mt-8">
             <Link href="/como-funciona" className="btn-navy">
               Ver explicación completa
@@ -595,18 +534,18 @@ export default function HomePage() {
       </section>
 
       {/* ═══ MENSAJES CLAVE ══════════════════════════════════════════════════ */}
-      <section style={{ background: '#F8FAFC', borderTop: '1px solid #E2E8F0', borderBottom: '1px solid #E2E8F0' }}>
-        <div className="max-w-6xl mx-auto px-6 py-10">
+      <section style={{ background: 'var(--surface-soft)', borderTop: '1px solid var(--line-mid)', borderBottom: '1px solid var(--line-mid)' }}>
+        <div className="max-w-6xl mx-auto px-6 py-8">
           <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-4">
             {[
-              { icon: '⚡', text: 'Entrega inmediata' },
-              { icon: '📋', text: 'Cuotas fijas en pesos' },
-              { icon: '🔄', text: 'Tomamos tu usado' },
-              { icon: '🤝', text: 'Atención personalizada' },
-              { icon: '🗺️', text: 'Operamos en todo el país' },
+              { emoji: '⚡', text: 'Entrega inmediata' },
+              { emoji: '📋', text: 'Cuotas fijas en pesos' },
+              { emoji: '🔄', text: 'Tomamos tu usado' },
+              { emoji: '🤝', text: 'Atención personalizada' },
+              { emoji: '🗺️', text: 'Operamos en todo el país' },
             ].map((item) => (
-              <div key={item.text} className="flex items-center gap-2.5">
-                <span className="text-lg">{item.icon}</span>
+              <div key={item.text} className="flex items-center gap-2">
+                <span className="text-lg">{item.emoji}</span>
                 <span className="text-sm font-semibold" style={{ color: '#334155' }}>{item.text}</span>
               </div>
             ))}
@@ -615,18 +554,18 @@ export default function HomePage() {
       </section>
 
       {/* ═══ CTA FINAL ═══════════════════════════════════════════════════════ */}
-      <section style={{ background: 'linear-gradient(135deg, #0F172A 0%, #1B3A6B 100%)' }}>
+      <section style={{ background: `linear-gradient(135deg, var(--bg) 0%, var(--surface-elevated) 100%)` }}>
         <div className="max-w-6xl mx-auto px-6 py-14">
           <div className="grid md:grid-cols-2 gap-8 items-center">
             <div>
-              <span className="section-eyebrow" style={{ color: 'rgba(245,158,11,.8)' }}>Próximo paso</span>
+              <span className="section-eyebrow" style={{ color: 'rgba(212,162,68,.8)' }}>Próximo paso</span>
               <h2 className="font-black text-white mb-3"
-                style={{ fontSize: 'clamp(1.5rem, 3.5vw, 2rem)', letterSpacing: '-.025em', lineHeight: '1.15' }}>
+                style={{ fontSize: 'clamp(1.5rem, 3.5vw, 2.125rem)', letterSpacing: '-.028em', lineHeight: 1.15, fontFamily: 'var(--font-jakarta), var(--font-inter), sans-serif' }}>
                 ¿Ya sabés lo que buscás?<br />
-                <span style={{ color: '#F59E0B' }}>Empezamos ahora.</span>
+                <span style={{ color: 'var(--accent)' }}>Empezamos ahora.</span>
               </h2>
-              <p className="text-sm" style={{ color: '#64748B', lineHeight: '1.7' }}>
-                Un asesor te responde en minutos. Sin bots, sin formularios interminables.
+              <p className="text-sm" style={{ color: 'var(--text-muted)', lineHeight: 1.7 }}>
+                Un asesor te responde en el día. Sin bots.
                 Si sos del interior, coordinamos todo antes de que viajes.
               </p>
             </div>
@@ -639,8 +578,8 @@ export default function HomePage() {
                 <WaIcon />
                 Cotizar por WhatsApp
               </a>
-              <a href="/modelos/amarok#financiador" className="btn-outline-white">
-                Cotizá tu Amarok 0km
+              <a href="#cotizador" className="btn-outline-white">
+                Cotizar sin WhatsApp
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" width="13" height="13">
                   <path d="M5 12h14M12 5l7 7-7 7"/>
                 </svg>
@@ -649,6 +588,9 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* Sticky mobile CTA */}
+      <StickyMobileCTA />
     </>
   )
 }

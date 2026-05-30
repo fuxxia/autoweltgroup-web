@@ -2,31 +2,29 @@ import { z } from 'zod'
 
 export const LeadSchema = z.object({
   nombre: z
-    .string({ required_error: 'Ingresá tu nombre.' })
+    .string()
     .min(2, 'El nombre debe tener al menos 2 caracteres.')
     .max(100),
 
   telefono: z
-    .string({ required_error: 'Ingresá tu WhatsApp.' })
+    .string()
     .min(8, 'Ingresá un teléfono válido.')
     .max(25)
     .regex(/^[0-9\s\-\+\(\)]+$/, 'Solo números, espacios y guiones.'),
 
   email: z
-    .string({ required_error: 'Ingresá tu email.' })
+    .string()
     .email('Email inválido.'),
 
   localidad: z
-    .string({ required_error: 'Ingresá tu ciudad o provincia.' })
+    .string()
     .min(2, 'Ingresá una localidad válida.')
     .max(100),
 
-  tipoCompra: z.enum(['0km', 'adjudicado', 'financiacion'], {
-    required_error: 'Seleccioná un tipo de compra.',
-  }),
+  tipoCompra: z.enum(['0km', 'adjudicado', 'financiacion']),
 
   modelo: z
-    .string({ required_error: 'Seleccioná un modelo.' })
+    .string()
     .min(1, 'Seleccioná un modelo.')
     .max(60),
 
@@ -43,12 +41,13 @@ export type LeadData = z.infer<typeof LeadSchema>
 
 export type LeadFieldErrors = Partial<Record<keyof LeadData, string>>
 
-export function mapZodErrors(errors: z.ZodError<LeadData>): LeadFieldErrors {
+export function mapZodErrors(errors: z.ZodError): LeadFieldErrors {
   const flat = errors.flatten()
   const result: LeadFieldErrors = {}
   for (const [key, msgs] of Object.entries(flat.fieldErrors)) {
-    if (msgs && msgs.length > 0) {
-      result[key as keyof LeadData] = msgs[0]
+    const arr = msgs as string[] | undefined
+    if (arr && arr.length > 0) {
+      result[key as keyof LeadData] = arr[0]
     }
   }
   return result
