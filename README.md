@@ -1,36 +1,88 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# AutoWelt Group — Frontend
 
-## Getting Started
+Sitio web de AutoWelt Group: venta de vehículos 0km y planes adjudicados Volkswagen.
 
-First, run the development server:
+## Stack
+
+| Capa | Tecnología |
+|------|-----------|
+| Framework | Next.js 16 (App Router, static export) |
+| UI | React 19 + Tailwind CSS 4 |
+| Lenguaje | TypeScript 5 |
+| Deploy | Vercel (static) |
+
+## Instalación
+
+```bash
+npm install
+```
+
+## Correr local
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Abre [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Build
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run build
+```
 
-## Learn More
+Genera la carpeta `out/` con el sitio estático listo para deploy.
 
-To learn more about Next.js, take a look at the following resources:
+## Lint
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+npm run lint
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Variables de entorno
 
-## Deploy on Vercel
+Copiá `.env.example` a `.env.local` y completá los valores:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
+cp .env.example .env.local
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+| Variable | Descripción |
+|----------|-------------|
+| `NEXT_PUBLIC_SITE_URL` | URL pública del sitio |
+| `NEXT_PUBLIC_WHATSAPP_NUMBER` | Número de WhatsApp (formato: `54911XXXXXXXX`) |
+| `NEXT_PUBLIC_GTM_ID` | ID de Google Tag Manager |
+| `NEXT_PUBLIC_GA4_ID` | ID de Google Analytics 4 |
+| `NEXT_PUBLIC_META_PIXEL_ID` | ID de Meta Pixel |
+| `NEXT_PUBLIC_LEAD_WEBHOOK_URL` | Webhook para envío de leads |
+
+## Deploy en Vercel
+
+1. Importar el repositorio en [vercel.com](https://vercel.com).
+2. Framework Preset: **Next.js**.
+3. Build Command: `npm run build`
+4. Output Directory: `out`
+5. Agregar las variables de entorno en el panel de Vercel.
+
+## Dominio
+
+| Subdominio | Destino |
+|------------|---------|
+| `www.autoweltgroup.com.ar` | Vercel |
+| `autoweltgroup.com.ar` | Redirect → www (configurar en Cloudflare) |
+| `crm.autoweltgroup.com.ar` | Futuro CRM |
+| `api.autoweltgroup.com.ar` | Futuro backend / agentes |
+| `app.autoweltgroup.com.ar` | Futuro panel SUVIDON |
+
+## Rutas principales
+
+| Ruta | Descripción |
+|------|-------------|
+| `/` | Home: hero, simulador, modelos VW, adjudicados |
+| `/modelos/[slug]` | Ficha de modelo (polo, nivus, taos, amarok, tera) |
+| `/catalogo` | Listado de planes adjudicados |
+| `/catalogo/[slug]` | Detalle de plan adjudicado |
+| `/simulador` | Simulador de cuota |
+| `/cotizador/[slug]` | Cotizador por modelo |
+| `/como-funciona` | Explicación del proceso |
+| `/contacto` | Contacto |
