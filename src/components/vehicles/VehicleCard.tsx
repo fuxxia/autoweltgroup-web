@@ -43,7 +43,7 @@ export default function VehicleCard({ model }: Props) {
       className="car-card"
     >
       {/* Media */}
-      <div style={{ position: 'relative', overflow: 'hidden', height: 220, background: 'var(--bg-3)' }}>
+      <div style={{ position: 'relative', overflow: 'hidden', height: 268, background: 'var(--bg-3)' }}>
         {hasImg ? (
           <img
             src={model.imagenes[0]}

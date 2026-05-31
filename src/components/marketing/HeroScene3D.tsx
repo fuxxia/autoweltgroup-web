@@ -68,13 +68,13 @@ export default function HeroScene3D() {
 
   return (
     <div
-      style={{ position: 'relative', width: '100%', height: '100%', minHeight: 420 }}
+      style={{ position: 'relative', width: '100%', height: '100%', minHeight: 520 }}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
     >
       {/* Fondo R3F — estrellas y partículas */}
       <Canvas
-        camera={{ position: [0, 0, 5], fov: 40 }}
+        camera={{ position: [0, 0, 5], fov: 38 }}
         dpr={[1, 1.5]}
         gl={{ antialias: true, alpha: true, powerPreference: 'high-performance' }}
         style={{ position: 'absolute', inset: 0, pointerEvents: 'none' }}
@@ -82,40 +82,56 @@ export default function HeroScene3D() {
         <Scene />
       </Canvas>
 
-      {/* Imagen del auto — calidad nativa + tilt Framer Motion */}
-      <div style={{
+      {/* Imagen del auto — derecha, escena cinematográfica */}
+      <div className="hero-car-panel" style={{
         position: 'absolute',
         inset: 0,
         display: 'flex',
         alignItems: 'center',
-        justifyContent: 'center',
+        justifyContent: 'flex-end',
+        paddingRight: '3%',
         pointerEvents: 'none',
       }}>
-        {/* Glow ambiental dorado detrás del auto */}
+        {/* Glow ambiental — derecha, intenso */}
         <div style={{
           position: 'absolute',
           width: '75%',
-          height: '50%',
-          background: 'radial-gradient(ellipse at center, rgba(217,162,58,0.20) 0%, rgba(217,162,58,0.06) 45%, transparent 70%)',
-          bottom: '10%',
-          left: '12.5%',
-          filter: 'blur(28px)',
+          height: '70%',
+          background: 'radial-gradient(ellipse at center, rgba(217,162,58,0.40) 0%, rgba(217,162,58,0.15) 38%, transparent 68%)',
+          bottom: '4%',
+          right: '0',
+          left: 'auto',
+          filter: 'blur(50px)',
+          pointerEvents: 'none',
+          animation: 'glow-breathe 4.5s ease-in-out infinite',
+        }} />
+
+        {/* Spotlight desde arriba — derecha */}
+        <div style={{
+          position: 'absolute',
+          top: '-5%',
+          right: '2%',
+          left: 'auto',
+          width: '55%',
+          height: '80%',
+          background: 'radial-gradient(ellipse at 50% 0%, rgba(255,255,255,0.09) 0%, rgba(255,255,255,0.02) 40%, transparent 70%)',
           pointerEvents: 'none',
         }} />
 
-        {/* Card del auto con tilt */}
+        {/* Imagen del auto — grande, sin marco, flotando en la derecha */}
         <motion.div
+          animate={{ y: [0, -10, 0] }}
+          transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
           style={{
             rotateX: rotX,
             rotateY: rotY,
             transformStyle: 'preserve-3d',
-            transformPerspective: 1100,
-            width: '86%',
-            maxWidth: 510,
+            transformPerspective: 1200,
+            width: '60%',
+            maxWidth: 900,
             position: 'relative',
-            borderRadius: 16,
-            overflow: 'hidden',
-            boxShadow: '0 28px 80px rgba(5,10,22,0.65), 0 0 0 1px rgba(217,162,58,0.22)',
+            borderRadius: 20,
+            boxShadow: '0 50px 140px rgba(5,10,22,0.85), 0 0 120px rgba(217,162,58,0.18)',
           }}
         >
           <img
@@ -125,41 +141,56 @@ export default function HeroScene3D() {
               width: '100%',
               height: 'auto',
               display: 'block',
+              borderRadius: 20,
               imageRendering: 'auto',
             }}
             loading="eager"
           />
-          {/* Gradiente inferior */}
+          {/* Fade inferior — integra auto al fondo oscuro */}
           <div style={{
             position: 'absolute',
             bottom: 0, left: 0, right: 0,
             height: '45%',
-            background: 'linear-gradient(to top, rgba(7,17,31,0.75) 0%, transparent 100%)',
+            background: 'linear-gradient(to top, rgba(7,17,31,0.90) 0%, rgba(7,17,31,0.30) 60%, transparent 100%)',
+            borderRadius: '0 0 20px 20px',
             pointerEvents: 'none',
           }} />
-          {/* Marco dorado sutil */}
+          {/* Specular highlight superior */}
           <div style={{
             position: 'absolute',
-            inset: 0,
-            borderRadius: 16,
-            boxShadow: 'inset 0 0 0 1px rgba(217,162,58,0.18)',
+            top: 0, left: 0, right: 0,
+            height: '28%',
+            background: 'linear-gradient(to bottom, rgba(255,255,255,0.05) 0%, transparent 100%)',
+            borderRadius: '20px 20px 0 0',
+            pointerEvents: 'none',
+          }} />
+          {/* Left edge fade — se funde con el gradiente del hero */}
+          <div style={{
+            position: 'absolute',
+            top: 0, bottom: 0, left: 0,
+            width: '18%',
+            background: 'linear-gradient(to right, rgba(7,17,31,0.60) 0%, transparent 100%)',
+            borderRadius: '20px 0 0 20px',
             pointerEvents: 'none',
           }} />
         </motion.div>
 
-        {/* Reflejo inferior */}
+        {/* Reflejo de piso */}
         <div style={{
           position: 'absolute',
-          bottom: 0,
-          width: '80%',
-          maxWidth: 460,
+          bottom: '-1%',
+          right: '3%',
+          left: 'auto',
+          width: '50%',
+          maxWidth: 540,
           overflow: 'hidden',
-          opacity: 0.09,
+          opacity: 0.11,
           transform: 'scaleY(-1)',
-          maskImage: 'linear-gradient(to bottom, black 0%, transparent 100%)',
-          WebkitMaskImage: 'linear-gradient(to bottom, black 0%, transparent 100%)',
-          borderRadius: '0 0 16px 16px',
+          maskImage: 'linear-gradient(to bottom, black 0%, transparent 70%)',
+          WebkitMaskImage: 'linear-gradient(to bottom, black 0%, transparent 70%)',
+          borderRadius: '0 0 20px 20px',
           pointerEvents: 'none',
+          filter: 'blur(2px)',
         }}>
           <img
             src="/images/fotos/amarok/amarokfrente.jpeg"
@@ -168,6 +199,19 @@ export default function HeroScene3D() {
             style={{ width: '100%', height: 'auto', display: 'block' }}
           />
         </div>
+
+        {/* Ground glow */}
+        <div style={{
+          position: 'absolute',
+          bottom: '0%',
+          right: '4%',
+          left: 'auto',
+          width: '42%',
+          height: '10%',
+          background: 'radial-gradient(ellipse, rgba(217,162,58,0.22) 0%, transparent 70%)',
+          filter: 'blur(20px)',
+          pointerEvents: 'none',
+        }} />
       </div>
     </div>
   )

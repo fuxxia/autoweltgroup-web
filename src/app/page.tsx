@@ -21,14 +21,6 @@ const STATS = [
   { num: '0%',   label: 'Tasa en planes elegidos' },
 ]
 
-const PILARES = [
-  { icon: '⭐', t: '+15 años en el rubro',           d: 'Trayectoria comprobada en gestión de 0km y financiación automotriz en Argentina.' },
-  { icon: '🚗', t: '+500 entregas realizadas',        d: 'Compradores de Buenos Aires y todo el interior que retiraron sin sorpresas.' },
-  { icon: '🏢', t: 'Red de concesionarias oficiales', d: 'Coordinamos con concesionarios VW oficiales. Garantía de fábrica, precio confirmado.' },
-  { icon: '🤝', t: 'Atención sin bots',              d: 'Cada comprador tiene un asesor asignado. Respuesta real, sin automatizaciones genéricas.' },
-  { icon: '🗺️', t: 'Operamos en todo el país',        d: 'Interior, CABA y GBA. Coordinamos el retiro antes de que viajes.' },
-  { icon: '📋', t: 'Operación clara desde el inicio', d: 'Precio, disponibilidad y plazos confirmados antes de avanzar. Sin letra chica.' },
-]
 
 const INTERIOR = [
   { n: '01', t: 'Más disponibilidad',    d: 'CABA concentra la mayor oferta de 0km del país. Más modelos, versiones y colores.' },
@@ -51,47 +43,64 @@ function WaIcon() {
 export default function HomePage() {
   return (
     <>
-      {/* ═══ HERO ═══════════════════════════════════════════════════════════ */}
-      <section style={{ background: 'var(--bg)', minHeight: '100svh', position: 'relative', overflow: 'hidden', display: 'flex', alignItems: 'center' }}>
+      {/* ═══ HERO — CINEMATIC FULL-BLEED ════════════════════════════════════ */}
+      <section style={{ position: 'relative', height: '100svh', minHeight: 700, overflow: 'hidden', background: 'var(--bg)' }}>
 
-        {/* Grid texture */}
+        {/* ── Full-bleed 3D scene: stars, partículas, Amarok en la derecha */}
+        <div style={{ position: 'absolute', inset: 0, zIndex: 1 }}>
+          <HeroScene3D />
+        </div>
+
+        {/* ── Grid texture — solo visible en la izquierda */}
         <div style={{
-          position: 'absolute', inset: 0, pointerEvents: 'none',
-          backgroundImage: `linear-gradient(rgba(217,162,58,.014) 1px, transparent 1px), linear-gradient(90deg, rgba(217,162,58,.014) 1px, transparent 1px)`,
-          backgroundSize: '68px 68px',
+          position: 'absolute', inset: 0, zIndex: 2, pointerEvents: 'none',
+          backgroundImage: `linear-gradient(rgba(217,162,58,.028) 1px, transparent 1px), linear-gradient(90deg, rgba(217,162,58,.028) 1px, transparent 1px)`,
+          backgroundSize: '72px 72px',
+          maskImage: 'radial-gradient(ellipse 48% 100% at 10% 50%, black 0%, transparent 100%)',
+          WebkitMaskImage: 'radial-gradient(ellipse 48% 100% at 10% 50%, black 0%, transparent 100%)',
         }} />
-        {/* Glows */}
-        <div style={{ position: 'absolute', bottom: '-8%', left: '-4%', width: 700, height: 500, pointerEvents: 'none', background: 'radial-gradient(ellipse, rgba(19,40,71,.5) 0%, transparent 68%)' }} />
-        <div style={{ position: 'absolute', top: '-6%', right: '-4%', width: 550, height: 420, pointerEvents: 'none', background: 'radial-gradient(ellipse, rgba(217,162,58,.07) 0%, transparent 65%)' }} />
 
-        <div className="max-w-6xl mx-auto px-6 w-full" style={{ position: 'relative', paddingTop: '7rem', paddingBottom: '5rem' }}>
-          <div className="grid lg:grid-cols-2 gap-12 xl:gap-20 items-center">
+        {/* ── Gradiente cinematográfico: oscuro izquierda → transparente derecha */}
+        <div style={{
+          position: 'absolute', inset: 0, zIndex: 3, pointerEvents: 'none',
+          background: 'linear-gradient(100deg, rgba(7,17,31,0.97) 0%, rgba(7,17,31,0.92) 22%, rgba(7,17,31,0.70) 42%, rgba(7,17,31,0.32) 58%, rgba(7,17,31,0.08) 74%, transparent 88%)',
+        }} />
 
-            {/* Copy */}
-            <div>
+        {/* ── Fade inferior hacia la siguiente sección */}
+        <div style={{
+          position: 'absolute', bottom: 0, left: 0, right: 0, height: '22%', zIndex: 4, pointerEvents: 'none',
+          background: 'linear-gradient(to top, rgba(7,17,31,1) 0%, rgba(7,17,31,0.60) 50%, transparent 100%)',
+        }} />
+
+        {/* ── Contenido superpuesto */}
+        <div style={{ position: 'relative', zIndex: 10, height: '100%', display: 'flex', flexDirection: 'column', pointerEvents: 'none' }}>
+          <div className="max-w-7xl mx-auto px-6 w-full" style={{ flex: 1, display: 'flex', alignItems: 'center', paddingTop: '6rem', pointerEvents: 'auto' }}>
+
+            <div style={{ maxWidth: 560 }}>
+
               {/* Live badge */}
-              <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', padding: '0.4375rem 1rem', marginBottom: '1.75rem', background: 'rgba(217,162,58,.07)', border: '1px solid rgba(217,162,58,.2)', borderRadius: 'var(--r-pill)' }}>
+              <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', padding: '0.4375rem 1rem', marginBottom: '1.25rem', background: 'rgba(217,162,58,.05)', border: '1px solid rgba(217,162,58,.18)', borderRadius: 'var(--r-pill)', boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.04)' }}>
                 <span className="live-dot" />
                 <span style={{ fontSize: '0.75rem', fontWeight: 700, letterSpacing: '.13em', textTransform: 'uppercase', color: 'var(--gold)' }}>
                   Stock disponible · Entrega inmediata
                 </span>
               </div>
 
-              {/* Headline */}
-              <h1 style={{ fontSize: 'clamp(2.375rem, 5.8vw, 4.25rem)', fontWeight: 800, lineHeight: 1.04, letterSpacing: '-0.038em', color: 'var(--text)', marginBottom: '1rem', fontFamily: 'var(--font-jakarta), var(--font-inter), sans-serif' }}>
-                Tu 0km desde<br />
-                Buenos Aires.<br />
-                <span style={{ color: 'var(--gold)' }}>Mejor oferta.</span>
+              {/* Headline — font escala con vw Y svh para evitar overflow en pantallas cortas */}
+              <h1 style={{ fontSize: 'clamp(2.5rem, min(6.5vw, 9svh), 5.5rem)', fontWeight: 900, lineHeight: 0.91, letterSpacing: '-0.055em', color: 'var(--text)', marginBottom: '1.25rem', fontFamily: 'var(--font-jakarta), var(--font-inter), sans-serif' }}>
+                Tu 0km<br />
+                desde BsAs.<br />
+                <span style={{ color: 'var(--gold)', textShadow: '0 0 80px rgba(217,162,58,0.55), 0 0 160px rgba(217,162,58,0.20)' }}>Mejor oferta.</span>
               </h1>
 
               {/* Sub */}
-              <p style={{ fontSize: '1.0625rem', color: 'var(--text-muted)', lineHeight: 1.72, maxWidth: 470, marginBottom: '1.5rem' }}>
+              <p style={{ fontSize: '1.0625rem', color: 'var(--text-muted)', lineHeight: 1.70, maxWidth: 420, marginBottom: '1.25rem' }}>
                 Accedé a mejor stock, mejores condiciones y financiación clara.
                 Coordinamos todo antes de que viajes.
               </p>
 
               {/* Bono badge */}
-              <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.625rem', padding: '0.625rem 1.125rem', marginBottom: '2rem', background: 'rgba(217,162,58,.07)', border: '1px solid rgba(217,162,58,.2)', borderRadius: 10 }}>
+              <div className="float-y" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.625rem', padding: '0.5625rem 1rem', marginBottom: '1.375rem', background: 'rgba(217,162,58,.07)', border: '1px solid rgba(217,162,58,.2)', borderRadius: 10, boxShadow: '0 0 20px rgba(217,162,58,0.10)' }}>
                 <svg viewBox="0 0 24 24" fill="none" stroke="var(--gold)" strokeWidth="2" width="14" height="14">
                   <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
                 </svg>
@@ -101,7 +110,7 @@ export default function HomePage() {
               </div>
 
               {/* CTAs */}
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem', marginBottom: '2.5rem' }}>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem', marginBottom: '1.5rem' }}>
                 <a href="#cotizador" className="btn btn-gold btn-gold-lg">
                   Cotizar ahora
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" width="14" height="14"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
@@ -112,67 +121,51 @@ export default function HomePage() {
                 </a>
               </div>
 
-              {/* Badges */}
+              {/* Trust badges */}
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
                 {['Cuotas fijas', 'Tomamos tu usado', 'Todo el país', 'Sin bots'].map(b => (
                   <span key={b} className="trust-badge">{b}</span>
                 ))}
               </div>
 
-              <div style={{ marginTop: '2.5rem' }}>
-                <CounterStats stats={STATS} />
-              </div>
             </div>
+          </div>
 
-            {/* 3D Hero */}
-            <div className="hidden lg:block" style={{ position: 'relative', height: 420 }}>
-              <HeroScene3D />
-            </div>
+          {/* Stats — borde inferior del hero */}
+          <div className="max-w-7xl mx-auto px-6 w-full" style={{ paddingBottom: '3.5rem', pointerEvents: 'auto' }}>
+            <CounterStats stats={STATS} />
           </div>
         </div>
       </section>
 
-      {/* ═══ TRUST STRIP ════════════════════════════════════════════════════ */}
-      <div style={{ background: 'var(--bg-2)', borderTop: '1px solid var(--line)', borderBottom: '1px solid var(--line)' }}>
-        <div className="max-w-6xl mx-auto px-6">
-          <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'center', padding: '0.75rem 0' }}>
-            {['Precio sin sorpresas', 'Entrega coordinada', 'Asesor real', 'Cuotas fijas', 'Tomamos tu usado', 'Todo el país'].map((t, i, arr) => (
-              <div key={t} style={{ display: 'flex', alignItems: 'center', gap: '0.375rem', padding: '0.5rem 1.125rem', borderRight: i < arr.length - 1 ? '1px solid var(--line)' : 'none', whiteSpace: 'nowrap' }}>
-                <span style={{ fontWeight: 700, color: 'var(--gold)', fontSize: '0.8125rem' }}>✓</span>
-                <span style={{ fontSize: '0.8125rem', fontWeight: 600, color: 'var(--text-muted)' }}>{t}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-
       {/* ═══ COTIZADOR ══════════════════════════════════════════════════════ */}
-      <section id="cotizador" style={{ background: 'var(--bg-2)', borderBottom: '1px solid var(--line)', padding: '5rem 0' }}>
+      <section id="cotizador" style={{ background: 'linear-gradient(180deg, var(--bg) 0%, var(--bg-2) 50%, var(--bg) 100%)', padding: '10rem 0', position: 'relative', overflow: 'hidden' }}>
+        <div style={{ position: 'absolute', inset: 0, backgroundImage: 'radial-gradient(rgba(217,162,58,0.035) 1px, transparent 1px)', backgroundSize: '32px 32px', pointerEvents: 'none' }} />
         <div className="max-w-6xl mx-auto px-6">
           <div className="grid lg:grid-cols-2 gap-14 items-start">
 
-            {/* Copy lateral */}
+            {/* Columna visual — foto + headline */}
             <AnimatedSection>
               <div className="lg:sticky" style={{ top: '5.5rem' }}>
-                <span className="eyebrow">Cotizador gratuito</span>
+                <span className="eyebrow">Configurá tu operación</span>
                 <h2 className="section-title section-title-light" style={{ marginBottom: '0.625rem' }}>
                   Cotizá con atención real
                 </h2>
-                <div className="divider" style={{ marginBottom: '1.5rem' }} />
-                <p className="section-desc" style={{ marginBottom: '2rem' }}>
-                  Elegís el modelo, el anticipo y te mostramos opciones de financiación reales.
-                  Un asesor te contacta con la propuesta exacta. Sin bots.
-                </p>
+                <div className="divider" style={{ marginBottom: '1.75rem' }} />
 
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.875rem', marginBottom: '2rem' }}>
-                  {['Propuesta en el día, sin esperas', 'Sin compromiso de compra', 'Atendemos todo el interior del país', 'Tus datos solo para contactarte'].map(item => (
-                    <div key={item} style={{ display: 'flex', alignItems: 'center', gap: '0.625rem' }}>
-                      <div style={{ width: 20, height: 20, borderRadius: '50%', background: 'rgba(217,162,58,.12)', border: '1px solid rgba(217,162,58,.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                        <svg viewBox="0 0 24 24" fill="none" stroke="var(--gold)" strokeWidth="2.5" width="11" height="11"><path d="M20 6L9 17l-5-5"/></svg>
-                      </div>
-                      <span style={{ fontSize: '0.9375rem', color: 'var(--text-muted)' }}>{item}</span>
-                    </div>
-                  ))}
+                {/* Foto editorial del auto */}
+                <div style={{ position: 'relative', borderRadius: 18, overflow: 'hidden', marginBottom: '1.75rem', height: 260 }}>
+                  <img
+                    src="/images/fotos/amarok/amarok.jpeg"
+                    alt="Volkswagen Amarok 0km"
+                    style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 30%', display: 'block' }}
+                    loading="lazy"
+                  />
+                  <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(7,17,31,0.75) 0%, rgba(7,17,31,0.20) 50%, transparent 100%)', pointerEvents: 'none' }} />
+                  <div style={{ position: 'absolute', bottom: '1.25rem', left: '1.25rem' }}>
+                    <p style={{ fontSize: '0.625rem', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--gold)', marginBottom: '0.25rem' }}>Volkswagen · 0km</p>
+                    <p style={{ fontSize: '1.25rem', fontWeight: 800, color: '#fff', letterSpacing: '-0.03em', lineHeight: 1 }}>Amarok V6</p>
+                  </div>
                 </div>
 
                 {/* Bono destacado */}
@@ -197,36 +190,9 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ═══ CONFIANZA INSTITUCIONAL ═════════════════════════════════════════ */}
-      <section style={{ background: 'var(--bg)', borderBottom: '1px solid var(--line)', padding: '5rem 0' }}>
-        <div className="max-w-6xl mx-auto px-6">
-          <AnimatedSection style={{ marginBottom: '3.5rem', maxWidth: 580 }}>
-            <span className="eyebrow">AutoWelt Group</span>
-            <h2 className="section-title section-title-light" style={{ marginBottom: '0.625rem' }}>
-              Coordinamos 0km con respaldo real
-            </h2>
-            <div className="divider" style={{ marginBottom: '1.25rem' }} />
-            <p className="section-desc">
-              AutoWelt Group coordina operaciones 0km con concesionarias oficiales, financiación vigente y acompañamiento hasta la entrega.
-            </p>
-          </AnimatedSection>
-
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {PILARES.map((p, i) => (
-              <AnimatedSection key={p.t} delay={i * 0.06}>
-                <div className="glass-card" style={{ padding: '1.5rem', height: '100%' }}>
-                  <div style={{ fontSize: '1.5rem', marginBottom: '0.875rem' }}>{p.icon}</div>
-                  <h3 style={{ fontSize: '0.9375rem', fontWeight: 700, color: 'var(--text)', lineHeight: 1.35, marginBottom: '0.5rem', letterSpacing: '-0.015em' }}>{p.t}</h3>
-                  <p style={{ fontSize: '0.875rem', color: 'var(--text-muted)', lineHeight: 1.65 }}>{p.d}</p>
-                </div>
-              </AnimatedSection>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* ═══ COMPRADORES DEL INTERIOR ════════════════════════════════════════ */}
-      <section id="entrega" style={{ background: 'var(--bg-2)', borderBottom: '1px solid var(--line)', padding: '5rem 0' }}>
+      <section id="entrega" style={{ background: 'var(--bg)', padding: '11rem 0', position: 'relative', overflow: 'hidden' }}>
+        <div style={{ position: 'absolute', bottom: '-10%', left: '-5%', width: 600, height: 600, background: 'radial-gradient(ellipse, rgba(19,40,71,0.6) 0%, transparent 65%)', pointerEvents: 'none', borderRadius: '50%' }} />
         <div className="max-w-6xl mx-auto px-6">
           <div className="grid lg:grid-cols-2 gap-14 items-start">
 
@@ -239,9 +205,10 @@ export default function HomePage() {
               <p className="section-desc" style={{ marginBottom: '1.75rem' }}>
                 Más stock, mejores condiciones y retiro coordinado antes de que viajes.
               </p>
-              <div style={{ background: 'rgba(217,162,58,.06)', border: '1px solid rgba(217,162,58,.18)', borderRadius: 14, padding: '1.25rem 1.375rem', marginBottom: '2rem' }}>
-                <p style={{ fontSize: '1rem', fontWeight: 700, color: 'var(--gold-bright)', lineHeight: 1.55, letterSpacing: '-0.01em' }}>
-                  &ldquo;No viajás a probar suerte. Viajás con una operación previamente revisada.&rdquo;
+              <div style={{ background: 'linear-gradient(135deg, rgba(217,162,58,0.10) 0%, rgba(217,162,58,0.04) 100%)', border: '1px solid rgba(217,162,58,.25)', borderRadius: 16, padding: '1.5rem 1.75rem', marginBottom: '2rem', boxShadow: '0 0 40px rgba(217,162,58,0.08)', position: 'relative' }}>
+                <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 1, background: 'linear-gradient(90deg, transparent 0%, rgba(217,162,58,0.45) 50%, transparent 100%)', borderRadius: '16px 16px 0 0' }} />
+                <p style={{ fontSize: '1.0625rem', fontWeight: 700, color: 'var(--gold-bright)', lineHeight: 1.55, letterSpacing: '-0.015em', textShadow: '0 0 30px rgba(217,162,58,0.25)' }}>
+                  &ldquo;No viajás a probar suerte.<br/>Viajás con la operación revisada.&rdquo;
                 </p>
               </div>
               <a
@@ -254,16 +221,16 @@ export default function HomePage() {
               </a>
             </AnimatedSection>
 
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0' }}>
               {INTERIOR.map((item, i) => (
                 <AnimatedSection key={item.n} delay={i * 0.08}>
-                  <div className="glass-card" style={{ padding: '1.375rem', display: 'flex', gap: '1rem', alignItems: 'flex-start' }}>
-                    <span style={{ fontSize: '1.375rem', fontWeight: 900, color: 'rgba(217,162,58,.28)', lineHeight: 1, letterSpacing: '-0.04em', minWidth: '2.25rem', fontFamily: 'var(--font-jakarta), sans-serif', fontVariantNumeric: 'tabular-nums' }}>
+                  <div className="interior-item">
+                    <span style={{ fontSize: '4rem', fontWeight: 900, color: 'rgba(217,162,58,.14)', lineHeight: 1, letterSpacing: '-0.06em', minWidth: '4rem', fontFamily: 'var(--font-jakarta), sans-serif', fontVariantNumeric: 'tabular-nums' }}>
                       {item.n}
                     </span>
-                    <div>
-                      <h3 style={{ fontSize: '0.9375rem', fontWeight: 700, color: 'var(--text)', marginBottom: '0.375rem', letterSpacing: '-0.015em' }}>{item.t}</h3>
-                      <p style={{ fontSize: '0.875rem', color: 'var(--text-muted)', lineHeight: 1.65 }}>{item.d}</p>
+                    <div style={{ paddingTop: '0.75rem' }}>
+                      <h3 style={{ fontSize: '1.0625rem', fontWeight: 700, color: 'var(--text)', marginBottom: '0.5rem', letterSpacing: '-0.02em' }}>{item.t}</h3>
+                      <p style={{ fontSize: '0.9375rem', color: 'var(--text-muted)', lineHeight: 1.65 }}>{item.d}</p>
                     </div>
                   </div>
                 </AnimatedSection>
@@ -275,7 +242,8 @@ export default function HomePage() {
       </section>
 
       {/* ═══ MODELOS VW ══════════════════════════════════════════════════════ */}
-      <section id="modelos" style={{ background: 'var(--bg)', borderBottom: '1px solid var(--line)', padding: '5rem 0' }}>
+      <section id="modelos" style={{ background: 'var(--bg-2)', padding: '10rem 0', position: 'relative', overflow: 'hidden' }}>
+        <div style={{ position: 'absolute', top: '0', left: '0', right: '0', height: '1px', background: 'linear-gradient(90deg, transparent 0%, rgba(217,162,58,0.25) 50%, transparent 100%)', pointerEvents: 'none' }} />
         <div className="max-w-6xl mx-auto px-6">
 
           <AnimatedSection style={{ marginBottom: '3rem' }}>
@@ -306,7 +274,9 @@ export default function HomePage() {
       <TestimoniosSection />
 
       {/* ═══ CTA FINAL ═══════════════════════════════════════════════════════ */}
-      <section style={{ background: 'linear-gradient(135deg, var(--bg) 0%, var(--bg-3) 100%)', borderTop: '1px solid var(--line)', padding: '5rem 0' }}>
+      <section style={{ background: 'linear-gradient(160deg, rgba(7,17,31,1) 0%, rgba(11,22,42,1) 40%, rgba(7,17,31,1) 100%)', padding: '11rem 0', position: 'relative', overflow: 'hidden' }}>
+        {/* Ambient glow */}
+        <div style={{ position: 'absolute', top: '30%', left: '50%', transform: 'translateX(-50%)', width: 600, height: 300, background: 'radial-gradient(ellipse, rgba(217,162,58,0.06) 0%, transparent 70%)', pointerEvents: 'none', filter: 'blur(40px)' }} />
         <div className="max-w-6xl mx-auto px-6">
           <AnimatedSection>
             <div className="grid md:grid-cols-2 gap-10 items-center">
