@@ -826,6 +826,16 @@ body {
   0%, 100% { opacity: 0.55; }
   50%       { opacity: 1; }
 }
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(28px); }
+  to   { opacity: 1; transform: translateY(0px); }
+}
+.hero-enter {
+  animation: fadeInUp 1.1s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.hero-enter-delay {
+  animation: fadeInUp 1.1s cubic-bezier(0.16, 1, 0.3, 1) 0.18s both;
+}
 @keyframes glow-pulse-gold {
   0%, 100% { box-shadow: 0 0 16px rgba(217,162,58,0.20); }
   50%       { box-shadow: 0 0 32px rgba(217,162,58,0.40), 0 0 60px rgba(217,162,58,0.12); }

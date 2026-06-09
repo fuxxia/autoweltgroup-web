@@ -1,7 +1,6 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { VW_MODELS } from '@/data/volkswagen'
-import CounterStats from '@/components/CounterStats'
 import TestimoniosSection from '@/components/TestimoniosSection'
 import CotizadorWizard from '@/components/cotizador/CotizadorWizard'
 import AnimatedSection from '@/components/marketing/AnimatedSection'
@@ -13,13 +12,6 @@ export const metadata: Metadata = {
   title: 'AutoWelt Group — Volkswagen 0km desde Buenos Aires',
   description: 'Mejor stock, mejores condiciones y financiación real. Amarok, Polo, Taos, Nivus, Tera 0km. Cuotas fijas, entrega inmediata, tomamos tu usado. Atendemos todo el interior del país.',
 }
-
-const STATS = [
-  { num: '+500', label: 'Autos entregados' },
-  { num: '15',   label: 'Años de experiencia' },
-  { num: '+320', label: 'Concesionarios adheridos' },
-  { num: '0%',   label: 'Tasa en planes elegidos' },
-]
 
 
 const INTERIOR = [
@@ -60,11 +52,6 @@ export default function HomePage() {
           WebkitMaskImage: 'radial-gradient(ellipse 48% 100% at 10% 50%, black 0%, transparent 100%)',
         }} />
 
-        {/* ── Gradiente cinematográfico: oscuro izquierda → transparente derecha */}
-        <div style={{
-          position: 'absolute', inset: 0, zIndex: 3, pointerEvents: 'none',
-          background: 'linear-gradient(100deg, rgba(7,17,31,0.97) 0%, rgba(7,17,31,0.92) 22%, rgba(7,17,31,0.70) 42%, rgba(7,17,31,0.32) 58%, rgba(7,17,31,0.08) 74%, transparent 88%)',
-        }} />
 
         {/* ── Fade inferior hacia la siguiente sección */}
         <div style={{
@@ -76,7 +63,7 @@ export default function HomePage() {
         <div style={{ position: 'relative', zIndex: 10, height: '100%', display: 'flex', flexDirection: 'column', pointerEvents: 'none' }}>
           <div className="max-w-7xl mx-auto px-6 w-full" style={{ flex: 1, display: 'flex', alignItems: 'center', paddingTop: '6rem', pointerEvents: 'auto' }}>
 
-            <div style={{ maxWidth: 560 }}>
+            <div className="hero-enter" style={{ maxWidth: 560 }}>
 
               {/* Live badge */}
               <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', padding: '0.4375rem 1rem', marginBottom: '1.25rem', background: 'rgba(217,162,58,.05)', border: '1px solid rgba(217,162,58,.18)', borderRadius: 'var(--r-pill)', boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.04)' }}>
@@ -110,7 +97,7 @@ export default function HomePage() {
               </div>
 
               {/* CTAs */}
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem', marginBottom: '1.5rem' }}>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem' }}>
                 <a href="#cotizador" className="btn btn-gold btn-gold-lg">
                   Cotizar ahora
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" width="14" height="14"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
@@ -121,20 +108,9 @@ export default function HomePage() {
                 </a>
               </div>
 
-              {/* Trust badges */}
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
-                {['Cuotas fijas', 'Tomamos tu usado', 'Todo el país', 'Sin bots'].map(b => (
-                  <span key={b} className="trust-badge">{b}</span>
-                ))}
-              </div>
-
             </div>
           </div>
 
-          {/* Stats — borde inferior del hero */}
-          <div className="max-w-7xl mx-auto px-6 w-full" style={{ paddingBottom: '3.5rem', pointerEvents: 'auto' }}>
-            <CounterStats stats={STATS} />
-          </div>
         </div>
       </section>
 
