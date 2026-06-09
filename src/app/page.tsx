@@ -5,7 +5,7 @@ import TestimoniosSection from '@/components/TestimoniosSection'
 import CotizadorWizard from '@/components/cotizador/CotizadorWizard'
 import AnimatedSection from '@/components/marketing/AnimatedSection'
 import VehicleCard from '@/components/vehicles/VehicleCard'
-import { HeroScene3D, StickyMobileCTA } from '@/components/marketing/ClientDynamics'
+import { HeroScene3D, StickyMobileCTA, HeroMiniCotizador } from '@/components/marketing/ClientDynamics'
 import { WHATSAPP_NUMBER } from '@/lib/utils'
 
 export const metadata: Metadata = {
@@ -97,7 +97,7 @@ export default function HomePage() {
               </div>
 
               {/* CTAs */}
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem' }}>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem', marginBottom: '1.25rem' }}>
                 <a href="#cotizador" className="btn btn-gold btn-gold-lg">
                   Cotizar ahora
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" width="14" height="14"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
@@ -108,10 +108,24 @@ export default function HomePage() {
                 </a>
               </div>
 
+              {/* Conversion badges */}
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem', marginBottom: '0.5rem' }}>
+                {['Bonificación vigente', 'Entrega coordinada', 'Respuesta por WhatsApp'].map(b => (
+                  <span key={b} className="trust-badge">{b}</span>
+                ))}
+              </div>
+              <p style={{ fontSize: '0.75rem', color: 'var(--text-faint)', letterSpacing: '0.01em' }}>
+                Sin spam. Sin bots. Atención real.
+              </p>
+
             </div>
           </div>
 
         </div>
+
+        {/* ── Mini cotizador en hero — visible solo desktop ── */}
+        <HeroMiniCotizador />
+
       </section>
 
       {/* ═══ COTIZADOR ══════════════════════════════════════════════════════ */}

@@ -33,6 +33,13 @@ export const LeadSchema = z.object({
   canalPreferido: z.enum(['whatsapp', 'email', 'ambos']).default('whatsapp'),
 
   source: z.string().optional(),
+
+  // Campos de conversión enriquecida
+  preferred_color: z.string().optional(),
+  plazo_compra:    z.string().optional(),
+  anticipo_label:  z.string().optional(),
+  lead_score:      z.number().optional(),
+  lead_temperature: z.enum(['HOT', 'WARM', 'COLD']).optional(),
 })
 
 export type LeadData = z.infer<typeof LeadSchema>

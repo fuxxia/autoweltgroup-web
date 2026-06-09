@@ -863,6 +863,7 @@ body {
 /* ── HERO RESPONSIVE ─────────────────────────────────── */
 @media (max-width: 767px) {
   .hero-car-panel { display: none !important; }
+  .hero-mini-cotizador { display: none !important; }
 }
 
 /* ── PILAR ITEM ──────────────────────────────────────── */

@@ -18,3 +18,9 @@ export const StickyMobileCTA = dynamic(
   () => import('@/components/marketing/StickyMobileCTA'),
   { ssr: false }
 )
+
+// Mini cotizador en hero — solo desktop
+export const HeroMiniCotizador = dynamic(
+  () => import('@/components/marketing/HeroMiniCotizador'),
+  { ssr: false }
+)

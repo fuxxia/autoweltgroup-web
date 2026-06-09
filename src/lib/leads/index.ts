@@ -5,11 +5,6 @@ export type SubmitResult =
   | { ok: true }
   | { ok: false; error: string }
 
-/**
- * Envía el lead al Route Handler /api/leads.
- * Fallback automático si la red falla: retorna ok:false para que
- * el UI muestre el botón de WhatsApp como continuidad comercial.
- */
 export async function submitLead(data: LeadData): Promise<SubmitResult> {
   try {
     const res = await fetch('/api/leads', {
@@ -27,30 +22,25 @@ export async function submitLead(data: LeadData): Promise<SubmitResult> {
   }
 }
 
-/**
- * Construye la URL de WhatsApp con el resumen del lead.
- * Se usa como fallback inmediato en el success state y como
- * continuidad comercial si el submit falla.
- */
 export function buildLeadWhatsApp(data: Partial<LeadData>): string {
-  const tipo =
-    data.tipoCompra === '0km'          ? '0km' :
-    data.tipoCompra === 'adjudicado'   ? 'adjudicado' :
-    data.tipoCompra === 'financiacion' ? 'con financiación' :
-    'consulta'
+  const modelo = data.modelo ?? 'un vehículo'
+  const nombreModelo =
+    modelo === 'Otro Volkswagen' ? 'un Volkswagen' : `una ${modelo}`
 
-  const lineaModelo = data.modelo ? `un ${data.modelo} ${tipo}` : tipo
-  const lineaUsado  = data.tieneUsado ? ' Tengo un usado para dar en parte de pago.' : ''
-  const lineaLocal  = data.localidad  ? ` Soy de ${data.localidad}.` : ''
-  const lineaCanal  = data.canalPreferido === 'email' ? ' Prefiero respuesta por email.' : ''
+  const lines: string[] = [
+    `Hola, quiero cotizar ${nombreModelo} 0km.`,
+  ]
+  if (data.preferred_color) lines.push(`Color preferido: ${data.preferred_color}`)
+  if (data.anticipo_label)   lines.push(`Anticipo: ${data.anticipo_label}`)
+  if (data.localidad)        lines.push(`Provincia: ${data.localidad}`)
+  if (data.plazo_compra)     lines.push(`Plazo de compra: ${data.plazo_compra}`)
+  if (data.tieneUsado)       lines.push('Tengo un usado para entregar en parte de pago.')
+  lines.push('')
+  lines.push('Quiero validar disponibilidad y bonificación vigente.')
 
-  const msg = `Hola, soy ${data.nombre ?? 'un interesado'}. Quiero cotizar ${lineaModelo}.${lineaUsado}${lineaLocal}${lineaCanal}`
-  return buildWhatsAppUrl(msg)
+  return buildWhatsAppUrl(lines.join('\n'))
 }
 
-/**
- * Mapea la fuente del lead según el contexto de la página.
- */
 export function mapLeadSource(pathname: string, formLocation: string): string {
   if (formLocation) return formLocation
   if (pathname === '/') return 'homepage'
