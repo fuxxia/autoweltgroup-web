@@ -2,6 +2,10 @@ Options -MultiViews
 RewriteEngine On
 RewriteBase /
 
+# Forzar HTTPS
+RewriteCond %{HTTPS} off
+RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [L,R=301]
+
 # Serve existing files and directories as-is
 RewriteCond %{REQUEST_FILENAME} -f [OR]
 RewriteCond %{REQUEST_FILENAME} -d
@@ -11,5 +15,18 @@ RewriteRule ^ - [L]
 RewriteCond %{DOCUMENT_ROOT}%{REQUEST_URI}index.html -f
 RewriteRule ^(.*)$ /$1index.html [L]
 
-# Fallback to root
-RewriteRule ^ /index.html [L]
+# Rutas inexistentes → 404 real (evita soft-404 en Google)
+ErrorDocument 404 /404.html
+RewriteRule ^ - [L,R=404]
+
+# Cache de assets estáticos
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType image/jpeg "access plus 30 days"
+  ExpiresByType image/png "access plus 30 days"
+  ExpiresByType image/webp "access plus 30 days"
+  ExpiresByType image/svg+xml "access plus 30 days"
+  ExpiresByType video/mp4 "access plus 30 days"
+  ExpiresByType text/css "access plus 7 days"
+  ExpiresByType application/javascript "access plus 7 days"
+</IfModule>
