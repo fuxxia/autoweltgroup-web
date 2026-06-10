@@ -270,38 +270,38 @@ export default async function ModeloPage({ params }: { params: Promise<{ slug: s
 
       {/* ── VERSIONES (solo modelos que no son Amarok) ── */}
       {!isAmarok && (
-        <section className="py-10 sm:py-14" style={{ background: '#FFFFFF' }}>
+        <section className="py-12 sm:py-16" style={{ background: 'var(--bg-2)', borderBottom: '1px solid var(--line)' }}>
           <div className="max-w-6xl mx-auto px-4 sm:px-6">
             <div className="max-w-2xl">
-              <span className="section-eyebrow">Versiones disponibles</span>
-              <h2 className="section-title mb-4 sm:mb-6">
+              <span className="eyebrow">Versiones disponibles</span>
+              <h2 className="section-title section-title-light mb-4 sm:mb-6" style={{ fontSize: 'clamp(1.75rem, 4.5vw, 2.75rem)' }}>
                 {model.versiones.length} versiones del {model.nombre}
               </h2>
               <div className="space-y-2">
                 {model.versiones.map((v, i) => (
                   <div key={v.nombre} className="px-3 py-3 sm:p-4 rounded-lg" style={{
-                    border: '1px solid #E2E8F0',
-                    background: i === 0 ? '#FAFAFA' : '#fff',
+                    border: '1px solid var(--glass-border)',
+                    background: i === 0 ? 'rgba(217,162,58,.05)' : 'var(--glass)',
                   }}>
                     <div className="flex items-center justify-between gap-3 mb-1.5">
-                      <p className="font-bold text-sm" style={{ color: '#0F172A' }}>{v.nombre}</p>
+                      <p className="font-bold text-sm" style={{ color: 'var(--text)' }}>{v.nombre}</p>
                       <div className="flex gap-1.5 shrink-0">
-                        {i === 0 && <span className="tag tag-amber">Base</span>}
+                        {i === 0 && <span className="tag tag-gold">Base</span>}
                         {i === model.versiones.length - 1 && model.versiones.length > 1 && (
-                          <span className="tag tag-blue">Full</span>
+                          <span className="tag tag-slate">Full</span>
                         )}
                       </div>
                     </div>
                     <div className="flex flex-wrap gap-x-4 gap-y-1">
-                      <span className="text-xs flex items-center gap-1" style={{ color: '#64748B' }}>
-                        <svg viewBox="0 0 24 24" fill="none" stroke="#F59E0B" strokeWidth="1.5" width="11" height="11">
+                      <span className="text-xs flex items-center gap-1" style={{ color: 'var(--text-muted)' }}>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="var(--gold)" strokeWidth="1.5" width="11" height="11" aria-hidden="true">
                           <path d="M12 2a3 3 0 013 3v4a3 3 0 01-6 0V5a3 3 0 013-3z"/><path d="M19 10a7 7 0 01-14 0"/>
                           <line x1="12" y1="17" x2="12" y2="22"/>
                         </svg>
                         {v.motor}
                       </span>
-                      <span className="text-xs flex items-center gap-1" style={{ color: '#64748B' }}>
-                        <svg viewBox="0 0 24 24" fill="none" stroke="#F59E0B" strokeWidth="1.5" width="11" height="11">
+                      <span className="text-xs flex items-center gap-1" style={{ color: 'var(--text-muted)' }}>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="var(--gold)" strokeWidth="1.5" width="11" height="11" aria-hidden="true">
                           <circle cx="12" cy="12" r="3"/><path d="M12 2v4M12 18v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M2 12h4M18 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/>
                         </svg>
                         {v.transmision}
@@ -310,14 +310,14 @@ export default async function ModeloPage({ params }: { params: Promise<{ slug: s
                   </div>
                 ))}
               </div>
-              <div className="mt-6 p-5 rounded-xl" style={{ background: '#0F172A' }}>
-                <p className="font-bold text-white mb-1">¿No sabés cuál elegir?</p>
-                <p className="text-xs mb-4" style={{ color: '#64748B' }}>
+              <div className="glass-card glass-card-gold mt-6 p-5">
+                <p className="font-bold mb-1" style={{ color: 'var(--text)' }}>¿No sabés cuál elegir?</p>
+                <p className="text-xs mb-4" style={{ color: 'var(--text-muted)' }}>
                   Un asesor te ayuda a elegir la versión ideal según tu uso y presupuesto. Sin compromiso.
                 </p>
                 <a href={`https://wa.me/${WHATSAPP_NUMBER}?text=${waText}`} target="_blank" rel="noopener noreferrer" className="btn-amber w-full justify-center">
                   Consultar versiones
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" width="13" height="13">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" width="13" height="13" aria-hidden="true">
                     <path d="M5 12h14M12 5l7 7-7 7"/>
                   </svg>
                 </a>

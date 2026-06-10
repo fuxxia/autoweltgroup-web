@@ -4,17 +4,20 @@ import { useState, useRef } from 'react'
 import { type ModeloFinanciamiento, type PlanCredito } from '@/data/financiamiento'
 import { formatARS, WHATSAPP_NUMBER } from '@/lib/utils'
 
-// VW brand palette
+// Paleta dark premium del sitio (se conservan los nombres de clave
+// originales para no tocar cada usage: blue = acento dorado,
+// white = fondo de panel oscuro)
 const VW = {
-  blue:     '#001E50',
-  blueMid:  '#0040C1',
-  blueLight:'#E8F0FE',
-  silver:   '#DFE4EA',
-  silverBg: '#F5F6F7',
-  text:     '#000000',
-  muted:    '#6A7280',
-  green:    '#2CA836',
-  white:    '#FFFFFF',
+  blue:     '#D9A23A',
+  blueMid:  '#E0AA3E',
+  blueLight:'rgba(217,162,58,0.14)',
+  silver:   'rgba(255,255,255,0.10)',
+  silverBg: '#0B1626',
+  text:     '#F8F5EF',
+  muted:    '#9AA4B2',
+  green:    '#4ADE80',
+  white:    '#0D182A',
+  onPrimary:'#07111F',
 }
 
 function buildWAUrl(nombre: string, telefono: string, email: string, plan: PlanCredito, modelo: ModeloFinanciamiento): string {
@@ -70,7 +73,7 @@ export default function CotizadorElite({ modelo }: { modelo: ModeloFinanciamient
   ]
 
   return (
-    <div style={{ background: VW.white, minHeight: '100vh', paddingTop: 68 }}>
+    <div style={{ background: 'var(--bg)', minHeight: '100vh', paddingTop: 68 }}>
 
       {/* ══════════════════════════════════════════════
           HEADER DEL CONFIGURADOR
@@ -85,7 +88,7 @@ export default function CotizadorElite({ modelo }: { modelo: ModeloFinanciamient
             <span style={{ fontSize: '0.7rem', fontWeight: 700, color: VW.muted, letterSpacing: '.1em', textTransform: 'uppercase' }}>
               Volkswagen
             </span>
-            <span style={{ color: VW.silver }}>›</span>
+            <span style={{ color: VW.muted }}>›</span>
             <span style={{ fontSize: '0.7rem', fontWeight: 700, color: VW.blue, letterSpacing: '.06em', textTransform: 'uppercase' }}>
               {modelo.nombre} {modelo.version}
             </span>
@@ -116,7 +119,7 @@ export default function CotizadorElite({ modelo }: { modelo: ModeloFinanciamient
                 <span style={{
                   width: 18, height: 18, borderRadius: '50%',
                   background: step === s.key ? VW.blue : VW.silver,
-                  color: step === s.key ? '#fff' : VW.muted,
+                  color: step === s.key ? VW.onPrimary : VW.muted,
                   fontSize: '0.6rem', fontWeight: 800,
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
                   flexShrink: 0,
@@ -147,7 +150,7 @@ export default function CotizadorElite({ modelo }: { modelo: ModeloFinanciamient
                className="cotiz-hero-grid">
 
             {/* Car hero — video or image */}
-            <div style={{ position: 'relative', borderRadius: 10, overflow: 'hidden', aspectRatio: '16/9', background: '#E8ECF0' }}>
+            <div style={{ position: 'relative', borderRadius: 10, overflow: 'hidden', aspectRatio: '16/9', background: 'var(--bg-3)' }}>
               {modelo.imagenHero?.endsWith('.mp4') ? (
                 <video
                   src={modelo.imagenHero}
@@ -174,7 +177,7 @@ export default function CotizadorElite({ modelo }: { modelo: ModeloFinanciamient
               <div style={{ marginBottom: 20 }}>
                 <div style={{
                   display: 'inline-block',
-                  background: VW.blue, color: VW.white,
+                  background: VW.blue, color: VW.onPrimary,
                   fontSize: '0.6rem', fontWeight: 700, letterSpacing: '.14em',
                   padding: '4px 10px', borderRadius: 4,
                   textTransform: 'uppercase', marginBottom: 12,
@@ -222,16 +225,16 @@ export default function CotizadorElite({ modelo }: { modelo: ModeloFinanciamient
                   display: 'flex', justifyContent: 'space-between', alignItems: 'center',
                 }}>
                   <div>
-                    <div style={{ fontSize: '0.6rem', color: 'rgba(255,255,255,.6)', textTransform: 'uppercase', letterSpacing: '.1em', marginBottom: 2 }}>
+                    <div style={{ fontSize: '0.6rem', color: 'rgba(7,17,31,.65)', textTransform: 'uppercase', letterSpacing: '.1em', marginBottom: 2 }}>
                       Oferta para patentar
                     </div>
-                    <div style={{ fontSize: '1.4rem', fontWeight: 900, color: VW.white, letterSpacing: '-.02em', lineHeight: 1 }}>
+                    <div style={{ fontSize: '1.4rem', fontWeight: 900, color: VW.onPrimary, letterSpacing: '-.02em', lineHeight: 1 }}>
                       {formatARS(modelo.ofertaPatentar)}
                     </div>
                   </div>
                   <div style={{ textAlign: 'right' }}>
-                    <div style={{ fontSize: '0.6rem', color: 'rgba(255,255,255,.5)', marginBottom: 2 }}>✓ Flete incluido</div>
-                    <div style={{ fontSize: '0.6rem', color: 'rgba(255,255,255,.5)' }}>✓ Formulario incluido</div>
+                    <div style={{ fontSize: '0.6rem', color: 'rgba(7,17,31,.6)', marginBottom: 2 }}>✓ Flete incluido</div>
+                    <div style={{ fontSize: '0.6rem', color: 'rgba(7,17,31,.6)' }}>✓ Formulario incluido</div>
                   </div>
                 </div>
               </div>
@@ -240,16 +243,16 @@ export default function CotizadorElite({ modelo }: { modelo: ModeloFinanciamient
                 onClick={goToForm}
                 style={{
                   width: '100%', padding: '16px 20px', marginBottom: 10,
-                  background: VW.blue, color: VW.white,
+                  background: VW.blue, color: VW.onPrimary,
                   fontWeight: 800, fontSize: '0.95rem',
                   letterSpacing: '.04em', textTransform: 'uppercase',
                   border: 'none', borderRadius: 8,
                   cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10,
                   transition: 'background .15s, box-shadow .15s',
-                  boxShadow: '0 4px 16px rgba(0,30,80,.25)',
+                  boxShadow: '0 4px 16px rgba(217,162,58,.25)',
                 }}
-                onMouseEnter={e => { e.currentTarget.style.background = '#0040C1'; e.currentTarget.style.boxShadow = '0 6px 24px rgba(0,30,80,.4)' }}
-                onMouseLeave={e => { e.currentTarget.style.background = VW.blue; e.currentTarget.style.boxShadow = '0 4px 16px rgba(0,30,80,.25)' }}
+                onMouseEnter={e => { e.currentTarget.style.background = VW.blueMid; e.currentTarget.style.boxShadow = '0 6px 24px rgba(217,162,58,.45)' }}
+                onMouseLeave={e => { e.currentTarget.style.background = VW.blue; e.currentTarget.style.boxShadow = '0 4px 16px rgba(217,162,58,.25)' }}
               >
                 Solicitar cotización
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" width="15" height="15">
@@ -322,39 +325,38 @@ export default function CotizadorElite({ modelo }: { modelo: ModeloFinanciamient
                       {/* Radio */}
                       <div style={{
                         width: 18, height: 18, borderRadius: '50%',
-                        border: sel ? `5px solid ${VW.white}` : `2px solid ${VW.silver}`,
-                        background: sel ? VW.white : 'transparent',
-                        boxShadow: sel ? `0 0 0 2px ${VW.white}` : 'none',
+                        border: sel ? `5px solid ${VW.onPrimary}` : `2px solid ${VW.silver}`,
+                        background: sel ? VW.onPrimary : 'transparent',
                         flexShrink: 0,
                       }} />
 
                       {/* Cuotas */}
                       <div style={{ paddingLeft: 12 }}>
-                        <div style={{ fontSize: '0.62rem', fontWeight: 600, color: sel ? 'rgba(255,255,255,.55)' : VW.muted, letterSpacing: '.08em', textTransform: 'uppercase', marginBottom: 2 }}>
+                        <div style={{ fontSize: '0.62rem', fontWeight: 600, color: sel ? 'rgba(7,17,31,.6)' : VW.muted, letterSpacing: '.08em', textTransform: 'uppercase', marginBottom: 2 }}>
                           Plazo
                         </div>
-                        <div style={{ fontSize: '1.1rem', fontWeight: 800, color: sel ? VW.white : VW.text, letterSpacing: '-.01em' }}>
+                        <div style={{ fontSize: '1.1rem', fontWeight: 800, color: sel ? VW.onPrimary : VW.text, letterSpacing: '-.01em' }}>
                           {plan.cuotas} cuotas
                         </div>
                       </div>
 
                       {/* Cuota mensual */}
                       <div>
-                        <div style={{ fontSize: '0.62rem', fontWeight: 600, color: sel ? 'rgba(255,255,255,.55)' : VW.muted, letterSpacing: '.08em', textTransform: 'uppercase', marginBottom: 2 }}>
+                        <div style={{ fontSize: '0.62rem', fontWeight: 600, color: sel ? 'rgba(7,17,31,.6)' : VW.muted, letterSpacing: '.08em', textTransform: 'uppercase', marginBottom: 2 }}>
                           Cuota
                         </div>
-                        <div style={{ fontSize: '1rem', fontWeight: 800, color: sel ? VW.white : VW.text }}>
+                        <div style={{ fontSize: '1rem', fontWeight: 800, color: sel ? VW.onPrimary : VW.text }}>
                           {formatARS(plan.montoCuota)}
-                          <span style={{ fontSize: '0.7rem', fontWeight: 500, color: sel ? 'rgba(255,255,255,.5)' : VW.muted }}>/mes</span>
+                          <span style={{ fontSize: '0.7rem', fontWeight: 500, color: sel ? 'rgba(7,17,31,.55)' : VW.muted }}>/mes</span>
                         </div>
                       </div>
 
                       {/* Anticipo */}
                       <div>
-                        <div style={{ fontSize: '0.62rem', fontWeight: 600, color: sel ? 'rgba(255,255,255,.55)' : VW.muted, letterSpacing: '.08em', textTransform: 'uppercase', marginBottom: 2 }}>
+                        <div style={{ fontSize: '0.62rem', fontWeight: 600, color: sel ? 'rgba(7,17,31,.6)' : VW.muted, letterSpacing: '.08em', textTransform: 'uppercase', marginBottom: 2 }}>
                           Anticipo
                         </div>
-                        <div style={{ fontSize: '1rem', fontWeight: 800, color: sel ? '#F59E0B' : VW.text }}>
+                        <div style={{ fontSize: '1rem', fontWeight: 800, color: sel ? VW.onPrimary : VW.text }}>
                           {formatARS(plan.anticipo)}
                         </div>
                       </div>
@@ -379,13 +381,13 @@ export default function CotizadorElite({ modelo }: { modelo: ModeloFinanciamient
                   background: VW.blue,
                   padding: '16px 20px',
                 }}>
-                  <div style={{ fontSize: '0.6rem', color: 'rgba(255,255,255,.55)', letterSpacing: '.12em', textTransform: 'uppercase', marginBottom: 4 }}>
+                  <div style={{ fontSize: '0.6rem', color: 'rgba(7,17,31,.6)', letterSpacing: '.12em', textTransform: 'uppercase', marginBottom: 4 }}>
                     Plan seleccionado
                   </div>
-                  <div style={{ fontSize: '1.3rem', fontWeight: 900, color: VW.white, lineHeight: 1 }}>
+                  <div style={{ fontSize: '1.3rem', fontWeight: 900, color: VW.onPrimary, lineHeight: 1 }}>
                     {selectedPlan.cuotas} cuotas × {formatARS(selectedPlan.montoCuota)}
                   </div>
-                  <div style={{ fontSize: '0.78rem', color: 'rgba(255,255,255,.55)', marginTop: 4 }}>
+                  <div style={{ fontSize: '0.78rem', color: 'rgba(7,17,31,.6)', marginTop: 4 }}>
                     {modelo.nombre} {modelo.version}
                   </div>
                 </div>
@@ -416,16 +418,16 @@ export default function CotizadorElite({ modelo }: { modelo: ModeloFinanciamient
                     onClick={goToForm}
                     style={{
                       width: '100%', padding: '15px 20px',
-                      background: VW.blue, color: VW.white,
+                      background: VW.blue, color: VW.onPrimary,
                       fontWeight: 800, fontSize: '0.9rem',
                       letterSpacing: '.04em', textTransform: 'uppercase',
                       border: 'none', borderRadius: 8, cursor: 'pointer',
                       display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
                       transition: 'background .15s, box-shadow .15s',
-                      boxShadow: '0 4px 16px rgba(0,30,80,.25)',
+                      boxShadow: '0 4px 16px rgba(217,162,58,.25)',
                     }}
-                    onMouseEnter={e => { e.currentTarget.style.background = VW.blueMid; e.currentTarget.style.boxShadow = '0 6px 24px rgba(0,30,80,.4)' }}
-                    onMouseLeave={e => { e.currentTarget.style.background = VW.blue; e.currentTarget.style.boxShadow = '0 4px 16px rgba(0,30,80,.25)' }}
+                    onMouseEnter={e => { e.currentTarget.style.background = VW.blueMid; e.currentTarget.style.boxShadow = '0 6px 24px rgba(217,162,58,.45)' }}
+                    onMouseLeave={e => { e.currentTarget.style.background = VW.blue; e.currentTarget.style.boxShadow = '0 4px 16px rgba(217,162,58,.25)' }}
                   >
                     Solicitar este crédito
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" width="14" height="14">
@@ -487,8 +489,8 @@ export default function CotizadorElite({ modelo }: { modelo: ModeloFinanciamient
                 {[
                   'Tasa 0% — sin intereses',
                   'Cuotas fijas en pesos',
-                  '+30 años en el mercado',
-                  '+2.500 autos entregados',
+                  '+15 años en el mercado automotor',
+                  '+500 entregas coordinadas',
                 ].map(item => (
                   <div key={item} style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: '0.8rem', color: VW.muted }}>
                     <div style={{ width: 16, height: 16, borderRadius: '50%', background: VW.blueLight, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
@@ -530,7 +532,7 @@ export default function CotizadorElite({ modelo }: { modelo: ModeloFinanciamient
                           onChange={e => field.set(e.target.value)}
                           style={{
                             width: '100%', padding: '11px 14px',
-                            background: VW.white,
+                            background: 'rgba(255,255,255,0.04)',
                             border: `1.5px solid ${VW.silver}`,
                             borderRadius: 6, color: VW.text, fontSize: '0.875rem',
                             outline: 'none', boxSizing: 'border-box',
@@ -544,7 +546,7 @@ export default function CotizadorElite({ modelo }: { modelo: ModeloFinanciamient
                   </div>
 
                   {error && (
-                    <p style={{ color: '#DC2626', fontSize: '0.78rem', marginBottom: 12 }}>⚠ {error}</p>
+                    <p style={{ color: '#F87171', fontSize: '0.78rem', marginBottom: 12 }}>⚠ {error}</p>
                   )}
 
                   {/* Primary CTA — WhatsApp */}
@@ -659,7 +661,7 @@ export default function CotizadorElite({ modelo }: { modelo: ModeloFinanciamient
             display: none !important;
           }
         }
-        input::placeholder { color: #A0AEC0; }
+        input::placeholder { color: #5A6478; }
       `}</style>
     </div>
   )
