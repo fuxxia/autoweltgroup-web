@@ -124,9 +124,6 @@ export default function HomePage() {
 
         </div>
 
-        {/* ── Mini cotizador en hero — visible solo desktop ── */}
-        <HeroMiniCotizador />
-
       </section>
 
       {/* ═══ COTIZADOR ══════════════════════════════════════════════════════ */}
@@ -299,6 +296,9 @@ export default function HomePage() {
           </AnimatedSection>
         </div>
       </section>
+
+      {/* ── Mini cotizador rápido — antes del footer, solo desktop ── */}
+      <HeroMiniCotizador />
 
       <StickyMobileCTA />
     </>

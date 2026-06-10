@@ -24,17 +24,16 @@ export default function HeroMiniCotizador() {
   }
 
   return (
-    <div
+    <section
       className="hero-mini-cotizador"
+      aria-label="Cotizador rápido de Amarok"
       style={{
-        position: 'absolute', bottom: 0, left: 0, right: 0, zIndex: 15,
-        background: 'rgba(4, 10, 22, 0.84)',
-        backdropFilter: 'blur(18px)',
-        WebkitBackdropFilter: 'blur(18px)',
+        background: 'var(--bg-2)',
         borderTop: '1px solid rgba(217,162,58,0.13)',
+        borderBottom: '1px solid rgba(217,162,58,0.13)',
       }}
     >
-      <div className="max-w-7xl mx-auto" style={{ padding: '1rem 1.5rem' }}>
+      <div className="max-w-7xl mx-auto" style={{ padding: '1.5rem 1.5rem' }}>
         <div style={{ display: 'flex', gap: '1.25rem', alignItems: 'flex-end', flexWrap: 'wrap' }}>
 
           {/* Título */}
@@ -108,6 +107,6 @@ export default function HeroMiniCotizador() {
 
         </div>
       </div>
-    </div>
+    </section>
   )
 }
