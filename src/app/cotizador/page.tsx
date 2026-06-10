@@ -3,8 +3,8 @@ import CotizadorElite from '@/components/CotizadorElite'
 import { AMAROK_TRENDLINE_4X2 } from '@/data/financiamiento'
 
 export const metadata: Metadata = {
-  title: 'Cotizador Amarok Trendline 4x2 0km — Autos Welt | Financiación VW Tasa 0%',
-  description: 'Cotizá tu Volkswagen Amarok Trendline 4x2 0km. $10.100.000 de descuento · Financiación Fábrica Volkswagen a tasa 0% en cuotas fijas en pesos · Entrega inmediata.',
+  title: 'Cotizador Amarok Trendline 4x2 0km | Financiación VW Tasa 0%',
+  description: 'Cotizá tu Volkswagen Amarok Trendline 4x2 0km. $10.100.000 de bonificación · Financiación Fábrica Volkswagen a tasa 0% en cuotas fijas en pesos · Entrega inmediata sujeta a disponibilidad.',
   keywords: [
     'amarok 0km precio',
     'volkswagen amarok trendline',
@@ -12,12 +12,13 @@ export const metadata: Metadata = {
     'cotizador amarok argentina',
     'amarok 4x2 precio 2026',
     'volkswagen 0km financiado',
-    'plan de financiamiento auto 0km',
+    'financiacion auto 0km',
   ],
+  alternates: { canonical: '/cotizador' },
   openGraph: {
-    title: 'Amarok Trendline 4x2 — Oferta Abril | Autos Welt',
-    description: '$10.100.000 de descuento · Tasa 0% · Cuotas fijas en pesos · Entrega inmediata.',
-    siteName: 'Autos Welt',
+    title: 'Amarok Trendline 4x2 — Bonificación vigente | AutoWelt Group',
+    description: '$10.100.000 de bonificación · Tasa 0% · Cuotas fijas en pesos · Entrega inmediata sujeta a disponibilidad.',
+    siteName: 'AutoWelt Group',
   },
 }
 
@@ -34,11 +35,11 @@ const jsonLd = {
     '@type': 'Offer',
     priceCurrency: 'ARS',
     price: '44900000',
-    priceValidUntil: '2026-04-30',
+    priceValidUntil: '2026-12-31',
     availability: 'https://schema.org/InStock',
     seller: {
       '@type': 'AutoDealer',
-      name: 'Autos Welt',
+      name: 'AutoWelt Group',
       url: 'https://autoweltgroup.com.ar',
     },
   },

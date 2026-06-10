@@ -13,20 +13,21 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const modelo = MODELOS_MAP[slug]
   if (!modelo) return {}
   return {
-    title: `Cotizador ${modelo.nombre} ${modelo.version} 0km — Autos Welt | Financiación VW Tasa 0%`,
-    description: `Cotizá tu Volkswagen ${modelo.nombre} ${modelo.version} 0km. ${formatARS(modelo.descuento)} de descuento · Financiación Fábrica Volkswagen a tasa 0% en cuotas fijas en pesos · Entrega inmediata.`,
+    title: `Cotizador ${modelo.nombre} ${modelo.version} 0km | Financiación VW Tasa 0%`,
+    description: `Cotizá tu Volkswagen ${modelo.nombre} ${modelo.version} 0km. ${formatARS(modelo.descuento)} de bonificación · Financiación Fábrica Volkswagen a tasa 0% en cuotas fijas en pesos · Entrega inmediata sujeta a disponibilidad.`,
     keywords: [
       `${modelo.nombre.toLowerCase()} ${modelo.version.toLowerCase()} 0km`,
       `volkswagen ${modelo.nombre.toLowerCase()} ${modelo.version.toLowerCase()}`,
       `${modelo.nombre.toLowerCase()} financiacion tasa 0`,
       `cotizador ${modelo.nombre.toLowerCase()} argentina`,
       'volkswagen 0km financiado',
-      'plan de financiamiento auto 0km',
+      'financiacion auto 0km',
     ],
+    alternates: { canonical: `/cotizador/${slug}` },
     openGraph: {
-      title: `${modelo.nombre} ${modelo.version} — Oferta Abril | Autos Welt`,
-      description: `${formatARS(modelo.descuento)} de descuento · Tasa 0% · Cuotas fijas en pesos · Entrega inmediata.`,
-      siteName: 'Autos Welt',
+      title: `${modelo.nombre} ${modelo.version} — Bonificación vigente | AutoWelt Group`,
+      description: `${formatARS(modelo.descuento)} de bonificación · Tasa 0% · Cuotas fijas en pesos · Entrega inmediata sujeta a disponibilidad.`,
+      siteName: 'AutoWelt Group',
     },
   }
 }
@@ -46,11 +47,11 @@ export default async function CotizadorSlugPage({ params }: { params: Promise<{ 
       '@type': 'Offer',
       priceCurrency: 'ARS',
       price: String(modelo.ofertaPatentar),
-      priceValidUntil: '2026-04-30',
+      priceValidUntil: '2026-12-31',
       availability: 'https://schema.org/InStock',
       seller: {
         '@type': 'AutoDealer',
-        name: 'Autos Welt',
+        name: 'AutoWelt Group',
         url: 'https://autoweltgroup.com.ar',
       },
     },

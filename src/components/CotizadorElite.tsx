@@ -364,7 +364,7 @@ export default function CotizadorElite({ modelo }: { modelo: ModeloFinanciamient
               </div>
 
               <p style={{ fontSize: '0.7rem', color: VW.muted, marginTop: 16, lineHeight: 1.6 }}>
-                * Valores correspondientes a Abril 2026. Sujeto a disponibilidad y aprobación crediticia.
+                * Valores orientativos vigentes al momento de la consulta. Sujeto a disponibilidad y aprobación crediticia.
               </p>
             </div>
 
@@ -456,7 +456,7 @@ export default function CotizadorElite({ modelo }: { modelo: ModeloFinanciamient
                 Solicitá tu cotización
               </h2>
               <p style={{ fontSize: '0.9rem', color: VW.muted, lineHeight: 1.7, marginBottom: 28 }}>
-                Completá tus datos y un asesor de Autos Welt te contacta en minutos con todos los detalles de tu plan.
+                Completá tus datos y un asesor de AutoWelt Group te contacta en minutos con todos los detalles de tu cotización.
               </p>
 
               {/* Selected plan summary */}

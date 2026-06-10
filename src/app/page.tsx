@@ -9,8 +9,9 @@ import { HeroScene3D, StickyMobileCTA, HeroMiniCotizador } from '@/components/ma
 import { WHATSAPP_NUMBER } from '@/lib/utils'
 
 export const metadata: Metadata = {
-  title: 'AutoWelt Group — Volkswagen 0km desde Buenos Aires',
-  description: 'Mejor stock, mejores condiciones y financiación real. Amarok, Polo, Taos, Nivus, Tera 0km. Cuotas fijas, entrega inmediata, tomamos tu usado. Atendemos todo el interior del país.',
+  title: 'AutoWelt Group | 0km con entrega inmediata y financiación en Buenos Aires',
+  description: 'Cotizá tu Volkswagen 0km con entrega inmediata, cuotas fijas y retiro coordinado en Buenos Aires. Amarok, Taos, Nivus, Polo y Tera. Tomamos tu usado. Atención para compradores de todo el país.',
+  alternates: { canonical: '/' },
 }
 
 
@@ -244,8 +245,8 @@ export default function HomePage() {
                 <div className="divider" />
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.625rem', padding: '0.625rem 1rem', background: 'var(--glass)', border: '1px solid var(--glass-border)', borderRadius: 10 }}>
-                <img src="/images/autos/Volkswagen_logo_2019.svg.png" alt="VW" style={{ width: 24, height: 24, objectFit: 'contain' }} />
-                <span style={{ fontSize: '0.8125rem', fontWeight: 600, color: 'var(--text-muted)' }}>Concesionario oficial</span>
+                <img src="/images/autos/Volkswagen_logo_2019.svg.png" alt="Logo Volkswagen" style={{ width: 24, height: 24, objectFit: 'contain' }} />
+                <span style={{ fontSize: '0.8125rem', fontWeight: 600, color: 'var(--text-muted)' }}>Red de concesionarias oficiales</span>
               </div>
             </div>
           </AnimatedSection>

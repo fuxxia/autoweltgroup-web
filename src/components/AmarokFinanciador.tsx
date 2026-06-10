@@ -28,9 +28,9 @@ export default function AmarokFinanciador() {
         {/* Header */}
         <div className="mb-10">
           <span className="section-eyebrow">Financiación Fábrica Volkswagen</span>
-          <h2 className="section-title mb-1">Financiá tu Amarok 0km — Tasa 0% · Oferta Abril 2026</h2>
+          <h2 className="section-title mb-1">Financiá tu Amarok 0km — Tasa 0% · Bonificación vigente</h2>
           <p className="text-sm" style={{ color: '#64748B' }}>
-            Oferta Abril 2026 · Cuotas fijas en pesos · Fábrica Volkswagen · Tasa 0%
+            Bonificación vigente · Cuotas fijas en pesos · Fábrica Volkswagen · Sujeto a validación comercial
           </p>
         </div>
 

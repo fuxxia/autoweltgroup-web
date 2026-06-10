@@ -6,7 +6,7 @@ const TESTIMONIOS = [
     ciudad: 'Córdoba capital',
     vehiculo: 'Amarok V6 Comfortline',
     texto:
-      'Llevaba meses buscando una Amarok con buen precio y sin esperas. En Buenos Aires conseguí la que quería con entrega en 72 horas. Pablo me asesoró en todo, desde la financiación hasta el retiro. Volví manejando desde CABA.',
+      'Llevaba meses buscando una Amarok con buen precio y sin esperas. En Buenos Aires conseguí la que quería con entrega en 72 horas. Me asesoraron en todo, desde la financiación hasta el retiro. Volví manejando desde CABA.',
     rating: 5,
   },
   {

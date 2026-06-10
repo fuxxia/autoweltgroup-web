@@ -1,16 +1,13 @@
 'use client'
-import type { Metadata } from 'next'
 import { useState } from 'react'
 import { WHATSAPP_NUMBER } from '@/lib/utils'
-
-// Note: metadata can't be exported from 'use client'. Move to a wrapper if needed.
 
 export default function ContactoPage() {
   const [form, setForm] = useState({ nombre: '', telefono: '', email: '', mensaje: '' })
   const [sent, setSent] = useState(false)
 
   const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
-    `Hola, soy ${form.nombre || '[nombre]'}. ${form.mensaje || 'Quiero consultar sobre planes adjudicados.'}`
+    `Hola, soy ${form.nombre || '[nombre]'}. ${form.mensaje || 'Quiero consultar por un Volkswagen 0km con entrega inmediata.'}`
   )}`
 
   const handleSubmit = (e: React.FormEvent) => {

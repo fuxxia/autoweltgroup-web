@@ -23,25 +23,56 @@ const jakarta = Plus_Jakarta_Sans({
 export const metadata: Metadata = {
   metadataBase: new URL('https://autoweltgroup.com.ar'),
   title: {
-    default: 'AutoWelt Group — Volkswagen 0km y Planes Adjudicados',
+    default: 'AutoWelt Group | 0km con entrega inmediata y financiación en Buenos Aires',
     template: '%s | AutoWelt Group',
   },
-  description: 'Especialistas en Volkswagen 0km y planes adjudicados. Amarok V6, Polo, Taos, Tera. Financiación oficial, cuotas fijas, entrega inmediata. Atendemos Buenos Aires y todo el interior del país.',
+  description: 'Cotizá tu Volkswagen 0km con entrega inmediata, cuotas fijas y retiro coordinado en Buenos Aires. Venta convencional, tomamos tu usado. Atención para compradores de todo el país.',
   keywords: [
-    'volkswagen 0km', 'amarok 0km', 'planes adjudicados argentina',
-    'amarok financiacion', 'amarok cuotas fijas', 'amarok entrega inmediata',
-    'volkswagen amarok precio', 'financiar auto 0km argentina', 'autowelt group',
-    'polo 0km', 'taos 0km', 'concesionario volkswagen caba', 'auto 0km interior argentina',
-    'amarok interior del pais', 'comprar auto buenos aires',
+    'volkswagen 0km', 'amarok 0km', 'vehiculos 0km buenos aires',
+    'venta convencional 0km', 'amarok financiacion', 'amarok cuotas fijas',
+    'amarok entrega inmediata', 'volkswagen amarok precio', 'financiar auto 0km argentina',
+    'autowelt group', 'polo 0km', 'taos 0km', 'nivus 0km', 'tera 0km',
+    'comprar 0km en buenos aires', 'cotizar 0km', 'auto 0km interior argentina',
+    'tomamos usado parte de pago', 'retiro 0km buenos aires',
   ],
+  alternates: {
+    canonical: '/',
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
   openGraph: {
-    title: 'AutoWelt Group — Volkswagen 0km y Planes Adjudicados',
-    description: 'Especialistas en 0km y adjudicados. Amarok, Polo, Taos, Tera. Atendemos Buenos Aires y todo el interior.',
+    title: 'AutoWelt Group | 0km con entrega inmediata y financiación en Buenos Aires',
+    description: 'Cotizá tu Volkswagen 0km con entrega inmediata, cuotas fijas y retiro coordinado en Buenos Aires. Atención para compradores de todo el país.',
     url: 'https://autoweltgroup.com.ar',
     siteName: 'AutoWelt Group',
     locale: 'es_AR',
     type: 'website',
   },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'AutoWelt Group | 0km con entrega inmediata y financiación',
+    description: 'Cotizá tu Volkswagen 0km con entrega inmediata, cuotas fijas y retiro coordinado en Buenos Aires.',
+  },
+}
+
+const ORG_JSONLD = {
+  '@context': 'https://schema.org',
+  '@type': 'AutoDealer',
+  name: 'AutoWelt Group',
+  url: 'https://autoweltgroup.com.ar',
+  logo: 'https://autoweltgroup.com.ar/images/logo/logo.svg',
+  telephone: '+5491156072460',
+  email: 'info@autoweltgroup.com.ar',
+  description: 'AutoWelt Group coordina operaciones de vehículos 0km con concesionarias oficiales, financiación vigente y acompañamiento hasta la entrega. Venta convencional, entrega inmediata y atención para compradores de todo el país.',
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: 'Buenos Aires',
+    addressCountry: 'AR',
+  },
+  areaServed: 'AR',
+  openingHours: ['Mo-Fr 09:00-18:00', 'Sa 09:00-13:00'],
 }
 
 const GA4_ID = process.env.NEXT_PUBLIC_GA4_ID
@@ -49,12 +80,16 @@ const META_PIXEL_ID = process.env.NEXT_PUBLIC_META_PIXEL_ID
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="es" className={`${inter.variable} ${jakarta.variable}`}>
+    <html lang="es-AR" className={`${inter.variable} ${jakarta.variable}`}>
       <body
         className="min-h-screen flex flex-col"
         style={{ fontFamily: 'var(--font-inter), sans-serif', overflowX: 'hidden' }}
         suppressHydrationWarning
       >
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(ORG_JSONLD) }}
+        />
         <Preloader />
         <Header />
         <main className="flex-1 pt-16">

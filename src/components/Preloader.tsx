@@ -83,7 +83,7 @@ export default function Preloader() {
         <div style={{ position: 'relative', display: 'inline-block', overflow: 'hidden' }}>
           <img
             src="/images/logo/logo.svg"
-            alt="Autos Welt"
+            alt="AutoWelt Group"
             style={{ height: 80, width: 'auto', display: 'block' }}
           />
           <span aria-hidden style={{

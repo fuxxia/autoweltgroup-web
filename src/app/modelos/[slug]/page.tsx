@@ -17,37 +17,39 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
   if (slug === 'amarok') {
     return {
-      title: 'Volkswagen Amarok 0km | Precio y Financiación Argentina | Autos Welt',
-      description: 'Comprá tu Amarok 0km con Financiación Fábrica Volkswagen. Cuotas fijas en pesos, tasa 0%, entrega inmediata. Descuento de hasta $19.200.000. ¡Consultá ahora!',
+      title: 'Volkswagen Amarok 0km | Precio y Financiación Argentina',
+      description: 'Comprá tu Amarok 0km con Financiación Fábrica Volkswagen. Cuotas fijas en pesos, tasa 0%, entrega inmediata sujeta a disponibilidad. Bonificación de hasta $19.200.000. ¡Consultá ahora!',
       keywords: [
         'amarok 0km', 'volkswagen amarok precio', 'amarok nueva precio argentina',
         'comprar amarok 0km', 'amarok financiada', 'amarok con financiacion',
         'amarok cuotas fijas', 'amarok entrega inmediata', 'amarok concesionario',
         'amarok financiacion argentina', 'amarok anticipo minimo', 'amarok financiacion directa',
-        'amarok cuotas sin interes', 'financiar amarok 0km', 'amarok plan sin interes',
+        'amarok cuotas sin interes', 'financiar amarok 0km',
         'amarok cuotas en pesos', 'amarok financiacion fabrica volkswagen', 'amarok entrega con anticipo',
         'comprar amarok hoy', 'amarok en stock', 'amarok entrega inmediata argentina',
         'mejor precio amarok', 'oferta amarok 0km', 'amarok disponible ahora',
         'amarok precio con anticipo argentina', 'amarok financiacion sin interes argentina',
         'comprar amarok en cuotas argentina', 'amarok v6 comfortline precio',
-        'amarok buenos aires', 'amarok capital federal', 'amarok concesionario caba',
+        'amarok buenos aires', 'amarok capital federal', 'amarok interior del pais',
       ],
+      alternates: { canonical: '/modelos/amarok' },
       openGraph: {
-        title: 'Amarok 0km — Financiación Fábrica Volkswagen Tasa 0% | Autos Welt',
-        description: 'Amarok V6 con descuento de $19.200.000. Cuotas fijas en pesos, sin intereses. Entrega inmediata.',
-        siteName: 'Autos Welt',
+        title: 'Amarok 0km — Financiación Fábrica Volkswagen Tasa 0% | AutoWelt Group',
+        description: 'Amarok V6 con bonificación de hasta $19.200.000. Cuotas fijas en pesos, sin intereses. Entrega inmediata sujeta a disponibilidad.',
+        siteName: 'AutoWelt Group',
         type: 'website',
       },
     }
   }
 
   return {
-    title: `Volkswagen ${model.nombre} 0km — Precio y Financiación | Autos Welt`,
-    description: `${model.descripcion} Financiación Fábrica Volkswagen. Cuotas fijas en pesos, entrega inmediata.`,
+    title: `Volkswagen ${model.nombre} 0km — Precio y Financiación`,
+    description: `${model.descripcion} Financiación Fábrica Volkswagen. Cuotas fijas en pesos, entrega inmediata sujeta a disponibilidad.`,
+    alternates: { canonical: `/modelos/${slug}` },
     openGraph: {
-      title: `VW ${model.nombre} 0km | Autos Welt`,
+      title: `VW ${model.nombre} 0km | AutoWelt Group`,
       description: model.descripcion,
-      siteName: 'Autos Welt',
+      siteName: 'AutoWelt Group',
     },
   }
 }
@@ -79,7 +81,7 @@ export default async function ModeloPage({ params }: { params: Promise<{ slug: s
       availability: 'https://schema.org/InStock',
       seller: {
         '@type': 'AutoDealer',
-        name: 'Autos Welt',
+        name: 'AutoWelt Group',
         url: 'https://autoweltgroup.com.ar',
         address: { '@type': 'PostalAddress', addressCountry: 'AR', addressRegion: 'Buenos Aires' },
       },

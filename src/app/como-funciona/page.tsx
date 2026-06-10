@@ -1,95 +1,136 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import { WHATSAPP_NUMBER } from '@/lib/utils'
 
 export const metadata: Metadata = {
-  title: 'Cómo funciona',
-  description: 'Entendé cómo funciona la compra de un plan adjudicado. Proceso claro, sin sorpresas.',
+  title: 'Cómo funciona la compra de tu 0km',
+  description: 'Proceso claro para comprar tu Volkswagen 0km desde Buenos Aires: cotizás, validamos disponibilidad y financiación, coordinamos la entrega. Sin sorpresas, con todo confirmado antes de avanzar.',
+  alternates: { canonical: '/como-funciona' },
 }
+
+const WA_TEXT = encodeURIComponent(
+  'Hola, quiero entender cómo es el proceso de compra de un 0km desde Buenos Aires. ¿Me pueden asesorar?'
+)
 
 const PASOS = [
   {
-    num: 1,
-    title: '¿Qué es un plan adjudicado?',
-    desc: 'Un plan de ahorro es un sistema de compra grupal donde todos los participantes pagan cuotas mensuales y, a través de sorteos o licitaciones, algunos reciben el auto antes de terminar de pagar. Cuando alguien que ya fue adjudicado (ya tiene el auto asignado) necesita vender su lugar en el plan, entra en juego la cesión.',
+    num: '01',
+    title: 'Cotizás tu 0km',
+    desc: 'Elegís modelo, anticipo y plazo de compra en el cotizador. En minutos tenés una propuesta orientativa con bonificación vigente y opciones de cuotas fijas.',
   },
   {
-    num: 2,
-    title: '¿Qué es la cesión del plan?',
-    desc: 'La cesión es la transferencia de los derechos del plan de una persona a otra. El titular original (cedente) te vende su posición en el plan: tiene el auto adjudicado y vos tomás el lugar pagando el precio de cesión acordado. A partir de ese momento, continuás pagando las cuotas restantes.',
+    num: '02',
+    title: 'Validamos la operación',
+    desc: 'Un asesor confirma disponibilidad real, color, versión, bonificación y condiciones de financiación vigentes con la red de concesionarias oficiales. Nada se promete sin verificar.',
   },
   {
-    num: 3,
-    title: '¿Por qué es conveniente?',
-    desc: 'Porque el precio de cesión suele ser mucho menor al precio de lista del auto. La diferencia puede ser del 25 al 40% del valor total. Además, evitás el proceso de sorteo: el auto ya está adjudicado y podés recibirlo rápidamente.',
+    num: '03',
+    title: 'Definimos anticipo y financiación',
+    desc: 'Armamos la operación según tu situación: anticipo, cuotas fijas y, si corresponde, tu usado como parte de pago (sujeto a evaluación). Te mostramos números claros antes de decidir.',
   },
   {
-    num: 4,
-    title: 'El proceso paso a paso',
-    desc: '1. Elegís el adjudicado en nuestro catálogo. 2. Nos contactás y analizamos juntos si es la opción correcta para vos. 3. Firmamos el contrato de cesión entre cedente, cesionario y la administradora del plan. 4. Se tramita la transferencia en la concesionaria. 5. ¡Retirás tu auto 0km!',
+    num: '04',
+    title: 'Coordinamos la entrega',
+    desc: 'Si sos del interior, organizamos todo antes de que viajes: documentación, fecha y punto de retiro en Buenos Aires. Viajás con la operación revisada, no a probar suerte.',
   },
   {
-    num: 5,
-    title: '¿Qué documentación necesito?',
-    desc: 'DNI (original y copia), CUIL, recibo de sueldo o comprobante de ingresos, y referencias personales. En algunos casos la administradora puede pedir datos adicionales. Nosotros te guiamos en todo el proceso para que sea simple.',
+    num: '05',
+    title: 'Retirás tu 0km',
+    desc: 'Retirás tu vehículo patentado y volvés manejando. Te acompañamos hasta la entrega y quedamos disponibles para lo que necesites después.',
+  },
+]
+
+const FAQS = [
+  {
+    q: '¿Venden planes de ahorro?',
+    a: 'No. Trabajamos venta convencional de vehículos 0km: anticipo + cuotas fijas o pago contado, con entrega inmediata sujeta a disponibilidad. Sin sorteos ni licitaciones.',
   },
   {
-    num: 6,
-    title: '¿Cuáles son los riesgos?',
-    desc: 'Como en cualquier operación financiera, es importante verificar la legitimidad del plan. En Autos Welt trabajamos exclusivamente con planes registrados en concesionarias oficiales y administradoras habilitadas por la DNPDP. Nunca operamos fuera del circuito formal.',
+    q: '¿Toman mi usado como parte de pago?',
+    a: 'Sí, si cumple condiciones. La toma está sujeta a evaluación técnica y documentación. Te damos una valuación orientativa antes de que viajes.',
+  },
+  {
+    q: 'Soy del interior, ¿cómo retiro el vehículo?',
+    a: 'Coordinamos el retiro en Buenos Aires con todo confirmado antes de tu viaje: precio, disponibilidad, documentación y financiación. La mayoría de nuestros clientes vuelve manejando el mismo día o al día siguiente.',
+  },
+  {
+    q: '¿La entrega inmediata está garantizada?',
+    a: 'La entrega inmediata está sujeta a disponibilidad de stock y se confirma antes de avanzar con la operación. Por eso validamos todo primero: para que no haya sorpresas.',
   },
 ]
 
 export default function ComoFuncionaPage() {
   return (
-    <div className="max-w-3xl mx-auto px-4 py-12">
-      <div className="text-center mb-12">
-        <h1 className="text-3xl font-bold text-gray-900 mb-3">Cómo funciona</h1>
-        <p className="text-gray-500 text-lg">
-          Todo lo que necesitás saber antes de comprar un plan adjudicado
-        </p>
-      </div>
+    <div style={{ background: 'var(--bg)' }}>
+      <div className="max-w-4xl mx-auto px-6 py-20">
 
-      <div className="space-y-8">
-        {PASOS.map((p) => (
-          <div key={p.num} className="flex gap-6">
-            <div className="shrink-0">
-              <div
-                className="w-10 h-10 rounded-full flex items-center justify-center text-white text-sm font-bold"
-                style={{ background: '#1B3A6B' }}
-              >
+        {/* Header */}
+        <div className="text-center mb-16">
+          <span className="eyebrow">Proceso claro, sin sorpresas</span>
+          <h1 className="section-title section-title-light" style={{ marginBottom: '0.75rem' }}>
+            Cómo funciona la compra de tu 0km
+          </h1>
+          <div className="divider divider-center" style={{ marginBottom: '1rem' }} />
+          <p style={{ color: 'var(--text-muted)', fontSize: '1.0625rem', lineHeight: 1.7, maxWidth: 560, margin: '0 auto' }}>
+            Venta convencional de vehículos 0km con entrega inmediata, financiación vigente
+            y validación humana antes de cada paso.
+          </p>
+        </div>
+
+        {/* Pasos */}
+        <div style={{ display: 'flex', flexDirection: 'column' }}>
+          {PASOS.map((p) => (
+            <div key={p.num} className="interior-item">
+              <span style={{ fontSize: '3.5rem', fontWeight: 900, color: 'rgba(217,162,58,.16)', lineHeight: 1, letterSpacing: '-0.06em', minWidth: '4rem', fontFamily: 'var(--font-jakarta), sans-serif', fontVariantNumeric: 'tabular-nums' }}>
                 {p.num}
+              </span>
+              <div style={{ paddingTop: '0.5rem' }}>
+                <h2 style={{ fontSize: '1.125rem', fontWeight: 700, color: 'var(--text)', marginBottom: '0.5rem', letterSpacing: '-0.02em' }}>{p.title}</h2>
+                <p style={{ fontSize: '0.9375rem', color: 'var(--text-muted)', lineHeight: 1.7 }}>{p.desc}</p>
               </div>
             </div>
-            <div>
-              <h2 className="font-bold text-lg text-gray-900 mb-2">{p.title}</h2>
-              <p className="text-gray-600 text-sm leading-relaxed">{p.desc}</p>
-            </div>
-          </div>
-        ))}
-      </div>
-
-      {/* FAQ destacada */}
-      <div className="mt-12 rounded-2xl p-8" style={{ background: '#EEF2FF' }}>
-        <h2 className="font-bold text-xl text-gray-900 mb-4">¿Tenés más preguntas?</h2>
-        <p className="text-gray-600 text-sm mb-6">
-          Nuestros asesores te explican todo sin compromiso. También podés simular tu cuota gratis.
-        </p>
-        <div className="flex flex-wrap gap-3">
-          <Link
-            href="/simulador"
-            className="px-6 py-3 rounded-xl font-semibold text-white text-sm transition-opacity hover:opacity-90"
-            style={{ background: '#1B3A6B' }}
-          >
-            Simular cuota
-          </Link>
-          <Link
-            href="/contacto"
-            className="px-6 py-3 rounded-xl font-semibold text-sm border-2 transition-colors"
-            style={{ borderColor: '#1B3A6B', color: '#1B3A6B' }}
-          >
-            Consultar ahora
-          </Link>
+          ))}
         </div>
+
+        {/* FAQ */}
+        <div style={{ marginTop: '5rem' }}>
+          <span className="eyebrow">Preguntas frecuentes</span>
+          <h2 className="section-title section-title-light" style={{ fontSize: '1.5rem', marginBottom: '2rem' }}>
+            Lo que más nos consultan
+          </h2>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+            {FAQS.map((f) => (
+              <div key={f.q} className="glass-card" style={{ padding: '1.5rem 1.75rem' }}>
+                <h3 style={{ fontSize: '1rem', fontWeight: 700, color: 'var(--text)', marginBottom: '0.5rem', letterSpacing: '-0.015em' }}>{f.q}</h3>
+                <p style={{ fontSize: '0.9063rem', color: 'var(--text-muted)', lineHeight: 1.7 }}>{f.a}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* CTA final */}
+        <div className="glass-card glass-card-gold text-center" style={{ marginTop: '4rem', padding: '2.5rem 2rem' }}>
+          <h2 style={{ fontSize: '1.375rem', fontWeight: 800, color: 'var(--text)', letterSpacing: '-0.025em', marginBottom: '0.625rem', fontFamily: 'var(--font-jakarta), sans-serif' }}>
+            ¿Listo para empezar?
+          </h2>
+          <p style={{ fontSize: '0.9375rem', color: 'var(--text-muted)', lineHeight: 1.65, maxWidth: 440, margin: '0 auto 1.5rem' }}>
+            Cotizá tu 0km en menos de un minuto o hablá directo con un asesor.
+            Valores sujetos a disponibilidad y validación comercial.
+          </p>
+          <div className="flex flex-wrap gap-3 justify-center">
+            <Link href="/#cotizador" className="btn btn-gold btn-gold-lg">
+              Cotizar ahora
+            </Link>
+            <a
+              href={`https://wa.me/${WHATSAPP_NUMBER}?text=${WA_TEXT}`}
+              target="_blank" rel="noopener noreferrer"
+              className="btn btn-ghost-light btn-gold-lg"
+            >
+              Consultar por WhatsApp
+            </a>
+          </div>
+        </div>
+
       </div>
     </div>
   )

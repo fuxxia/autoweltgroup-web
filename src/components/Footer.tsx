@@ -10,14 +10,15 @@ export default function Footer() {
           {/* Brand */}
           <div className="md:col-span-2">
             <div className="flex items-center gap-2.5 mb-4">
-              <img src="/images/logo/logo.svg" alt="Autos Welt" style={{ height: '36px', width: 'auto' }} />
+              <img src="/images/logo/logo.svg" alt="AutoWelt Group" style={{ height: '36px', width: 'auto' }} />
             </div>
             <p className="text-sm leading-relaxed mb-5" style={{ color: '#94A3B8' }}>
-              Especialistas en planes adjudicados y autos 0km en Argentina.
-              Más de 10 años ayudando a familias a acceder a su auto al mejor precio.
+              AutoWelt Group coordina operaciones de vehículos 0km con concesionarias oficiales,
+              financiación vigente y acompañamiento hasta la entrega. Más de 15 años en el mercado
+              automotor, atendiendo Buenos Aires y todo el interior del país.
             </p>
             <a
-              href={`https://wa.me/${WHATSAPP_NUMBER}?text=Hola%2C%20quiero%20consultar%20sobre%20planes%20adjudicados`}
+              href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent('Hola, quiero cotizar un Volkswagen 0km con entrega inmediata.')}`}
               target="_blank"
               rel="noopener noreferrer"
               className="btn-amber inline-flex text-sm"
@@ -35,8 +36,9 @@ export default function Footer() {
             <h3 className="text-sm font-bold uppercase tracking-widest mb-4" style={{ color: '#F59E0B' }}>Navegación</h3>
             <ul className="space-y-2.5 text-sm" style={{ color: '#94A3B8' }}>
               {[
-                { href: '/catalogo',      label: 'Catálogo de adjudicados' },
-                { href: '/simulador',     label: 'Simulador de cuota' },
+                { href: '/catalogo',      label: 'Catálogo 0km' },
+                { href: '/#cotizador',    label: 'Cotizador' },
+                { href: '/simulador',     label: 'Tomamos tu usado' },
                 { href: '/como-funciona', label: 'Cómo funciona' },
                 { href: '/contacto',      label: 'Contacto' },
               ].map((l) => (
@@ -77,7 +79,7 @@ export default function Footer() {
         </div>
 
         <div className="mt-12 pt-6 flex flex-col sm:flex-row justify-between items-center gap-3 text-xs border-t" style={{ borderColor: '#1E293B', color: '#475569' }}>
-          <p>© {new Date().getFullYear()} Autos Welt · Todos los derechos reservados.</p>
+          <p>© {new Date().getFullYear()} AutoWelt Group · Todos los derechos reservados.</p>
           <div className="flex items-center gap-4">
             <a
               href="https://login.autoweltgroup.com.ar/authentication/login"

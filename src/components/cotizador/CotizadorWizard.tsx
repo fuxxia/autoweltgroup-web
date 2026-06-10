@@ -22,29 +22,63 @@ const VEHICULOS = [
   { id: 'Otro Volkswagen', label: 'Otro VW',  sub: 'Consultar versión',  img: '',                                      base: 35_000_000, bono: 4_000_000  },
 ]
 
+const MODEL_COLORS: Record<string, { id: string; hex: string }[]> = {
+  'Amarok': [
+    { id: 'Gris Platino',   hex: '#7A7E82' },
+    { id: 'Blanco Cristal', hex: '#EDEAE4' },
+    { id: 'Negro',          hex: '#252525' },
+    { id: 'Plata',          hex: '#B8B8B0' },
+    { id: 'Azul Atlántico', hex: '#1B3A5C' },
+    { id: 'Rojo Chile',     hex: '#8B1A1A' },
+  ],
+  'Taos': [
+    { id: 'Gris Platino',   hex: '#7A7E82' },
+    { id: 'Blanco Cristal', hex: '#EDEAE4' },
+    { id: 'Negro',          hex: '#252525' },
+    { id: 'Azul Atlántico', hex: '#1B3A5C' },
+    { id: 'Rojo Chile',     hex: '#8B1A1A' },
+  ],
+  'Nivus': [
+    { id: 'Gris Platino',   hex: '#7A7E82' },
+    { id: 'Blanco Cristal', hex: '#EDEAE4' },
+    { id: 'Negro',          hex: '#252525' },
+    { id: 'Azul Atlántico', hex: '#1B3A5C' },
+    { id: 'Rojo Flash',     hex: '#B8291A' },
+    { id: 'Verde Olivo',    hex: '#3D5A3E' },
+  ],
+  'Polo': [
+    { id: 'Gris Platino',   hex: '#7A7E82' },
+    { id: 'Blanco Puro',    hex: '#EDEAE4' },
+    { id: 'Negro',          hex: '#252525' },
+    { id: 'Plata',          hex: '#B8B8B0' },
+    { id: 'Azul Reef',      hex: '#1B3A5C' },
+    { id: 'Rojo Flash',     hex: '#B8291A' },
+  ],
+  'Tera': [
+    { id: 'Gris Platino',   hex: '#7A7E82' },
+    { id: 'Blanco Cristal', hex: '#EDEAE4' },
+    { id: 'Negro',          hex: '#252525' },
+    { id: 'Plata',          hex: '#B8B8B0' },
+    { id: 'Azul Atlántico', hex: '#1B3A5C' },
+  ],
+  'Otro Volkswagen': [],
+}
+
 const ANTICIPOS = [
-  { id: '5m',    label: '$5.000.000',               value: 5_000_000  },
-  { id: '10m',   label: '$10.000.000',              value: 10_000_000 },
-  { id: '15m',   label: '$15.000.000',              value: 15_000_000 },
-  { id: '20m',   label: '$20.000.000',              value: 20_000_000 },
-  { id: '25m',   label: '$25.000.000',              value: 25_000_000 },
-  { id: 'mas',   label: '+$25.000.000',             value: 30_000_000 },
+  { id: '5m',    label: '$5.000.000',                value: 5_000_000  },
+  { id: '10m',   label: '$10.000.000',               value: 10_000_000 },
+  { id: '15m',   label: '$15.000.000',               value: 15_000_000 },
+  { id: '20m',   label: '$20.000.000',               value: 20_000_000 },
+  { id: '25m',   label: '$25.000.000',               value: 25_000_000 },
+  { id: 'mas',   label: '+$25.000.000',              value: 30_000_000 },
   { id: 'usado', label: 'Tengo usado para entregar', value: 0, isUsado: true },
 ]
 
 const PLAZOS = [
-  { id: 'semana',     label: 'Esta semana',      desc: 'Tengo la decisión tomada' },
-  { id: 'mes',        label: 'Este mes',          desc: 'Estoy cerrando la operación' },
-  { id: '30-60',      label: '30 a 60 días',      desc: 'Todavía definiendo' },
-  { id: 'comparando', label: 'Estoy comparando',  desc: 'Evaluando opciones' },
-]
-
-const COLORS_AMAROK = [
-  { id: 'Gris',   hex: '#7A7E82' },
-  { id: 'Blanco', hex: '#E8E4DE' },
-  { id: 'Negro',  hex: '#252525' },
-  { id: 'Plata',  hex: '#B8B8B0' },
-  { id: 'Azul',   hex: '#1B3A5C' },
+  { id: 'semana',     label: 'Esta semana',     desc: 'Tengo la decisión tomada' },
+  { id: 'mes',        label: 'Este mes',         desc: 'Estoy cerrando la operación' },
+  { id: '30-60',      label: '30 a 60 días',     desc: 'Todavía definiendo' },
+  { id: 'comparando', label: 'Estoy comparando', desc: 'Evaluando opciones' },
 ]
 
 // ── Lead scoring ─────────────────────────────────────────────
@@ -116,24 +150,23 @@ const slideVariants = {
 // ── Componente principal ──────────────────────────────────────
 
 export default function CotizadorWizard() {
-  const [step,       setStep]     = useState(1)
-  const [direction,  setDir]      = useState(1)
-  const [vehiculo,   setVehiculo] = useState('')
-  const [color,      setColor]    = useState('')
-  const [anticipoId, setAnticipo] = useState('')
-  const [plazo,      setPlazo]    = useState('')
-  const [tieneUsado, setUsado]    = useState(false)
-  const [nombre,     setNombre]   = useState('')
-  const [telefono,   setTelefono] = useState('')
-  const [localidad,  setLocalidad]= useState('')
-  const [errors,     setErrors]   = useState<Record<string, string>>({})
-  const [submitting, setSubmit]   = useState(false)
-  const [done,       setDone]     = useState(false)
-  const [waUrl,      setWaUrl]    = useState('')
-  const [submitErr,  setSubmitErr]= useState('')
+  const [step,       setStep]      = useState(1)
+  const [direction,  setDir]       = useState(1)
+  const [vehiculo,   setVehiculo]  = useState('')
+  const [color,      setColor]     = useState('')
+  const [anticipoId, setAnticipo]  = useState('')
+  const [plazo,      setPlazo]     = useState('')
+  const [tieneUsado, setUsado]     = useState(false)
+  const [nombre,     setNombre]    = useState('')
+  const [telefono,   setTelefono]  = useState('')
+  const [localidad,  setLocalidad] = useState('')
+  const [errors,     setErrors]    = useState<Record<string, string>>({})
+  const [submitting, setSubmit]    = useState(false)
+  const [done,       setDone]      = useState(false)
+  const [waUrl,      setWaUrl]     = useState('')
   const hasStarted = useRef(false)
 
-  // Escucha prefill desde HeroMiniCotizador (evento + sessionStorage fallback)
+  // Escucha prefill desde HeroMiniCotizador
   useEffect(() => {
     function onPrefill(e: CustomEvent) {
       const d = e.detail as { vehiculo?: string; color?: string; anticipoId?: string; localidad?: string }
@@ -146,12 +179,13 @@ export default function CotizadorWizard() {
     return () => window.removeEventListener('cw:prefill', onPrefill as EventListener)
   }, [])
 
-  const anticipoObj = ANTICIPOS.find(a => a.id === anticipoId)
+  const anticipoObj    = ANTICIPOS.find(a => a.id === anticipoId)
+  const vehiculoColors = vehiculo ? (MODEL_COLORS[vehiculo] ?? []) : []
   const plan = vehiculo && anticipoId
     ? calcPlan(vehiculo, anticipoObj?.value ?? 0, tieneUsado)
     : null
 
-  const TOTAL = 4
+  const TOTAL = 5
 
   function nav(next: number) {
     setDir(next > step ? 1 : -1)
@@ -173,19 +207,24 @@ export default function CotizadorWizard() {
       trackStepComplete('cotizador_wizard', 1, 'Vehículo')
       nav(2)
     } else if (step === 2) {
-      if (!anticipoId) { setErrors({ anticipo: 'Elegí una opción de anticipo.' }); return }
+      // Color is optional
       setErrors({})
-      trackStepComplete('cotizador_wizard', 2, 'Anticipo')
+      trackStepComplete('cotizador_wizard', 2, 'Color')
       nav(3)
     } else if (step === 3) {
+      if (!anticipoId) { setErrors({ anticipo: 'Elegí una opción de anticipo.' }); return }
+      setErrors({})
+      trackStepComplete('cotizador_wizard', 3, 'Anticipo')
+      nav(4)
+    } else if (step === 4) {
       if (!plazo) { setErrors({ plazo: 'Seleccioná tu plazo de compra.' }); return }
       setErrors({})
-      trackStepComplete('cotizador_wizard', 3, 'Plazo')
-      nav(4)
+      trackStepComplete('cotizador_wizard', 4, 'Plazo')
+      nav(5)
     }
   }
 
-  async function handleSubmit() {
+  function handleWASubmit() {
     const errs: Record<string, string> = {}
     if (!nombre.trim() || nombre.trim().length < 2) errs.nombre = 'Ingresá tu nombre.'
     if (!telefono.trim() || telefono.trim().length < 8) errs.telefono = 'Ingresá tu WhatsApp.'
@@ -193,14 +232,11 @@ export default function CotizadorWizard() {
     if (Object.keys(errs).length > 0) { setErrors(errs); return }
 
     setSubmit(true)
-    setSubmitErr('')
 
-    const score       = calcLeadScore(vehiculo, anticipoId, tieneUsado, plazo, color, localidad)
-    const temperature = getTempLabel(score)
-    const plazoLabel  = PLAZOS.find(p => p.id === plazo)?.label ?? plazo
-    const anticipoLabel = tieneUsado
-      ? 'Entrega de usado'
-      : (anticipoObj?.label ?? '')
+    const score         = calcLeadScore(vehiculo, anticipoId, tieneUsado, plazo, color, localidad)
+    const temperature   = getTempLabel(score)
+    const plazoLabel    = PLAZOS.find(p => p.id === plazo)?.label ?? plazo
+    const anticipoLabel = tieneUsado ? 'Entrega de usado' : (anticipoObj?.label ?? '')
 
     const leadData: LeadData = {
       nombre:           nombre.trim(),
@@ -211,7 +247,7 @@ export default function CotizadorWizard() {
       modelo:           vehiculo,
       tieneUsado,
       canalPreferido:   'whatsapp',
-      source:           'cotizador_wizard_v3',
+      source:           'cotizador_wizard_v4',
       preferred_color:  color || undefined,
       plazo_compra:     plazoLabel,
       anticipo_label:   anticipoLabel,
@@ -219,18 +255,17 @@ export default function CotizadorWizard() {
       lead_temperature: temperature,
     }
 
-    const result = await submitLead(leadData)
+    const url = buildLeadWhatsApp(leadData)
 
-    trackGenerateLead({
-      vehicleModel: vehiculo,
-      vehicleType:  '0km',
-      locality:     localidad,
-      formLocation: 'cotizador_homepage',
-      hasUsado:     tieneUsado,
-    })
+    // Open WA immediately — before any async operation so popup blockers don't fire
+    window.open(url, '_blank', 'noopener,noreferrer')
 
-    setWaUrl(buildLeadWhatsApp(leadData))
-    if (!result.ok) setSubmitErr(result.error ?? '')
+    // Fire-and-forget
+    submitLead(leadData).catch(() => {})
+    trackGenerateLead({ vehicleModel: vehiculo, vehicleType: '0km', locality: localidad, formLocation: 'cotizador_homepage', hasUsado: tieneUsado })
+    trackWAClick('cotizador_final')
+
+    setWaUrl(url)
     setDone(true)
     setSubmit(false)
   }
@@ -239,7 +274,7 @@ export default function CotizadorWizard() {
     setStep(1); setDir(1)
     setVehiculo(''); setColor(''); setAnticipo(''); setPlazo('')
     setUsado(false); setNombre(''); setTelefono(''); setLocalidad('')
-    setErrors({}); setDone(false); setWaUrl(''); setSubmitErr('')
+    setErrors({}); setDone(false); setWaUrl('')
     hasStarted.current = false
   }
 
@@ -257,25 +292,20 @@ export default function CotizadorWizard() {
               <path d="M20 6L9 17l-5-5"/>
             </svg>
           </motion.div>
-          <p className="cw-eyebrow" style={{ textAlign: 'center' }}>
-            {submitErr ? 'Un paso más' : 'Propuesta recibida'}
-          </p>
+          <p className="cw-eyebrow" style={{ textAlign: 'center' }}>WhatsApp abierto</p>
           <h3 style={{ fontSize: '1.375rem', fontWeight: 800, color: 'var(--text)', letterSpacing: '-0.028em', lineHeight: 1.2, marginBottom: '0.75rem', fontFamily: 'var(--font-jakarta), sans-serif' }}>
-            {submitErr ? 'Escribinos directamente por WhatsApp' : `Todo listo${nombre ? `, ${nombre.split(' ')[0]}` : ''}.`}
+            {`Todo listo${nombre ? `, ${nombre.split(' ')[0]}` : ''}.`}
           </h3>
           <p style={{ fontSize: '0.9375rem', color: 'var(--text-muted)', lineHeight: 1.65, marginBottom: '1.75rem' }}>
-            {submitErr
-              ? submitErr
-              : `Un asesor te va a contactar hoy con la propuesta exacta para el ${vehiculo}. Podés también escribir ahora si preferís.`}
+            WhatsApp se abrió con tu cotización completa. Si se cerró, tocá el botón de abajo.
           </p>
           {waUrl && (
             <a href={waUrl} target="_blank" rel="noopener noreferrer"
-              onClick={() => trackWAClick('cotizador_success')}
               className="btn btn-wa w-full justify-center"
               style={{ fontSize: '0.9375rem', marginBottom: '0.75rem' }}
             >
               <WaIcon />
-              {submitErr ? 'Escribir por WhatsApp ahora' : 'Hablar con un asesor ahora'}
+              Abrir WhatsApp nuevamente
             </a>
           )}
           <button onClick={reset} className="btn btn-ghost-light w-full justify-center" style={{ fontSize: '0.875rem' }}>
@@ -315,7 +345,7 @@ export default function CotizadorWizard() {
           transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
         >
 
-          {/* ── Step 1: Modelo + Color ── */}
+          {/* ── Step 1: Modelo ── */}
           {step === 1 && (
             <div className="cw-body">
               <h2 className="cw-title">Elegí tu vehículo</h2>
@@ -323,15 +353,12 @@ export default function CotizadorWizard() {
                 {VEHICULOS.map(v => {
                   const isVideo    = v.img.endsWith('.mp4')
                   const isSelected = vehiculo === v.id
-                  const colorObj   = isSelected && v.id === 'Amarok'
-                    ? COLORS_AMAROK.find(c => c.id === color)
-                    : null
                   return (
                     <button
                       key={v.id}
-                      onClick={() => { setVehiculo(v.id); setErrors({}) }}
+                      onClick={() => { setVehiculo(v.id); setColor(''); setErrors({}) }}
                       className={`cw-vehicle${isSelected ? ' selected' : ''}`}
-                      style={{ display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', padding: 0, border: undefined }}
+                      style={{ display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', padding: 0 }}
                     >
                       {v.img && !isVideo && (
                         <img src={v.img} alt={v.label} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }} loading="lazy" />
@@ -343,10 +370,6 @@ export default function CotizadorWizard() {
                         <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                           <span style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--gold)', letterSpacing: '-0.03em' }}>VW</span>
                         </div>
-                      )}
-                      {/* Tint de color para Amarok */}
-                      {colorObj && (
-                        <div style={{ position: 'absolute', inset: 0, background: `${colorObj.hex}28`, mixBlendMode: 'multiply', pointerEvents: 'none', transition: 'background 0.35s ease' }} />
                       )}
                       <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(7,17,31,.9) 0%, rgba(7,17,31,.15) 60%)', pointerEvents: 'none' }} />
                       {isSelected && (
@@ -362,41 +385,6 @@ export default function CotizadorWizard() {
                   )
                 })}
               </div>
-
-              {/* Selector de color — solo Amarok */}
-              {vehiculo === 'Amarok' && (
-                <div style={{ background: 'rgba(217,162,58,0.04)', border: '1px solid rgba(217,162,58,0.14)', borderRadius: 12, padding: '0.875rem 1rem', marginBottom: '1.25rem' }}>
-                  <p style={{ fontSize: '0.625rem', fontWeight: 700, letterSpacing: '.14em', textTransform: 'uppercase', color: 'var(--gold)', marginBottom: '0.625rem' }}>
-                    Color preferido
-                  </p>
-                  <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap', alignItems: 'flex-end' }}>
-                    {COLORS_AMAROK.map(c => (
-                      <button
-                        key={c.id}
-                        onClick={() => setColor(c.id)}
-                        title={c.id}
-                        style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.3rem', background: 'none', border: 'none', cursor: 'pointer', padding: '0.25rem' }}
-                      >
-                        <div style={{
-                          width: 30, height: 30, borderRadius: '50%',
-                          background: c.hex,
-                          border: color === c.id ? '2.5px solid var(--gold)' : '2px solid rgba(255,255,255,0.15)',
-                          boxShadow: color === c.id ? '0 0 0 2px rgba(217,162,58,0.35)' : 'none',
-                          transition: 'border 0.18s, box-shadow 0.18s, transform 0.15s',
-                          transform: color === c.id ? 'scale(1.18)' : 'scale(1)',
-                        }} />
-                        <span style={{ fontSize: '0.5625rem', color: color === c.id ? 'var(--gold-bright)' : 'var(--text-faint)', fontWeight: color === c.id ? 700 : 500, transition: 'color 0.18s' }}>
-                          {c.id}
-                        </span>
-                      </button>
-                    ))}
-                  </div>
-                  <p style={{ fontSize: '0.5625rem', color: 'var(--text-faint)', marginTop: '0.5rem', lineHeight: 1.4 }}>
-                    Color sujeto a disponibilidad de stock.
-                  </p>
-                </div>
-              )}
-
               {errors.vehiculo && <p className="cw-error" style={{ marginBottom: '0.75rem' }}>{errors.vehiculo}</p>}
               <button onClick={goNext} className="btn btn-gold btn-gold-lg w-full justify-center">
                 Continuar <ArrowR />
@@ -404,8 +392,73 @@ export default function CotizadorWizard() {
             </div>
           )}
 
-          {/* ── Step 2: Anticipo ── */}
+          {/* ── Step 2: Color del modelo ── */}
           {step === 2 && (
+            <div className="cw-body">
+              <h2 className="cw-title">¿Qué color preferís?</h2>
+
+              {vehiculoColors.length > 0 ? (
+                <>
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '0.625rem', marginBottom: '0.875rem' }}>
+                    {vehiculoColors.map(c => (
+                      <button
+                        key={c.id}
+                        onClick={() => setColor(c.id)}
+                        style={{
+                          display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.5rem',
+                          padding: '0.875rem 0.5rem',
+                          background: color === c.id ? 'rgba(217,162,58,0.07)' : 'var(--bg-3)',
+                          border: `1.5px solid ${color === c.id ? 'var(--gold)' : 'rgba(255,255,255,0.06)'}`,
+                          borderRadius: 12, cursor: 'pointer',
+                          transition: 'border-color 0.18s, background 0.18s',
+                        }}
+                      >
+                        <div style={{
+                          width: 32, height: 32, borderRadius: '50%',
+                          background: c.hex,
+                          border: color === c.id ? '2.5px solid var(--gold)' : '2px solid rgba(255,255,255,0.18)',
+                          boxShadow: color === c.id ? '0 0 0 3px rgba(217,162,58,0.25)' : 'none',
+                          transition: 'border 0.18s, box-shadow 0.18s, transform 0.15s',
+                          transform: color === c.id ? 'scale(1.12)' : 'scale(1)',
+                          flexShrink: 0,
+                        }} />
+                        <span style={{
+                          fontSize: '0.5625rem', fontWeight: color === c.id ? 700 : 500, textAlign: 'center',
+                          color: color === c.id ? 'var(--gold-bright)' : 'var(--text-faint)',
+                          lineHeight: 1.3, transition: 'color 0.18s',
+                        }}>
+                          {c.id}
+                        </span>
+                      </button>
+                    ))}
+                  </div>
+                  <p style={{ fontSize: '0.5625rem', color: 'var(--text-faint)', marginBottom: '1.25rem', lineHeight: 1.4 }}>
+                    Color sujeto a disponibilidad de stock. Se confirma antes de la operación.
+                  </p>
+                </>
+              ) : (
+                <div style={{
+                  background: 'var(--bg-3)', border: '1px solid rgba(255,255,255,0.06)',
+                  borderRadius: 14, padding: '1.75rem', textAlign: 'center', marginBottom: '1.25rem',
+                }}>
+                  <p style={{ fontSize: '0.875rem', color: 'var(--text-muted)', lineHeight: 1.6 }}>
+                    El color se define según el modelo elegido.<br />
+                    Un asesor te muestra las opciones disponibles.
+                  </p>
+                </div>
+              )}
+
+              <div style={{ display: 'flex', gap: '0.625rem' }}>
+                <button onClick={() => nav(1)} className="btn btn-ghost-light" style={{ padding: '1rem 1.25rem' }}>← Volver</button>
+                <button onClick={goNext} className="btn btn-gold btn-gold-lg flex-1 justify-center">
+                  {color ? 'Confirmar color' : 'Salteá este paso'} <ArrowR />
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* ── Step 3: Anticipo ── */}
+          {step === 3 && (
             <div className="cw-body">
               <h2 className="cw-title">¿Con cuánto anticipo contás?</h2>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '0.5rem', marginBottom: '1.5rem' }}>
@@ -443,7 +496,7 @@ export default function CotizadorWizard() {
               </div>
               {errors.anticipo && <p className="cw-error" style={{ marginBottom: '0.75rem' }}>{errors.anticipo}</p>}
               <div style={{ display: 'flex', gap: '0.625rem' }}>
-                <button onClick={() => nav(1)} className="btn btn-ghost-light" style={{ padding: '1rem 1.25rem' }}>← Volver</button>
+                <button onClick={() => nav(2)} className="btn btn-ghost-light" style={{ padding: '1rem 1.25rem' }}>← Volver</button>
                 <button onClick={goNext} className="btn btn-gold btn-gold-lg flex-1 justify-center">
                   Ver opciones <ArrowR />
                 </button>
@@ -452,8 +505,8 @@ export default function CotizadorWizard() {
             </div>
           )}
 
-          {/* ── Step 3: Plazo de compra ── */}
-          {step === 3 && (
+          {/* ── Step 4: Plazo ── */}
+          {step === 4 && (
             <div className="cw-body">
               <h2 className="cw-title">¿Cuándo pensás comprar?</h2>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', marginBottom: '1.5rem' }}>
@@ -486,7 +539,7 @@ export default function CotizadorWizard() {
               </div>
               {errors.plazo && <p className="cw-error" style={{ marginBottom: '0.75rem' }}>{errors.plazo}</p>}
               <div style={{ display: 'flex', gap: '0.625rem' }}>
-                <button onClick={() => nav(2)} className="btn btn-ghost-light" style={{ padding: '1rem 1.25rem' }}>← Volver</button>
+                <button onClick={() => nav(3)} className="btn btn-ghost-light" style={{ padding: '1rem 1.25rem' }}>← Volver</button>
                 <button onClick={goNext} className="btn btn-gold btn-gold-lg flex-1 justify-center">
                   Continuar <ArrowR />
                 </button>
@@ -494,25 +547,26 @@ export default function CotizadorWizard() {
             </div>
           )}
 
-          {/* ── Step 4: Reward + Contacto ── */}
-          {step === 4 && (
+          {/* ── Step 5: Reward + Contacto + WhatsApp ── */}
+          {step === 5 && (
             <div className="cw-body">
               {/* Reward screen */}
               <div style={{
                 background: 'linear-gradient(135deg, rgba(217,162,58,0.07) 0%, rgba(217,162,58,0.02) 100%)',
                 border: '1px solid rgba(217,162,58,0.20)',
-                borderRadius: 14, padding: '1.25rem', marginBottom: '1.5rem', position: 'relative', overflow: 'hidden',
+                borderRadius: 14, padding: '1.125rem', marginBottom: '1.5rem', position: 'relative', overflow: 'hidden',
               }}>
                 <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 1, background: 'linear-gradient(90deg, transparent, rgba(217,162,58,0.45), transparent)' }} />
-                <p className="cw-eyebrow" style={{ marginBottom: '0.875rem' }}>Vas a recibir</p>
-                <ul style={{ listStyle: 'none', margin: 0, padding: 0, display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                  {[
-                    'Disponibilidad real del modelo seleccionado',
+                <p className="cw-eyebrow" style={{ marginBottom: '0.75rem' }}>Tu cotización incluye</p>
+                <ul style={{ listStyle: 'none', margin: 0, padding: 0, display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
+                  {([
+                    `Modelo: ${vehiculo}`,
+                    color ? `Color preferido: ${color}` : null,
                     plan ? `Bonificación vigente: hasta ${formatARS(plan.bono)}` : 'Bonificación vigente aplicada',
                     plan ? `Cuota orientativa: ${formatARS(plan.cuotaMensual)}/mes (24 cuotas)` : 'Cuota orientativa calculada',
                     plan ? `Anticipo estimado: ${formatARS(plan.anticipo)}` : 'Anticipo estimado',
                     'Coordinación de entrega antes de que viajes',
-                  ].map((item, i) => (
+                  ] as (string | null)[]).filter(Boolean).map((item, i) => (
                     <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '0.5rem', fontSize: '0.8125rem', color: 'var(--text-muted)', lineHeight: 1.5 }}>
                       <svg viewBox="0 0 24 24" fill="none" stroke="var(--gold)" strokeWidth="2.5" width="13" height="13" style={{ flexShrink: 0, marginTop: 2 }}>
                         <path d="M20 6L9 17l-5-5"/>
@@ -553,15 +607,15 @@ export default function CotizadorWizard() {
               </div>
 
               <div style={{ display: 'flex', gap: '0.625rem' }}>
-                <button onClick={() => nav(3)} className="btn btn-ghost-light" style={{ padding: '1rem 1.25rem' }}>← Volver</button>
+                <button onClick={() => nav(4)} className="btn btn-ghost-light" style={{ padding: '1rem 1.25rem' }}>← Volver</button>
                 <button
-                  onClick={handleSubmit}
+                  onClick={handleWASubmit}
                   disabled={submitting}
-                  className="btn btn-gold btn-gold-lg flex-1 justify-center"
-                  style={{ opacity: submitting ? 0.7 : 1 }}
+                  className="btn btn-wa flex-1 justify-center"
+                  style={{ opacity: submitting ? 0.7 : 1, fontSize: '0.9375rem' }}
                 >
-                  {submitting ? 'Enviando…' : 'Recibir propuesta'}
-                  {!submitting && <CheckIcon />}
+                  <WaIcon />
+                  {submitting ? 'Abriendo WhatsApp…' : 'Hablar por WhatsApp'}
                 </button>
               </div>
               <p className="cw-disclaimer">

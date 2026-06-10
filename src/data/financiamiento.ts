@@ -81,7 +81,7 @@ export const AMAROK_TRENDLINE_4X2: ModeloFinanciamiento = {
   entregaInmediata: true,
   imagenPrincipal: '/images/fotos/amarok/amarokfrente.jpeg',
   imagenHero: '/images/fotos/amarok/amarok.mp4',
-  badge: 'OFERTA ABRIL',
+  badge: 'BONIFICACIÓN VIGENTE',
   planes: PLANES_BASE([10_322_600, 24_265_600, 30_862_000, 26_700_000]),
 }
 
@@ -99,7 +99,7 @@ export const AMAROK_TRENDLINE_4X4: ModeloFinanciamiento = {
   entregaInmediata: true,
   imagenPrincipal: '/images/fotos/amarok/amarokfrente.jpeg',
   imagenHero: '/images/fotos/amarok/amarok.mp4',
-  badge: 'OFERTA ABRIL',
+  badge: 'BONIFICACIÓN VIGENTE',
   planes: PLANES_BASE([21_944_600, 35_887_600, 42_484_000, 38_322_000]),
 }
 
@@ -117,7 +117,7 @@ export const AMAROK_V6_COMFORTLINE: ModeloFinanciamiento = {
   entregaInmediata: true,
   imagenPrincipal: '/images/fotos/amarok/amarokfrente.jpeg',
   imagenHero: '/images/fotos/amarok/amarok.mp4',
-  badge: 'OFERTA ABRIL',
+  badge: 'BONIFICACIÓN VIGENTE',
   planes: PLANES_BASE([26_874_600, 40_817_600, 47_414_000, 43_252_000]),
 }
 
@@ -135,7 +135,7 @@ export const AMAROK_V6_HIGHLINE: ModeloFinanciamiento = {
   entregaInmediata: true,
   imagenPrincipal: '/images/fotos/amarok/amarokfrente.jpeg',
   imagenHero: '/images/fotos/amarok/amarok.mp4',
-  badge: 'OFERTA ABRIL',
+  badge: 'BONIFICACIÓN VIGENTE',
   planes: PLANES_BASE([37_996_600, 51_939_600, 58_536_000, 54_374_000]),
 }
 
@@ -153,7 +153,7 @@ export const AMAROK_V6_EXTREME: ModeloFinanciamiento = {
   entregaInmediata: true,
   imagenPrincipal: '/images/fotos/amarok/amarokfrente.jpeg',
   imagenHero: '/images/fotos/amarok/amarok.mp4',
-  badge: 'OFERTA ABRIL',
+  badge: 'BONIFICACIÓN VIGENTE',
   planes: PLANES_BASE([41_968_600, 55_911_600, 62_508_000, 58_346_000]),
 }
 
