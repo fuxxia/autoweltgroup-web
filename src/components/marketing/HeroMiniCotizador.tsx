@@ -1,14 +1,6 @@
 'use client'
 import { useState } from 'react'
 
-const COLORS_AMAROK = [
-  { id: 'Gris',   hex: '#7A7E82' },
-  { id: 'Blanco', hex: '#E8E4DE' },
-  { id: 'Negro',  hex: '#252525' },
-  { id: 'Plata',  hex: '#B8B8B0' },
-  { id: 'Azul',   hex: '#1B3A5C' },
-]
-
 const ANTICIPOS_MINI = [
   { id: '5m',  label: '$5M' },
   { id: '10m', label: '$10M' },
@@ -19,14 +11,13 @@ const ANTICIPOS_MINI = [
 ]
 
 export default function HeroMiniCotizador() {
-  const [color,      setColor]    = useState('')
   const [anticipoId, setAnticipo] = useState('')
   const [provincia,  setProvincia]= useState('')
 
   function handleClick() {
     // Dispara evento para prefill inmediato del CotizadorWizard
     window.dispatchEvent(new CustomEvent('cw:prefill', {
-      detail: { vehiculo: 'Amarok', color, anticipoId, localidad: provincia },
+      detail: { vehiculo: 'Amarok', anticipoId, localidad: provincia },
     }))
     const el = document.getElementById('cotizador')
     if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' })
@@ -58,32 +49,6 @@ export default function HeroMiniCotizador() {
 
           {/* Divisor */}
           <div style={{ width: 1, height: 36, background: 'rgba(255,255,255,0.08)', flexShrink: 0, alignSelf: 'center' }} />
-
-          {/* Color */}
-          <div>
-            <p style={{ fontSize: '0.5rem', fontWeight: 600, letterSpacing: '.12em', textTransform: 'uppercase', color: 'var(--text-faint)', marginBottom: '0.4rem' }}>
-              Color
-            </p>
-            <div style={{ display: 'flex', gap: '0.375rem', alignItems: 'center' }}>
-              {COLORS_AMAROK.map(c => (
-                <button
-                  key={c.id}
-                  onClick={() => setColor(c.id)}
-                  title={c.id}
-                  aria-label={`Color ${c.id}`}
-                  style={{
-                    width: 22, height: 22, borderRadius: '50%',
-                    background: c.hex,
-                    border: color === c.id ? '2px solid var(--gold)' : '1.5px solid rgba(255,255,255,0.18)',
-                    boxShadow: color === c.id ? '0 0 0 2px rgba(217,162,58,0.30)' : 'none',
-                    cursor: 'pointer', flexShrink: 0,
-                    transition: 'border 0.15s, box-shadow 0.15s, transform 0.15s',
-                    transform: color === c.id ? 'scale(1.18)' : 'scale(1)',
-                  }}
-                />
-              ))}
-            </div>
-          </div>
 
           {/* Anticipo */}
           <div style={{ flex: '1 1 130px', minWidth: 110 }}>

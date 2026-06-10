@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { submitLead, buildLeadWhatsApp } from '@/lib/leads'
 import type { LeadData } from '@/lib/leads/schema'
 import { formatARS } from '@/lib/utils'
+import { MODELOS_COTIZADOR, MODELOS_MAP } from '@/data/financiamiento'
 import {
   trackFormStart,
   trackStepComplete,
@@ -149,10 +150,13 @@ const slideVariants = {
 
 // ── Componente principal ──────────────────────────────────────
 
+type StepId = 'modelo' | 'version' | 'color' | 'anticipo' | 'plazo' | 'datos'
+
 export default function CotizadorWizard() {
   const [step,       setStep]      = useState(1)
   const [direction,  setDir]       = useState(1)
   const [vehiculo,   setVehiculo]  = useState('')
+  const [versionSlug, setVersion]  = useState('')
   const [color,      setColor]     = useState('')
   const [anticipoId, setAnticipo]  = useState('')
   const [plazo,      setPlazo]     = useState('')
@@ -181,11 +185,25 @@ export default function CotizadorWizard() {
 
   const anticipoObj    = ANTICIPOS.find(a => a.id === anticipoId)
   const vehiculoColors = vehiculo ? (MODEL_COLORS[vehiculo] ?? []) : []
-  const plan = vehiculo && anticipoId
-    ? calcPlan(vehiculo, anticipoObj?.value ?? 0, tieneUsado)
+
+  // Amarok tiene financiación real por versión: paso extra de versión
+  const isAmarok    = vehiculo === 'Amarok'
+  const versionData = isAmarok && versionSlug ? (MODELOS_MAP[versionSlug] ?? null) : null
+  const planVersion = versionData
+    ? (versionData.planes.find(p => p.destacado) ?? versionData.planes[0])
     : null
 
-  const TOTAL = 5
+  const STEP_IDS: StepId[] = isAmarok
+    ? ['modelo', 'version', 'color', 'anticipo', 'plazo', 'datos']
+    : ['modelo', 'color', 'anticipo', 'plazo', 'datos']
+
+  const TOTAL  = STEP_IDS.length
+  const stepId = STEP_IDS[step - 1]
+
+  // Estimación genérica (modelos sin financiación cargada por versión)
+  const plan = vehiculo && anticipoId && !versionData
+    ? calcPlan(vehiculo, anticipoObj?.value ?? 0, tieneUsado)
+    : null
 
   function nav(next: number) {
     setDir(next > step ? 1 : -1)
@@ -200,27 +218,32 @@ export default function CotizadorWizard() {
   }
 
   function goNext() {
-    if (step === 1) {
+    if (stepId === 'modelo') {
       if (!vehiculo) { setErrors({ vehiculo: 'Elegí un vehículo.' }); return }
       setErrors({})
       trackStart()
-      trackStepComplete('cotizador_wizard', 1, 'Vehículo')
-      nav(2)
-    } else if (step === 2) {
+      trackStepComplete('cotizador_wizard', step, 'Vehículo')
+      nav(step + 1)
+    } else if (stepId === 'version') {
+      if (!versionSlug) { setErrors({ version: 'Elegí la versión de tu Amarok.' }); return }
+      setErrors({})
+      trackStepComplete('cotizador_wizard', step, 'Versión')
+      nav(step + 1)
+    } else if (stepId === 'color') {
       // Color is optional
       setErrors({})
-      trackStepComplete('cotizador_wizard', 2, 'Color')
-      nav(3)
-    } else if (step === 3) {
+      trackStepComplete('cotizador_wizard', step, 'Color')
+      nav(step + 1)
+    } else if (stepId === 'anticipo') {
       if (!anticipoId) { setErrors({ anticipo: 'Elegí una opción de anticipo.' }); return }
       setErrors({})
-      trackStepComplete('cotizador_wizard', 3, 'Anticipo')
-      nav(4)
-    } else if (step === 4) {
+      trackStepComplete('cotizador_wizard', step, 'Anticipo')
+      nav(step + 1)
+    } else if (stepId === 'plazo') {
       if (!plazo) { setErrors({ plazo: 'Seleccioná tu plazo de compra.' }); return }
       setErrors({})
-      trackStepComplete('cotizador_wizard', 4, 'Plazo')
-      nav(5)
+      trackStepComplete('cotizador_wizard', step, 'Plazo')
+      nav(step + 1)
     }
   }
 
@@ -237,6 +260,7 @@ export default function CotizadorWizard() {
     const temperature   = getTempLabel(score)
     const plazoLabel    = PLAZOS.find(p => p.id === plazo)?.label ?? plazo
     const anticipoLabel = tieneUsado ? 'Entrega de usado' : (anticipoObj?.label ?? '')
+    const modeloLabel   = versionData ? `Amarok ${versionData.version}` : vehiculo
 
     const leadData: LeadData = {
       nombre:           nombre.trim(),
@@ -244,7 +268,7 @@ export default function CotizadorWizard() {
       email:            '',
       localidad:        localidad.trim(),
       tipoCompra:       '0km',
-      modelo:           vehiculo,
+      modelo:           modeloLabel,
       tieneUsado,
       canalPreferido:   'whatsapp',
       source:           'cotizador_wizard_v4',
@@ -262,7 +286,7 @@ export default function CotizadorWizard() {
 
     // Fire-and-forget
     submitLead(leadData).catch(() => {})
-    trackGenerateLead({ vehicleModel: vehiculo, vehicleType: '0km', locality: localidad, formLocation: 'cotizador_homepage', hasUsado: tieneUsado })
+    trackGenerateLead({ vehicleModel: modeloLabel, vehicleType: '0km', locality: localidad, formLocation: 'cotizador_homepage', hasUsado: tieneUsado })
     trackWAClick('cotizador_final')
 
     setWaUrl(url)
@@ -272,7 +296,7 @@ export default function CotizadorWizard() {
 
   function reset() {
     setStep(1); setDir(1)
-    setVehiculo(''); setColor(''); setAnticipo(''); setPlazo('')
+    setVehiculo(''); setVersion(''); setColor(''); setAnticipo(''); setPlazo('')
     setUsado(false); setNombre(''); setTelefono(''); setLocalidad('')
     setErrors({}); setDone(false); setWaUrl('')
     hasStarted.current = false
@@ -345,8 +369,8 @@ export default function CotizadorWizard() {
           transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
         >
 
-          {/* ── Step 1: Modelo ── */}
-          {step === 1 && (
+          {/* ── Step: Modelo ── */}
+          {stepId === 'modelo' && (
             <div className="cw-body">
               <h2 className="cw-title">Elegí tu vehículo</h2>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '0.625rem', marginBottom: '1rem' }}>
@@ -356,7 +380,7 @@ export default function CotizadorWizard() {
                   return (
                     <button
                       key={v.id}
-                      onClick={() => { setVehiculo(v.id); setColor(''); setErrors({}) }}
+                      onClick={() => { setVehiculo(v.id); setVersion(''); setColor(''); setErrors({}) }}
                       className={`cw-vehicle${isSelected ? ' selected' : ''}`}
                       style={{ display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', padding: 0 }}
                     >
@@ -392,8 +416,62 @@ export default function CotizadorWizard() {
             </div>
           )}
 
-          {/* ── Step 2: Color del modelo ── */}
-          {step === 2 && (
+          {/* ── Step: Versión (solo Amarok — financiación real por versión) ── */}
+          {stepId === 'version' && (
+            <div className="cw-body">
+              <h2 className="cw-title">¿Qué Amarok buscás?</h2>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', marginBottom: '1rem' }}>
+                {MODELOS_COTIZADOR.map(m => {
+                  const isSelected = versionSlug === m.slug
+                  const destacado  = m.planes.find(p => p.destacado) ?? m.planes[0]
+                  return (
+                    <button
+                      key={m.slug}
+                      onClick={() => { setVersion(m.slug); setErrors({}) }}
+                      style={{
+                        display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '0.75rem',
+                        padding: '0.875rem 1.125rem',
+                        background: isSelected ? 'rgba(217,162,58,0.08)' : 'var(--bg-3)',
+                        border: `1.5px solid ${isSelected ? 'var(--gold)' : 'rgba(255,255,255,0.055)'}`,
+                        borderRadius: 12, cursor: 'pointer', textAlign: 'left',
+                        transition: 'border-color 0.18s, background 0.18s',
+                      }}
+                    >
+                      <div>
+                        <p style={{ fontSize: '0.9375rem', fontWeight: 700, color: isSelected ? 'var(--gold-bright)' : 'var(--text)', lineHeight: 1.1, marginBottom: 3 }}>
+                          {m.version}
+                        </p>
+                        <p style={{ fontSize: '0.6875rem', color: 'var(--text-faint)', fontWeight: 500 }}>
+                          {m.motor} · {m.transmision}
+                        </p>
+                      </div>
+                      <div style={{ textAlign: 'right', flexShrink: 0 }}>
+                        <p style={{ fontSize: '0.875rem', fontWeight: 800, color: isSelected ? 'var(--gold-bright)' : 'var(--text)', lineHeight: 1.1, marginBottom: 3, fontVariantNumeric: 'tabular-nums' }}>
+                          {formatARS(m.ofertaPatentar)}
+                        </p>
+                        <p style={{ fontSize: '0.625rem', color: 'var(--text-faint)', fontWeight: 500 }}>
+                          {destacado.cuotas} cuotas de {formatARS(destacado.montoCuota)}
+                        </p>
+                      </div>
+                    </button>
+                  )
+                })}
+              </div>
+              <p style={{ fontSize: '0.5625rem', color: 'var(--text-faint)', marginBottom: '1rem', lineHeight: 1.4 }}>
+                Oferta para patentar con bonificación incluida. Valores orientativos sujetos a disponibilidad y validación comercial.
+              </p>
+              {errors.version && <p className="cw-error" style={{ marginBottom: '0.75rem' }}>{errors.version}</p>}
+              <div style={{ display: 'flex', gap: '0.625rem' }}>
+                <button onClick={() => nav(step - 1)} className="btn btn-ghost-light" style={{ padding: '1rem 1.25rem' }}>← Volver</button>
+                <button onClick={goNext} className="btn btn-gold btn-gold-lg flex-1 justify-center">
+                  Continuar <ArrowR />
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* ── Step: Color del modelo ── */}
+          {stepId === 'color' && (
             <div className="cw-body">
               <h2 className="cw-title">¿Qué color preferís?</h2>
 
@@ -449,7 +527,7 @@ export default function CotizadorWizard() {
               )}
 
               <div style={{ display: 'flex', gap: '0.625rem' }}>
-                <button onClick={() => nav(1)} className="btn btn-ghost-light" style={{ padding: '1rem 1.25rem' }}>← Volver</button>
+                <button onClick={() => nav(step - 1)} className="btn btn-ghost-light" style={{ padding: '1rem 1.25rem' }}>← Volver</button>
                 <button onClick={goNext} className="btn btn-gold btn-gold-lg flex-1 justify-center">
                   {color ? 'Confirmar color' : 'Salteá este paso'} <ArrowR />
                 </button>
@@ -457,8 +535,8 @@ export default function CotizadorWizard() {
             </div>
           )}
 
-          {/* ── Step 3: Anticipo ── */}
-          {step === 3 && (
+          {/* ── Step: Anticipo ── */}
+          {stepId === 'anticipo' && (
             <div className="cw-body">
               <h2 className="cw-title">¿Con cuánto anticipo contás?</h2>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '0.5rem', marginBottom: '1.5rem' }}>
@@ -496,7 +574,7 @@ export default function CotizadorWizard() {
               </div>
               {errors.anticipo && <p className="cw-error" style={{ marginBottom: '0.75rem' }}>{errors.anticipo}</p>}
               <div style={{ display: 'flex', gap: '0.625rem' }}>
-                <button onClick={() => nav(2)} className="btn btn-ghost-light" style={{ padding: '1rem 1.25rem' }}>← Volver</button>
+                <button onClick={() => nav(step - 1)} className="btn btn-ghost-light" style={{ padding: '1rem 1.25rem' }}>← Volver</button>
                 <button onClick={goNext} className="btn btn-gold btn-gold-lg flex-1 justify-center">
                   Ver opciones <ArrowR />
                 </button>
@@ -505,8 +583,8 @@ export default function CotizadorWizard() {
             </div>
           )}
 
-          {/* ── Step 4: Plazo ── */}
-          {step === 4 && (
+          {/* ── Step: Plazo ── */}
+          {stepId === 'plazo' && (
             <div className="cw-body">
               <h2 className="cw-title">¿Cuándo pensás comprar?</h2>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', marginBottom: '1.5rem' }}>
@@ -539,7 +617,7 @@ export default function CotizadorWizard() {
               </div>
               {errors.plazo && <p className="cw-error" style={{ marginBottom: '0.75rem' }}>{errors.plazo}</p>}
               <div style={{ display: 'flex', gap: '0.625rem' }}>
-                <button onClick={() => nav(3)} className="btn btn-ghost-light" style={{ padding: '1rem 1.25rem' }}>← Volver</button>
+                <button onClick={() => nav(step - 1)} className="btn btn-ghost-light" style={{ padding: '1rem 1.25rem' }}>← Volver</button>
                 <button onClick={goNext} className="btn btn-gold btn-gold-lg flex-1 justify-center">
                   Continuar <ArrowR />
                 </button>
@@ -547,8 +625,8 @@ export default function CotizadorWizard() {
             </div>
           )}
 
-          {/* ── Step 5: Reward + Contacto + WhatsApp ── */}
-          {step === 5 && (
+          {/* ── Step: Reward + Contacto + WhatsApp ── */}
+          {stepId === 'datos' && (
             <div className="cw-body">
               {/* Reward screen */}
               <div style={{
@@ -559,14 +637,24 @@ export default function CotizadorWizard() {
                 <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 1, background: 'linear-gradient(90deg, transparent, rgba(217,162,58,0.45), transparent)' }} />
                 <p className="cw-eyebrow" style={{ marginBottom: '0.75rem' }}>Tu cotización incluye</p>
                 <ul style={{ listStyle: 'none', margin: 0, padding: 0, display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
-                  {([
-                    `Modelo: ${vehiculo}`,
-                    color ? `Color preferido: ${color}` : null,
-                    plan ? `Bonificación vigente: hasta ${formatARS(plan.bono)}` : 'Bonificación vigente aplicada',
-                    plan ? `Cuota orientativa: ${formatARS(plan.cuotaMensual)}/mes (24 cuotas)` : 'Cuota orientativa calculada',
-                    plan ? `Anticipo estimado: ${formatARS(plan.anticipo)}` : 'Anticipo estimado',
-                    'Coordinación de entrega antes de que viajes',
-                  ] as (string | null)[]).filter(Boolean).map((item, i) => (
+                  {((versionData && planVersion
+                    ? [
+                        `Modelo: Amarok ${versionData.version}`,
+                        color ? `Color preferido: ${color}` : null,
+                        `Bonificación vigente: ${formatARS(versionData.descuento)}`,
+                        `Oferta para patentar: ${formatARS(versionData.ofertaPatentar)}`,
+                        `Financiación tasa 0%: ${planVersion.cuotas} cuotas fijas de ${formatARS(planVersion.montoCuota)}`,
+                        'Coordinación de entrega antes de que viajes',
+                      ]
+                    : [
+                        `Modelo: ${vehiculo}`,
+                        color ? `Color preferido: ${color}` : null,
+                        plan ? `Bonificación vigente: hasta ${formatARS(plan.bono)}` : 'Bonificación vigente aplicada',
+                        plan ? `Cuota orientativa: ${formatARS(plan.cuotaMensual)}/mes (24 cuotas)` : 'Cuota orientativa calculada',
+                        plan ? `Anticipo estimado: ${formatARS(plan.anticipo)}` : 'Anticipo estimado',
+                        'Coordinación de entrega antes de que viajes',
+                      ]
+                  ) as (string | null)[]).filter(Boolean).map((item, i) => (
                     <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '0.5rem', fontSize: '0.8125rem', color: 'var(--text-muted)', lineHeight: 1.5 }}>
                       <svg viewBox="0 0 24 24" fill="none" stroke="var(--gold)" strokeWidth="2.5" width="13" height="13" style={{ flexShrink: 0, marginTop: 2 }}>
                         <path d="M20 6L9 17l-5-5"/>
@@ -607,7 +695,7 @@ export default function CotizadorWizard() {
               </div>
 
               <div style={{ display: 'flex', gap: '0.625rem' }}>
-                <button onClick={() => nav(4)} className="btn btn-ghost-light" style={{ padding: '1rem 1.25rem' }}>← Volver</button>
+                <button onClick={() => nav(step - 1)} className="btn btn-ghost-light" style={{ padding: '1rem 1.25rem' }}>← Volver</button>
                 <button
                   onClick={handleWASubmit}
                   disabled={submitting}
