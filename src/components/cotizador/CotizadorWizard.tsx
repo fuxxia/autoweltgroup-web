@@ -680,7 +680,7 @@ export default function CotizadorWizard() {
                 </div>
                 <div>
                   <label className="cw-label" htmlFor="cw-tel">WhatsApp</label>
-                  <input id="cw-tel" type="tel" placeholder="Ej: 11 5607-2460" value={telefono}
+                  <input id="cw-tel" type="tel" placeholder="Ej: 11 5601-0329" value={telefono}
                     onChange={e => { setTelefono(e.target.value); setErrors(p => ({...p, telefono: ''})) }}
                     className={`cw-input${errors.telefono ? ' error' : ''}`} autoComplete="tel" />
                   {errors.telefono && <p className="cw-error">{errors.telefono}</p>}

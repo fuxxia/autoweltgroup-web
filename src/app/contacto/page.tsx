@@ -79,7 +79,7 @@ export default function ContactoPage() {
                     id="ct-tel"
                     required
                     type="tel"
-                    placeholder="Ej: 11 5607-2460"
+                    placeholder="Ej: 11 5601-0329"
                     autoComplete="tel"
                     value={form.telefono}
                     onChange={(e) => setForm({ ...form, telefono: e.target.value })}
@@ -137,7 +137,7 @@ export default function ContactoPage() {
                     <span className="w-9 h-9 rounded-full flex items-center justify-center text-white shrink-0" style={{ background: '#1DB954' }}>
                       <WaIcon />
                     </span>
-                    <span style={{ color: 'var(--text)' }}>+54 9 11 5607-2460</span>
+                    <span style={{ color: 'var(--text)' }}>+54 9 11 5601-0329</span>
                   </a>
                 </li>
                 <li className="flex items-center gap-3 text-sm" style={{ color: 'var(--text-muted)' }}>
