@@ -63,7 +63,7 @@ const ORG_JSONLD = {
   name: 'AutoWelt Group',
   url: 'https://autoweltgroup.com.ar',
   logo: 'https://autoweltgroup.com.ar/images/logo/logo.svg',
-  telephone: '+5491156072460',
+  telephone: '+5491156010329',
   email: 'info@autoweltgroup.com.ar',
   description: 'AutoWelt Group coordina operaciones de vehículos 0km con concesionarias oficiales, financiación vigente y acompañamiento hasta la entrega. Venta convencional, entrega inmediata y atención para compradores de todo el país.',
   address: {
